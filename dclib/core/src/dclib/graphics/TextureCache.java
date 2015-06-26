@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -15,6 +16,9 @@ import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
+
+import dclib.util.PathUtils;
 
 public final class TextureCache {
 	
@@ -24,6 +28,21 @@ public final class TextureCache {
 	
 	public final Collection<String> getRegionNames() {
 		return nameToTextureRegions.keySet();
+	}
+	
+	// TODO: Make this so you don't need to pass in ending slashes in the parameter paths
+	public final void addTextures(final String textureRootPath, final String[] textureSubPaths) {
+		final String tempPath = "temp/";
+		final String atlasExtension = ".atlas";
+		for (String textureSubPath : textureSubPaths) {
+			String texturePath = textureRootPath + textureSubPath;
+			String inputDir = PathUtils.internalToAbsolutePath(texturePath);
+			String outputDir = Gdx.files.local(tempPath).file().getAbsolutePath();
+			String name = texturePath.replace("/", "_");
+			TexturePacker.process(inputDir, outputDir, name);
+			String namespace = createTextureNamespace(textureRootPath, texturePath);
+			addTextureAtlas(Gdx.files.local(tempPath + name + atlasExtension), namespace);
+		}
 	}
 	
 	public final void addTextures(final FileHandle fileHandle, final String namespace) {
@@ -75,6 +94,10 @@ public final class TextureCache {
 		}
 		dispose(textureRegions);
 		dispose(nameToTextureRegions.values());
+	}
+	
+	private String createTextureNamespace(final String textureRootPath, final String texturePath) {
+		return texturePath.replaceFirst(textureRootPath, "");
 	}
 	
 	private final void dispose(final Collection<TextureRegion> textureRegions) {
