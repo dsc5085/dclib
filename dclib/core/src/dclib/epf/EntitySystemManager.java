@@ -24,7 +24,7 @@ public final class EntitySystemManager {
 	
 	public final void update(final float delta, final Entity entity) {
 		for (EntitySystem system : systems) {
-			system.update(delta, entity);
+			system.updateEntity(delta, entity);
 		}
 	}
 	
@@ -33,7 +33,7 @@ public final class EntitySystemManager {
 			@Override
 			public void created(final Entity entity) {
 				for (EntitySystem system : systems) {
-					system.initialize(entity);
+					system.initializeEntity(entity);
 				}
 			}
 		};
@@ -44,7 +44,7 @@ public final class EntitySystemManager {
 			@Override
 			public void removed(final Entity entity) {
 				for (EntitySystem system : systems) {
-					system.cleanup(entity);
+					system.disposeEntity(entity);
 				}
 			}
 		};

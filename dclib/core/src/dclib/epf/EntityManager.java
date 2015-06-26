@@ -72,7 +72,7 @@ public final class EntityManager {
 		entitiesToRemove.add(entity);
 	}
 	
-	public final void cleanup() {
+	public final void dispose() {
 		Iterator<Entity> it = entities.iterator();
 		while (it.hasNext()) {
 			Entity entity = it.next();

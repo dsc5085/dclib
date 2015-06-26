@@ -1,5 +1,7 @@
 package dclib.geometry;
 
+import java.util.List;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -42,8 +44,12 @@ public final class VectorUtils {
 		return vector.rotate(degrees);
 	}
 	
-	public static final float relativeMiddle(final float pivotMiddle, final float objectLength) {
-		return pivotMiddle - objectLength / 2;
+	public static final float getCumulativeDistance(final List<Vector2> vectors) {
+		float distance = 0;
+		for (int i = 1; i < vectors.size(); i++) {
+			distance += offset(vectors.get(i - 1), vectors.get(i)).len();
+		}
+		return distance;
 	}
 	
 }
