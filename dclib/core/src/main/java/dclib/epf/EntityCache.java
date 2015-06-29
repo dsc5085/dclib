@@ -6,18 +6,22 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import dclib.util.Cloning;
+import com.rits.cloning.Cloner;
+
 import dclib.util.XmlContext;
 
 public final class EntityCache {
 
 	private final XmlContext xmlContext;
+	private final Cloner cloner;
 	private final EntityAdapter entityAdapter;
 	private final String root;
 	private final Map<String, Entity> cache = new HashMap<String, Entity>();
 	
-	public EntityCache(final XmlContext xmlContext, final String root, final Converter[] converters) {
+	public EntityCache(final XmlContext xmlContext, final Cloner cloner, final String root, 
+			final Converter[] converters) {
 		this.xmlContext = xmlContext;
+		this.cloner = cloner;
 		this.root = root;
 		entityAdapter = new EntityAdapter(converters);
 	}
@@ -40,7 +44,7 @@ public final class EntityCache {
 				throw new IllegalArgumentException("Could not create entity " + entityType, e);
 			}
 		}
-		return Cloning.clone(cache.get(entityType));
+		return cloner.deepClone(cache.get(entityType));
 	}
 	
 }

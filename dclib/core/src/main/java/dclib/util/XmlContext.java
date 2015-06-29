@@ -28,7 +28,7 @@ public final class XmlContext {
 		return unmarshal(fileHandle.read());
 	}
 	
-	public <TAdapted, T> T unmarshal(final InputStream inputStream, final XmlAdapter<TAdapted, T> xmlAdapter) {
+	public final <TAdapted, T> T unmarshal(final InputStream inputStream, final XmlAdapter<TAdapted, T> xmlAdapter) {
 		TAdapted adaptedObject = unmarshal(inputStream);
 		try {
 			return xmlAdapter.unmarshal(adaptedObject);
