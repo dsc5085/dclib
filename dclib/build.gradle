@@ -25,6 +25,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        jcenter()
     }
 }
 
@@ -42,6 +43,8 @@ project(":core") {
         compile files("lib/cloning-1.9.0-sources.jar")
         compile files("lib/cloning-1.9.0.jar")
         compile files("lib/objenesis-1.2.jar")
+        testCompile 'junit:junit:4.12'
+        testCompile "org.mockito:mockito-core:1.+"
     }
 }
 

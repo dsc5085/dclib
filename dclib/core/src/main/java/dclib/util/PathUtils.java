@@ -10,7 +10,7 @@ public final class PathUtils {
 	public static final String internalToAbsolutePath(final String internalPath) {
 		URL url = PathUtils.class.getResource("/" + internalPath);
 		if (url == null) {
-			throw new IllegalArgumentException("Path " + internalPath + "does not exist");
+			throw new IllegalArgumentException("File does not exist at " + internalPath);
 		}
 		return PathUtils.class.getResource("/" + internalPath).getPath();
 	}

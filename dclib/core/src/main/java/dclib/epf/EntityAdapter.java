@@ -11,6 +11,10 @@ public final class EntityAdapter extends XmlAdapter<EntityAdapted, Entity> {
 	
 	private final Converter[] converters;
 	
+	public EntityAdapter() {
+		this(new Converter[0]);
+	}
+	
 	public EntityAdapter(final Converter[] converters) {
 		this.converters = converters;
 	}

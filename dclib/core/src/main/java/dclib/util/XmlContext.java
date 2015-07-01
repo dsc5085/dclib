@@ -28,16 +28,6 @@ public final class XmlContext {
 		return unmarshal(fileHandle.read());
 	}
 	
-	public final <TAdapted, T> T unmarshal(final InputStream inputStream, final XmlAdapter<TAdapted, T> xmlAdapter) {
-		TAdapted adaptedObject = unmarshal(inputStream);
-		try {
-			return xmlAdapter.unmarshal(adaptedObject);
-		}
-		catch (Exception e) {
-			throw new IllegalArgumentException("Could not unmarshal stream", e);
-		}
-	}
-	
 	@SuppressWarnings("unchecked")
 	public final <T> T unmarshal(final InputStream inputStream) {
 		try {
@@ -45,6 +35,16 @@ public final class XmlContext {
 			return (T)unmarshaller.unmarshal(inputStream);
 		}
 		catch (JAXBException e) {
+			throw new IllegalArgumentException("Could not unmarshal stream", e);
+		}
+	}
+	
+	public final <TAdapted, T> T unmarshal(final InputStream inputStream, final XmlAdapter<TAdapted, T> xmlAdapter) {
+		TAdapted adaptedObject = unmarshal(inputStream);
+		try {
+			return xmlAdapter.unmarshal(adaptedObject);
+		}
+		catch (Exception e) {
 			throw new IllegalArgumentException("Could not unmarshal stream", e);
 		}
 	}
