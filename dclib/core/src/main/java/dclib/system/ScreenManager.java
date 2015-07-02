@@ -19,6 +19,10 @@ public final class ScreenManager {
 		return screens.get(0);
 	}
 	
+	public final boolean contains(final Screen screen) {
+		return screens.contains(screen);
+	}
+	
 	public final void add(final Screen screen) {
 		screensToAdd.add(screen);
 		screen.show();

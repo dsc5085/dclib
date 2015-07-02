@@ -11,6 +11,14 @@ public final class Input {
 	private Input() {
 	}
 	
+	public static final boolean containsProcessor(final InputProcessor processor) {
+		return multiplexer.getProcessors().contains(processor, true);
+	}
+	
+	public static final InputProcessor getProcessor(final int index) {
+		return multiplexer.getProcessors().get(index);
+	}
+	
 	public static final void addProcessor(final InputProcessor processor) {
 		multiplexer.addProcessor(processor);
 		Gdx.input.setInputProcessor(multiplexer);

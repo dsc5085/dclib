@@ -10,26 +10,22 @@ public final class MathsTest {
 
 	@Test
 	public void round_Base_ReturnsExpected() {
-		int actual = Maths.round(11, 3);
-		assertEquals(9, actual);
+		assertEquals(9, Maths.round(11, 3));
 	}
 	
 	@Test
 	public void isBetween_Base_ReturnsTrue() {
-		boolean actual = Maths.isBetween(5, 2, 10);
-		assertTrue(actual);
+		assertTrue(Maths.isBetween(5, 2, 10));
 	}
 	
 	@Test
 	public void isBetween_GreaterMin_ReturnsFalse() {
-		boolean actual = Maths.isBetween(5, 6, 10);
-		assertFalse(actual);
+		assertFalse(Maths.isBetween(5, 6, 10));
 	}
 	
 	@Test
 	public void isBetween_LesserMax_ReturnsFalse() {
-		boolean actual = Maths.isBetween(5, 2, 1);
-		assertFalse(actual);
+		assertFalse(Maths.isBetween(5, 2, 1));
 	}
 	
 }
