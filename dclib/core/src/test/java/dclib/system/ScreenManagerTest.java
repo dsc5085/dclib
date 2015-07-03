@@ -5,16 +5,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 
 public final class ScreenManagerTest {
 	
 	private ScreenManager screenManager;
-
+	
 	@Before
 	public void setUp() {
 		screenManager = new ScreenManager();
@@ -78,6 +81,17 @@ public final class ScreenManagerTest {
 		addScreens(screen);
 		removeScreens(screen);
 		verify(screen).dispose();
+	}
+
+	@Test
+	public void render_ExistingScreen_RendersScreen() {
+		Gdx.graphics = mock(Graphics.class);
+		float deltaTime = 0.5f;
+		when(Gdx.graphics.getDeltaTime()).thenReturn(deltaTime);
+		Screen screen = mock(Screen.class);
+		addScreens(screen);
+		screenManager.render();
+		verify(screen).render(deltaTime);
 	}
 	
 	@Test
