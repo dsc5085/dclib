@@ -2,7 +2,6 @@ package dclib.geometry;
 
 import com.badlogic.gdx.math.Rectangle;
 
-
 public final class IntRectangle {
 
 	private final int x;

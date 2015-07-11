@@ -1,4 +1,4 @@
-package dclib.geometry;
+package dclib.graphics;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.graphics.TextureCache;
-import dclib.graphics.TextureGeometry;
+import dclib.geometry.VertexUtils;
 
 public final class ConvexHullCache {
 	

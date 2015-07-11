@@ -20,8 +20,8 @@ public final class PolygonUtils {
 		return polygon.getBoundingRectangle().getCenter(new Vector2());
 	}
 
-	public static final Vector2 relativeCenter(final Vector2 pivot, final Vector2 objectSize) {
-		Vector2 halfObjectSize = objectSize.cpy().scl(0.5f);
+	public static final Vector2 relativeCenter(final Vector2 pivot, final Vector2 size) {
+		Vector2 halfObjectSize = size.cpy().scl(0.5f);
 		return pivot.cpy().sub(halfObjectSize);
 	}
 	
