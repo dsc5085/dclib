@@ -1,14 +1,14 @@
 package dclib.util;
 
-public final class FloatTimer {
+public final class Timer {
 
 	private float maxTime = 0;
 	private float time = 0;
 	
-	public FloatTimer() {
+	public Timer() {
 	}
 	
-	public FloatTimer(final float maxTime) {
+	public Timer(final float maxTime) {
 		this.maxTime = maxTime;
 	}
 	

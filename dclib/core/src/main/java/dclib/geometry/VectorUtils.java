@@ -5,13 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public final class VectorUtils {
 	
-	/**
-	 * Buffer used for floating point calculations involving vectors.
-	 * Vector calculations don't always round well to exact numbers, so this buffer can be used to check if any 
-	 * attribute of the vector (e.g. x, y, length) is near the expected number.
-	 */
-	public static final float EPSILON = 1e-5f;
-	
 	private VectorUtils() {
 	}
 	
@@ -38,10 +31,10 @@ public final class VectorUtils {
 	}
 	
 	public static final Vector2 fromAngle(final float degrees) {
-		return fromAngle(degrees, 1);
+		return fromAngleAndLength(degrees, 1);
 	}
 	
-	public static final Vector2 fromAngle(final float degrees, final float length) {
+	public static final Vector2 fromAngleAndLength(final float degrees, final float length) {
 		Vector2 vector = new Vector2(length, 0);
 		return vector.rotate(degrees);
 	}

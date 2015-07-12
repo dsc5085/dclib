@@ -23,6 +23,11 @@ public final class RectangleUtils {
 		return rectangle;
 	}
 	
+	/**
+	 * Translates the y of the rectangle a specified amount while keeping the top of the rectangle the same.
+	 * @param rectangle rectangle
+	 * @param offsetY amount to translate y
+	 */
 	public static final void translateY(final Rectangle rectangle, final float offsetY) {
 		rectangle.setY(rectangle.y + offsetY);
 		rectangle.setHeight(rectangle.height - offsetY);

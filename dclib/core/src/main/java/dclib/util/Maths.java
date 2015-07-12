@@ -1,6 +1,13 @@
 package dclib.util;
 
 public final class Maths {
+	
+	/**
+	 * Buffer used for floating point calculations.
+	 * Floating point calculations don't always round well to exact numbers, so this buffer can be used to check if any 
+	 * attribute of the vector (e.g. x, y, length) is near the expected number.
+	 */
+	public static final float EPSILON = 1e-5f;
 
 	private Maths() {
 	}
