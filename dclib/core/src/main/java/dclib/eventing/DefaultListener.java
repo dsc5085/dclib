@@ -1,6 +1,6 @@
 package dclib.eventing;
 
-public interface NoArgsListener {
+public interface DefaultListener {
 
 	void executed();
 	
