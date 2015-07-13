@@ -1,6 +1,5 @@
 package dclib.geometry;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public final class VectorUtils {
@@ -23,11 +22,6 @@ public final class VectorUtils {
 	
 	public static final Vector2 offset(final Vector2 from, final Vector2 to) {
 		return to.cpy().sub(from);
-	}
-
-	public static final float angleToPoint(final Vector2 from, final Vector2 to) {
-		Vector2 offset = offset(from, to);
-		return MathUtils.atan2(offset.y, offset.x);
 	}
 	
 	public static final Vector2 fromAngle(final float degrees) {
