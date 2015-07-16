@@ -19,6 +19,7 @@ public final class EntityManager {
 	= new EventDelegate<EntityRemovedListener>();
 	
 	private final List<Entity> entities = new ArrayList<Entity>();
+	// TODO: remove the entitiesToAdd, entitiesToRemove by refactoring this logic to another class
 	private final List<Entity> entitiesToAdd = new ArrayList<Entity>();
 	private final List<Entity> entitiesToRemove = new ArrayList<Entity>();
 	
@@ -28,6 +29,10 @@ public final class EntityManager {
 	
 	public final void addEntityRemovedListener(final EntityRemovedListener listener) {
 		entityRemovedDelegate.listen(listener);
+	}
+	
+	public final boolean contains(final Entity entity) {
+		return entities.contains(entity) || entitiesToAdd.contains(entity);
 	}
 	
 	/**
@@ -89,6 +94,7 @@ public final class EntityManager {
 			Entity entityToAdd = entitiesToAdd.remove(0);
 			entityToAdd.setActive(true);
 			if (entities.contains(entityToAdd)) {
+				// TOOD: Move to add method?
 				throw new IllegalStateException("Could not add entity " + entityToAdd + ".  It already exists");
 			}
 			entities.add(entityToAdd);

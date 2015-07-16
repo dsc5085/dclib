@@ -3,7 +3,10 @@ package dclib.geometry;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class VertexUtils {
+public final class VertexUtils {
+	
+	private VertexUtils() {
+	}
 	
 	public static final void flipY(final float[] vertices) {
 		float maxY = maxY(vertices);

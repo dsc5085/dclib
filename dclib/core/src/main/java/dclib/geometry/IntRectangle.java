@@ -1,6 +1,7 @@
 package dclib.geometry;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public final class IntRectangle {
 
@@ -34,6 +35,10 @@ public final class IntRectangle {
 	
 	public final int height() {
 		return height;
+	}
+	
+	public final Vector2 getCenter() {
+		return new Vector2(x, y).add(width / 2.0f, height / 2.0f);
 	}
 	
 	public final Rectangle toRectangle() {
