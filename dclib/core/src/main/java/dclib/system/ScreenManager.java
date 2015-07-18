@@ -9,8 +9,6 @@ import com.badlogic.gdx.Screen;
 public final class ScreenManager {
 	
 	private final List<Screen> screens = new ArrayList<Screen>();
-	private final List<Screen> screensToAdd = new ArrayList<Screen>();
-	private final List<Screen> screensToRemove = new ArrayList<Screen>();
 	
 	public final Screen getCurrentScreen() {
 		if (screens.isEmpty()) {
@@ -24,13 +22,14 @@ public final class ScreenManager {
 	}
 	
 	public final void add(final Screen screen) {
-		screensToAdd.add(screen);
+		screens.add(screen);
 		screen.show();
 	}
 	
 	public final void remove(final Screen screen) {
-		screensToRemove.add(screen);
 		screen.hide();
+		screen.dispose();
+		screens.remove(screen);
 	}
 	
 	public final void swap(final Screen currentScreen, final Screen newScreen) {
@@ -38,21 +37,8 @@ public final class ScreenManager {
 		add(newScreen);
 	}
 	
-	public final void update() {
-		while (!screensToAdd.isEmpty()) {
-			Screen screen = screensToAdd.remove(0);
-			screens.add(screen);
-		}
-		
-		while (!screensToRemove.isEmpty()) {
-			Screen screen = screensToRemove.remove(0);
-			screen.dispose();
-			screens.remove(screen);
-		}
-	}
-	
 	public final void render() {
-		for (Screen screen : screens) {
+		for (Screen screen : getScreens()) {
 			screen.render(Gdx.graphics.getDeltaTime());
 		}
 	}
@@ -67,6 +53,10 @@ public final class ScreenManager {
 		for (Screen screen : screens) {
 			screen.dispose();
 		}
+	}
+	
+	private List<Screen> getScreens() {
+		return new ArrayList<Screen>(screens);
 	}
 
 }

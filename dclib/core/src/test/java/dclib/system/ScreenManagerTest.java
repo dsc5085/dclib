@@ -62,7 +62,6 @@ public final class ScreenManagerTest {
 	public void swap_DifferentScreens_ContainsNewScreen() {
 		Screen newScreen = mock(Screen.class);
 		screenManager.swap(mock(Screen.class), newScreen);
-		screenManager.update();
 		assertTrue(screenManager.contains(newScreen));
 	}
 	
@@ -71,7 +70,6 @@ public final class ScreenManagerTest {
 		Screen currentScreen = mock(Screen.class);
 		addScreens(currentScreen);
 		screenManager.swap(currentScreen, mock(Screen.class));
-		screenManager.update();
 		assertFalse(screenManager.contains(currentScreen));
 	}
 	
@@ -112,18 +110,17 @@ public final class ScreenManagerTest {
 		verify(screen).dispose();
 	}
 	
+	// TODO: should these add/remove methods actually be in the screenmanager class
 	private void addScreens(final Screen... screens) {
 		for (Screen screen : screens) {
 			screenManager.add(screen);
 		}
-		screenManager.update();
 	}
 	
 	private void removeScreens(final Screen... screens) {
 		for (Screen screen : screens) {
 			screenManager.remove(screen);
 		}
-		screenManager.update();
 	}
 	
 }
