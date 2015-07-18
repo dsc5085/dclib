@@ -19,9 +19,6 @@ public final class EntityManager {
 	= new EventDelegate<EntityRemovedListener>();
 	
 	private final List<Entity> entities = new ArrayList<Entity>();
-	// TODO: remove the entitiesToAdd, entitiesToRemove by refactoring this logic to another class
-	private final List<Entity> entitiesToAdd = new ArrayList<Entity>();
-	private final List<Entity> entitiesToRemove = new ArrayList<Entity>();
 	
 	public final void addEntityAddedListener(final EntityAddedListener listener) {
 		entityAddedDelegate.listen(listener);
@@ -32,22 +29,13 @@ public final class EntityManager {
 	}
 	
 	public final boolean contains(final Entity entity) {
-		return entities.contains(entity) || entitiesToAdd.contains(entity);
-	}
-	
-	/**
-	 * @return all managed and cached entities
-	 */
-	public final List<Entity> getAll() {
-		List<Entity> entities = new ArrayList<Entity>(this.entities);
-		entities.addAll(entitiesToAdd);
-		return entities;
+		return entities.contains(entity);
 	}
 	
 	/**
 	 * @return all managed entities
 	 */
-	public final List<Entity> getManaged() {
+	public final List<Entity> getAll() {
 		return new ArrayList<Entity>(entities);
 	}
 	
@@ -56,7 +44,12 @@ public final class EntityManager {
 	 * @param entity the entity to add and manage
 	 */
 	public final void add(final Entity entity) {
-		entitiesToAdd.add(entity);
+		entity.setActive(true);
+		if (entities.contains(entity)) {
+			throw new IllegalStateException("Could not add entity " + entity + ".  It already exists");
+		}
+		entities.add(entity);
+		entityAddedDelegate.notify(new EntityAddedEvent(entity));
 	}
 	
 	/**
@@ -74,7 +67,10 @@ public final class EntityManager {
 	 * @param entity entity to remove
 	 */
 	public final void remove(final Entity entity) {
-		entitiesToRemove.add(entity);
+		if (entities.remove(entity)) {
+			entity.setActive(false);
+			entityRemovedDelegate.notify(new EntityRemovedEvent(entity));
+		}
 	}
 	
 	public final void dispose() {
@@ -83,30 +79,6 @@ public final class EntityManager {
 			Entity entity = it.next();
 			entity.setActive(false);
 			it.remove();
-		}
-	}
-
-	/**
-	 * Adds and removes entities passed into the add or remove methods.
-	 */
-	public final void update() {
-		while (!entitiesToAdd.isEmpty()) {
-			Entity entityToAdd = entitiesToAdd.remove(0);
-			entityToAdd.setActive(true);
-			if (entities.contains(entityToAdd)) {
-				// TOOD: Move to add method?
-				throw new IllegalStateException("Could not add entity " + entityToAdd + ".  It already exists");
-			}
-			entities.add(entityToAdd);
-			entityAddedDelegate.notify(new EntityAddedEvent(entityToAdd));
-		}
-		
-		while (!entitiesToRemove.isEmpty()) {
-			Entity entityToRemove = entitiesToRemove.remove(0);
-			if (entities.remove(entityToRemove)) {
-				entityToRemove.setActive(false);
-				entityRemovedDelegate.notify(new EntityRemovedEvent(entityToRemove));
-			}
 		}
 	}
 	

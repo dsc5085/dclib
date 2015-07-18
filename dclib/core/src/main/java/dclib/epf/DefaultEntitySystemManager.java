@@ -29,7 +29,7 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 	@Override
 	public final void update(final float delta) {
 		for (EntitySystem system : systems) {
-			for (Entity entity : entityManager.getManaged()) {
+			for (Entity entity : entityManager.getAll()) {
 				if (entity.isActive()) {
 					system.updateEntity(delta, entity);
 				}
