@@ -16,6 +16,7 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 	
 	@Override
 	public final void add(final EntitySystem system) {
+		// TODO: check if the system already exists, then throw exception
 		systems.add(system);
 	}
 	
