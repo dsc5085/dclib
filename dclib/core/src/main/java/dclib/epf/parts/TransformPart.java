@@ -103,8 +103,12 @@ public final class TransformPart {
 		setCenter(oldCenter);
 	}
 	
-	public Rectangle getBoundingBox() {
+	public final Rectangle getBoundingBox() {
 		return new Rectangle(polygon.getBoundingRectangle());
+	}
+	
+	public final void translate(final Vector2 offset) {
+		setPosition(getPosition().add(offset));
 	}
 	
 }
