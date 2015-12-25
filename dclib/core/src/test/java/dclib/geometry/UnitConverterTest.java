@@ -13,18 +13,14 @@ public final class UnitConverterTest {
 	
 	@BeforeClass
 	public static final void oneTimeSetup() {
-		unitConverter = new UnitConverter(32);
+		// TODO: replace null
+		unitConverter = new UnitConverter(32, null);
 	}
 
 	@Test
-	public void worldToPixel_WorldCoords_ReturnsExpected() {
+	public void toPixelCoords_ValidInput_ReturnsExpected() {
 		Vector2 worldCoords = new Vector2(5, 2.5f);
-		assertEquals(new Vector2(160, 80), unitConverter.worldToPixel(worldCoords));
-	}
-
-	@Test
-	public void pixelToWorld_XY_ReturnsExpected() {
-		assertEquals(new Vector2(10.9375f, 2.5f), unitConverter.pixelToWorld(350, 80));
+		assertEquals(new Vector2(160, 80), unitConverter.toPixelCoords(worldCoords));
 	}
 	
 }

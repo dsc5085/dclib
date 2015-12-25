@@ -23,11 +23,11 @@ public final class DrawableSystem extends EntitySystem {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			DrawablePart drawablePart = entity.get(DrawablePart.class);
 			PolygonSprite sprite = drawablePart.getSprite();
-			Vector2 size = unitConverter.worldToPixel(transformPart.getSize());
+			Vector2 size = unitConverter.toPixelCoords(transformPart.getSize());
 			sprite.setSize(size.x, size.y);
-			Vector2 position = unitConverter.worldToPixel(transformPart.getPosition());
+			Vector2 position = unitConverter.toPixelCoords(transformPart.getPosition());
 			sprite.setPosition(position.x, position.y);
-			Vector2 origin = unitConverter.worldToPixel(transformPart.getOrigin());
+			Vector2 origin = unitConverter.toPixelCoords(transformPart.getOrigin());
 			sprite.setOrigin(origin.x, origin.y);
 			sprite.setRotation(transformPart.getRotation());
 		}
