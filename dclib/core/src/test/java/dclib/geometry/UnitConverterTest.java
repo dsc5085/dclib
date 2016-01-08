@@ -20,7 +20,7 @@ public final class UnitConverterTest {
 	@Test
 	public void toPixelCoords_ValidInput_ReturnsExpected() {
 		Vector2 worldCoords = new Vector2(5, 2.5f);
-		assertEquals(new Vector2(160, 80), unitConverter.toPixelCoords(worldCoords));
+		assertEquals(new Vector2(160, 80), unitConverter.toPixelUnits(worldCoords));
 	}
 	
 }

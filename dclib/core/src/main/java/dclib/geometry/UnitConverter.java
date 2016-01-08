@@ -28,8 +28,8 @@ public final class UnitConverter {
 		return pixelsPerUnit;
 	}
 
-	public final Vector2 toPixelCoords(final Vector2 worldCoords) {
-		return worldCoords.cpy().scl(pixelsPerUnit);
+	public final Vector2 toPixelUnits(final Vector2 worldUnits) {
+		return worldUnits.cpy().scl(pixelsPerUnit);
 	}
 	
 	public final Vector2 toWorldCoords(final float screenX, final float screenY) {
