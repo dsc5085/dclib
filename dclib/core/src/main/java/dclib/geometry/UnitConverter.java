@@ -32,6 +32,11 @@ public final class UnitConverter {
 		return worldUnits.cpy().scl(pixelsPerUnit);
 	}
 	
+	public final Vector2 toWorldUnits(final float pixelX, final float pixelY) {
+		// TODO: not the most efficient
+		return toWorldCoords(pixelX, pixelY).sub(toWorldCoords(0, 0));
+	}
+	
 	public final Vector2 toWorldCoords(final float screenX, final float screenY) {
 		Vector3 worldCoords3 = new Vector3(screenX, screenY, 0);
 		camera.unproject(worldCoords3, viewport.x, viewport.y, viewport.width, viewport.height);

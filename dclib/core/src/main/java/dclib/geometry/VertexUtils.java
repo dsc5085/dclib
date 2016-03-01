@@ -1,11 +1,23 @@
 package dclib.geometry;
 
+import java.util.List;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public final class VertexUtils {
 	
 	private VertexUtils() {
+	}
+	
+	public static final float[] toVerticesArray(final List<Vector2> vertices) {
+		float[] verticesArray = new float[vertices.size() * 2];
+		for (int i = 0; i < vertices.size(); i++) {
+			Vector2 vertex = vertices.get(i);
+			verticesArray[i * 2] = vertex.x;
+			verticesArray[i * 2 + 1] = vertex.y;
+		}
+		return verticesArray;
 	}
 	
 	public static final void flipY(final float[] vertices) {
