@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
+import dclib.geometry.PolygonFactory;
 import dclib.util.PathUtils;
 
 public final class TextureCache {
@@ -78,7 +79,9 @@ public final class TextureCache {
 	
 	public final PolygonRegion getPolygonRegion(final String name) {
 		TextureRegion textureRegion = getTextureRegion(name);
-		return RegionFactory.createPolygonRegion(textureRegion);
+		float[] vertices = PolygonFactory.createRectangleVertices(textureRegion.getRegionWidth(), 
+				textureRegion.getRegionHeight());
+		return RegionFactory.createPolygonRegion(textureRegion, vertices);
 	}
 	
 	public final TextureRegion getTextureRegion(final String name) {
