@@ -51,7 +51,7 @@ public final class TransformPart {
 	}
 	
 	public final void setSize(final Vector2 size) {
-		float[] sizedVertices = VertexUtils.sizedVertices(polygon.getVertices(), size);
+		float[] sizedVertices = VertexUtils.sizeVertices(polygon.getVertices(), size);
 		polygon.setVertices(sizedVertices);
 		this.size = size;
 	}

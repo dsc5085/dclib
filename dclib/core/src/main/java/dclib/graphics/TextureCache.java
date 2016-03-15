@@ -32,7 +32,7 @@ public final class TextureCache {
 	}
 	
 	// TODO: Make this so you don't need to pass in ending slashes in the parameter paths
-	public final void addTextures(final String textureRootPath, final String[] textureSubPaths) {
+	public final void addTexturesAsAtlus(final String textureRootPath, final String[] textureSubPaths) {
 		final String tempPath = "temp/";
 		final String atlasExtension = ".atlas";
 		for (String textureSubPath : textureSubPaths) {

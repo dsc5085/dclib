@@ -73,20 +73,37 @@ public final class VertexUtils {
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 	
-	public static float[] sizedVertices(final float[] vertices, final Vector2 size) {
+	public static float[] shiftVertices(final float[] vertices, final float shiftX, final float shiftY) {
+		float[] shiftedVertices = new float[vertices.length];
+		for (int i = 0; i < vertices.length; i++) {
+			if (i % 2 == 0) {
+				shiftedVertices[i] = vertices[i] + shiftX;
+			}
+			else {
+				shiftedVertices[i] = vertices[i] + shiftY;
+			}
+		}
+		return shiftedVertices;
+	}
+	
+	public static float[] sizeVertices(final float[] vertices, final Vector2 size) {
 		Vector2 verticesSize = VertexUtils.bounds(vertices).getSize(new Vector2());
 		float scaleX = size.x / verticesSize.x;
 		float scaleY = size.y / verticesSize.y;
-		float[] sizedVertices = new float[vertices.length];
+		return scaleVertices(vertices, scaleX, scaleY);
+	}
+	
+	public static float[] scaleVertices(final float[] vertices, final float scaleX, final float scaleY) {
+		float[] scaledVertices = new float[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
 			if (i % 2 == 0) {
-				sizedVertices[i] = vertices[i] * scaleX;
+				scaledVertices[i] = vertices[i] * scaleX;
 			}
 			else {
-				sizedVertices[i] = vertices[i] * scaleY;
+				scaledVertices[i] = vertices[i] * scaleY;
 			}
 		}
-		return sizedVertices;
+		return scaledVertices;
 	}
 
 }

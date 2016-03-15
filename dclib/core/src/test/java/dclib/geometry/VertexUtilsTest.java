@@ -56,7 +56,7 @@ public final class VertexUtilsTest {
 		float[] vertices = createVertices();
 		float[] expected = new float[] { 2.032258f, 1.8333334f, 5.032258f, 0.7777778f, 3.8709679f, 2.777778f };
 		Vector2 size = new Vector2(3, 2);
-		assertTrue(Arrays.equals(expected, VertexUtils.sizedVertices(vertices, size)));
+		assertTrue(Arrays.equals(expected, VertexUtils.sizeVertices(vertices, size)));
 	}
 	
 	private float[] createVertices() {

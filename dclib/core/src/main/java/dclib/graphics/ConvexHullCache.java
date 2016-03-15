@@ -26,7 +26,7 @@ public final class ConvexHullCache {
 			VertexUtils.flipY(convexHull);
 			convexHulls.put(regionName, convexHull);
 		}
-		float[] vertices = VertexUtils.sizedVertices(convexHulls.get(regionName), size);
+		float[] vertices = VertexUtils.sizeVertices(convexHulls.get(regionName), size);
 		return new Polygon(vertices);
 	}
 
