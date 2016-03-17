@@ -32,18 +32,13 @@ public final class TextureCache {
 	}
 	
 	// TODO: Make this so you don't need to pass in ending slashes in the parameter paths
-	public final void addTexturesAsAtlus(final String textureRootPath, final String[] textureSubPaths) {
+	public final void addTexturesAsAtlus(final String texturesPath, final String namespace) {
 		final String tempPath = "temp/";
-		final String atlasExtension = ".atlas";
-		for (String textureSubPath : textureSubPaths) {
-			String texturePath = textureRootPath + textureSubPath;
-			String inputDir = PathUtils.internalToAbsolutePath(texturePath);
-			String outputDir = Gdx.files.local(tempPath).file().getAbsolutePath();
-			String name = texturePath.replace("/", "_");
-			TexturePacker.process(inputDir, outputDir, name);
-			String namespace = createTextureNamespace(textureRootPath, texturePath);
-			addTextureAtlas(Gdx.files.local(tempPath + name + atlasExtension), namespace);
-		}
+		String inputDir = PathUtils.internalToAbsolutePath(texturesPath);
+		String outputDir = Gdx.files.local(tempPath).file().getAbsolutePath();
+		String name = texturesPath.replace("/", "_");
+		TexturePacker.process(inputDir, outputDir, name);
+		addTextureAtlas(Gdx.files.local(tempPath + name + ".atlas"), namespace);
 	}
 	
 	public final void addTextures(final FileHandle fileHandle, final String namespace) {
@@ -57,7 +52,7 @@ public final class TextureCache {
 			Texture texture = new Texture(fileHandle);
 			texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 			TextureRegion region = new TextureRegion(texture);
-			addRegion(namespace + fileHandle.nameWithoutExtension(), region);
+			addRegion(namespace, fileHandle.nameWithoutExtension(), region);
 		}
 	}
 	
@@ -65,7 +60,7 @@ public final class TextureCache {
 		TextureAtlas atlas = new TextureAtlas(fileHandle);
 		textureAtlases.add(atlas);
 		for (AtlasRegion atlasRegion : atlas.getRegions()) {
-			nameToTextureRegions.put(namespace + atlasRegion.name, atlasRegion);
+			addRegion(namespace, atlasRegion.name, atlasRegion);
 		}
 	}
 	
@@ -73,8 +68,8 @@ public final class TextureCache {
 		textureRegions.add(region);
 	}
 	
-	public void addRegion(final String name, final TextureRegion region) {
-		nameToTextureRegions.put(name, region);
+	public void addRegion(final String namespace, final String localName, final TextureRegion region) {
+		nameToTextureRegions.put(namespace + "/" + localName, region);
 	}
 	
 	public final PolygonRegion getPolygonRegion(final String name) {
@@ -97,10 +92,6 @@ public final class TextureCache {
 		}
 		dispose(textureRegions);
 		dispose(nameToTextureRegions.values());
-	}
-	
-	private String createTextureNamespace(final String textureRootPath, final String texturePath) {
-		return texturePath.replaceFirst(textureRootPath, "");
 	}
 	
 	private final void dispose(final Collection<TextureRegion> textureRegions) {
