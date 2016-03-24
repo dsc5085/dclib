@@ -9,7 +9,8 @@ public final class LinearUtils {
 		return rate * elapsedTime;
 	}
 
-	public static float relativeMiddle(final int pivotLength, final int objectLength) {
+	// TODO: rename variables to make more sense
+	public static float relativeMiddle(final float pivotLength, final float objectLength) {
 		return pivotLength / 2f - objectLength / 2f;
 	}
 	
