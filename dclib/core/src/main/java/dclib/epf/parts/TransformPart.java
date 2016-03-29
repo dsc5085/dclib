@@ -12,6 +12,7 @@ import dclib.geometry.VertexUtils;
 
 public final class TransformPart {
 
+	// TODO: Make this able to store a list of polygons, since some entities may be concave, and collision detection doesn't work with concave polygons
 	private Polygon polygon = new Polygon();
 	private final float z;
 	

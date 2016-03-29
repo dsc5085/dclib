@@ -30,8 +30,6 @@ public final class TextureCache {
 	public final Collection<String> getRegionNames() {
 		return nameToTextureRegions.keySet();
 	}
-	
-	// TODO: Make this so you don't need to pass in ending slashes in the parameter paths
 	public final void addTexturesAsAtlus(final String texturesPath, final String namespace) {
 		final String tempPath = "temp/";
 		String inputDir = PathUtils.internalToAbsolutePath(texturesPath);

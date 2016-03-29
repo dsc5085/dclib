@@ -39,6 +39,7 @@ public final class EntityDrawer {
 		List<Entity> entities = entityManager.getAll();
 		final EntityZComparator entityZComparator = new EntityZComparator();
 		Collections.sort(entities, entityZComparator);
+		// TODO: Make these different drawers more modular, using strategy pattern, e.g. List<Drawers>
 		drawSprites(entities);
 		if (drawPolygons) {
 			drawPolygons(entities);
