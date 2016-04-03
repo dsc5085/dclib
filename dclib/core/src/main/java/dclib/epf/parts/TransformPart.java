@@ -3,7 +3,6 @@ package dclib.epf.parts;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.PolygonUtils;
@@ -12,7 +11,6 @@ import dclib.geometry.VertexUtils;
 
 public final class TransformPart {
 
-	// TODO: Make this able to store a list of polygons, since some entities may be concave, and collision detection doesn't work with concave polygons
 	private Polygon polygon = new Polygon();
 	private final float z;
 	
@@ -22,14 +20,8 @@ public final class TransformPart {
 	private Vector2 size;
 	
 	public TransformPart(final Polygon polygon, final float z) {
-		this(polygon, new Vector3(0, 0, z));
-	}
-	
-	public TransformPart(final Polygon polygon, final Vector3 position) {
 		this.polygon = polygon;
-		this.polygon.setPosition(position.x, position.y);
-		this.polygon.setOrigin(0, 0);
-		z = position.z;
+		this.z = z;
 		size = PolygonUtils.size(polygon);
 	}
 	

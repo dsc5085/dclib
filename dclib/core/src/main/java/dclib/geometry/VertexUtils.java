@@ -2,6 +2,7 @@ package dclib.geometry;
 
 import java.util.List;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,6 +19,19 @@ public final class VertexUtils {
 			verticesArray[i * 2 + 1] = vertex.y;
 		}
 		return verticesArray;
+	}
+	
+	/**
+	 * Converts to a polygon, setting the position based off the vertices' minimum x and y values.
+	 * @param vertices
+	 * @return polygon with calculated position
+	 */
+	public static final Polygon toPolygon(final float[] vertices) {
+		Vector2 position = new Vector2(VertexUtils.minX(vertices), VertexUtils.minY(vertices));
+		float[] shiftedVertices = VertexUtils.shiftVertices(vertices, -position.x, -position.y);
+		Polygon polygon = new Polygon(shiftedVertices);
+		polygon.setPosition(position.x, position.y);
+		return polygon;
 	}
 	
 	public static final void flipY(final float[] vertices) {
