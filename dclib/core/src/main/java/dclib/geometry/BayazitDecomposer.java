@@ -10,6 +10,7 @@ package dclib.geometry;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -28,12 +29,12 @@ public class BayazitDecomposer {
 		return new Vector2(s * a.y, -s * a.x);
 	}
 
-	private static Vector2 at(final int i, final ArrayList<Vector2> vertices) {
+	private static Vector2 at(final int i, final List<Vector2> vertices) {
 		int s = vertices.size();
 		return vertices.get(i < 0 ? s - (-i % s) : i % s);
 	}
 
-	private static ArrayList<Vector2> copy(int i, int j, final ArrayList<Vector2> vertices) {
+	private static ArrayList<Vector2> copy(int i, int j, final List<Vector2> vertices) {
 		ArrayList<Vector2> p = new ArrayList<Vector2>();
 		while (j < i)
 			j += vertices.size();
@@ -44,7 +45,7 @@ public class BayazitDecomposer {
 		return p;
 	}
 
-	public static float getSignedArea(final ArrayList<Vector2> vect) {
+	public static float getSignedArea(final List<Vector2> vect) {
 		int i;
 		float area = 0;
 		for (i = 0; i < vect.size(); i++) {
@@ -68,7 +69,7 @@ public class BayazitDecomposer {
 		return area;
 	}
 
-	public static Boolean isCounterClockWise(final ArrayList<Vector2> vect) {
+	public static Boolean isCounterClockWise(final List<Vector2> vect) {
 		// We just return true for lines
 		if (vect.size() < 3) return true;
 		return (getSignedArea(vect) > 0.0f);
@@ -88,7 +89,7 @@ public class BayazitDecomposer {
 	// / </summary>
 	// / <param name="vertices"></param>
 	// / <returns></returns>
-	public static ArrayList<ArrayList<Vector2>> convexPartition(final ArrayList<Vector2> vertices) {
+	public static List<List<Vector2>> convexPartition(final List<Vector2> vertices) {
 		// We force it to CCW as it is a precondition in this algorithm.
 		// vertices.ForceCounterClockWise();
 		if (!isCounterClockWise(vertices)) {
@@ -100,7 +101,7 @@ public class BayazitDecomposer {
 			// }
 			// vertices = reversed;
 		}
-		ArrayList<ArrayList<Vector2>> list = new ArrayList<ArrayList<Vector2>>();
+		List<List<Vector2>> list = new ArrayList<List<Vector2>>();
 		float d, lowerDist, upperDist;
 		Vector2 p;
 		Vector2 lowerInt = new Vector2();
@@ -204,7 +205,7 @@ public class BayazitDecomposer {
 		return list;
 	}
 
-	private static Boolean canSee(final int i, final int j, final ArrayList<Vector2> vertices) {
+	private static Boolean canSee(final int i, final int j, final List<Vector2> vertices) {
 		if (reflex(i, vertices)) {
 			if (leftOn(at(i, vertices), at(i - 1, vertices), at(j, vertices))
 					&& rightOn(at(i, vertices), at(i + 1, vertices), at(j, vertices)))
@@ -329,11 +330,11 @@ public class BayazitDecomposer {
 	}
 
 	// precondition: ccw
-	private static Boolean reflex(final int i, final ArrayList<Vector2> vertices) {
+	private static Boolean reflex(final int i, final List<Vector2> vertices) {
 		return right(i, vertices);
 	}
 
-	private static Boolean right(final int i, final ArrayList<Vector2> vertices) {
+	private static Boolean right(final int i, final List<Vector2> vertices) {
 		return right(at(i - 1, vertices), at(i, vertices), at(i + 1, vertices));
 	}
 
@@ -374,7 +375,7 @@ class SimplifyTools {
 	// / <param name="vertices">The polygon that needs simplification.</param>
 	// / <param name="collinearityTolerance">The collinearity tolerance.</param>
 	// / <returns>A simplified polygon.</returns>
-	public static ArrayList<Vector2> collinearSimplify(final ArrayList<Vector2> vertices,
+	public static List<Vector2> collinearSimplify(final List<Vector2> vertices,
 			final float collinearityTolerance) {
 		// We can't simplify polygons under 3 vertices
 		if (vertices.size() < 3) return vertices;
@@ -408,7 +409,7 @@ class SimplifyTools {
 	// / </summary>
 	// / <param name="vertices">The polygon that needs simplification.</param>
 	// / <returns>A simplified polygon.</returns>
-	public static ArrayList<Vector2> collinearSimplify(final ArrayList<Vector2> vertices) {
+	public static List<Vector2> collinearSimplify(final List<Vector2> vertices) {
 		return collinearSimplify(vertices, 0);
 	}
 

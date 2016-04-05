@@ -1,5 +1,6 @@
 package dclib.geometry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Polygon;
@@ -19,6 +20,14 @@ public final class VertexUtils {
 			verticesArray[i * 2 + 1] = vertex.y;
 		}
 		return verticesArray;
+	}
+	
+	public static final List<Vector2> toVerticesList(final float[] vertices) {
+		List<Vector2> verticesList = new ArrayList<Vector2>();
+		for (int i = 0; i < vertices.length / 2; i++) {
+			verticesList.add(new Vector2(vertices[i * 2], vertices[i * 2 + 1]));
+		}
+		return verticesList;
 	}
 	
 	/**
