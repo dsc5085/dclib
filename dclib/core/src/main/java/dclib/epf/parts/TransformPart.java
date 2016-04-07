@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.PolygonUtils;
 import dclib.geometry.VectorUtils;
-import dclib.geometry.VertexUtils;
 
 public final class TransformPart {
 
@@ -17,7 +16,7 @@ public final class TransformPart {
 	/**
 	 * size stored for performance, rather than calculated on the fly when calling {@link #getSize()}
 	 */
-	private Vector2 size;
+	private final Vector2 size;
 	
 	public TransformPart(final Polygon polygon, final float z) {
 		this.polygon = polygon;
@@ -28,25 +27,9 @@ public final class TransformPart {
 	public final Polygon getPolygon() {
 		return PolygonFactory.copy(polygon);
 	}
-	
-	public final void setPolygon(final Polygon polygon) {
-		this.polygon = polygon;
-		size = PolygonUtils.size(polygon);
-	}
-	
-	public final void setVertices(final float[] vertices) {
-		polygon.setVertices(vertices);
-		size = PolygonUtils.size(polygon);
-	}
 
 	public final Vector2 getSize() {
 		return size;
-	}
-	
-	public final void setSize(final Vector2 size) {
-		float[] sizedVertices = VertexUtils.sizeVertices(polygon.getVertices(), size);
-		polygon.setVertices(sizedVertices);
-		this.size = size;
 	}
 	
 	public final Vector2 getBoundingSize() {
@@ -71,7 +54,7 @@ public final class TransformPart {
 	
 	public final void setCenter(final Vector2 center) {
 		Vector2 offset = VectorUtils.offset(getCenter(), center);
-		setPosition(getPosition().add(offset));
+		translate(offset);
 	}
 
 	public final Vector2 getOrigin() {
