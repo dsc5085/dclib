@@ -33,8 +33,7 @@ public final class UnitConverter {
 	}
 	
 	public final Vector2 toWorldUnits(final float pixelX, final float pixelY) {
-		// TODO: not the most efficient
-		return toWorldCoords(pixelX, pixelY).sub(toWorldCoords(0, 0));
+		return new Vector2(pixelX / pixelsPerUnit, pixelY / pixelsPerUnit);
 	}
 	
 	public final Vector2 toWorldCoords(final float screenX, final float screenY) {

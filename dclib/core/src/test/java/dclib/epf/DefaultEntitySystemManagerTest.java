@@ -8,15 +8,6 @@ import org.junit.Test;
 public final class DefaultEntitySystemManagerTest {
 
 	@Test
-	public void dispose_WithSystems_DisposesSystems() {
-		EntityManager entityManager = mock(EntityManager.class);
-		EntitySystem entitySystem = mock(EntitySystem.class);
-		EntitySystemManager entitySystemManager = createEntitySystemManager(entityManager, entitySystem);
-		entitySystemManager.dispose();
-		verify(entitySystem).dispose();
-	}
-
-	@Test
 	public void update_WithEntities_UpdatesEntities() {
 		Entity entity = new Entity();
 		EntityManager entityManager = new DefaultEntityManager(entity);

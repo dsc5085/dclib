@@ -21,13 +21,6 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 	}
 	
 	@Override
-	public final void dispose() {
-		for (EntitySystem system : systems) {
-			system.dispose();
-		}
-	}
-	
-	@Override
 	public final void update(final float delta) {
 		for (EntitySystem system : systems) {
 			for (Entity entity : entityManager.getAll()) {
