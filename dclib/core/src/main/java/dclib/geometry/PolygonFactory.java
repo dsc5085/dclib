@@ -1,9 +1,16 @@
 package dclib.geometry;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ShortArray;
 
 public final class PolygonFactory {
+
+	private static final EarClippingTriangulator triangulator = new EarClippingTriangulator();
 	
 	private PolygonFactory() {
 	}
@@ -15,6 +22,24 @@ public final class PolygonFactory {
 		copy.setRotation(polygon.getRotation());
 		copy.setScale(polygon.getScaleX(), polygon.getScaleY());
 		return copy;
+	}
+	
+	public static final List<float[]> triangulate(final float[] vertices) {
+		List<float[]> trianglesVertices = new ArrayList<float[]>();
+        ShortArray trianglesVerticesIndexes = triangulator.computeTriangles(vertices);
+        final int numVerticesInTriangle = 3;
+        for (int i = 0; i < trianglesVerticesIndexes.size / numVerticesInTriangle; i++)
+        {
+        	float[] triangleVertices = new float[numVerticesInTriangle * 2]; 
+        	for (int j = 0; j < numVerticesInTriangle; j++) {
+        		int verticesStartIndex = trianglesVerticesIndexes.get(i * numVerticesInTriangle + j) * 2;
+        		int triangleVerticesStartIndex = j * 2;
+            	triangleVertices[triangleVerticesStartIndex] = vertices[verticesStartIndex];
+            	triangleVertices[triangleVerticesStartIndex + 1] = vertices[verticesStartIndex + 1];
+        	}
+            trianglesVertices.add(triangleVertices);
+        }
+        return trianglesVertices;
 	}
 	
 	public static final Polygon createRectangle(final Vector2 size) {
