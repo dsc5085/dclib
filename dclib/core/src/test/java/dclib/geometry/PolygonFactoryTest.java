@@ -9,7 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 
 public final class PolygonFactoryTest {
 	
@@ -60,14 +59,6 @@ public final class PolygonFactoryTest {
 	@Test
 	public void copy_Polygon_HasSameRotation() {
 		assertEquals(polygon.getRotation(), polygonCopy.getRotation(), 0);
-	}
-	
-	@Test
-	public void createRectangle_Size_ReturnsExpected() {
-		Vector2 size = new Vector2(5, 3);
-		Polygon rectangle = PolygonFactory.createRectangle(size);
-		float[] expected = new float[] { 0, 0, 5, 0, 5, 3, 0, 3 };
-		assertTrue(Arrays.equals(expected, rectangle.getVertices()));
 	}
 	
 	@Test
