@@ -16,12 +16,14 @@ public final class VectorUtils {
 		return vector.cpy().scl(length / vector.len());
 	}
 	
-	public static final float distance(final Vector2 vector1, final Vector2 vector2) {
-		return offset(vector1, vector2).len();
-	}
-	
 	public static final Vector2 offset(final Vector2 from, final Vector2 to) {
 		return to.cpy().sub(from);
+	}
+	
+	public static final float getLineX(final Vector2 from, final Vector2 to, final float lineY) {
+		Vector2 offset = offset(from, to);
+		float slope = offset.y / offset.x;
+		return from.x + (lineY - from.y) / slope;
 	}
 	
 	public static final Vector2 fromAngle(final float degrees) {

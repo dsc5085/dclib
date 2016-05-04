@@ -20,13 +20,6 @@ public final class VectorUtilsTest {
 		Vector2 lengthened = VectorUtils.lengthened(new Vector2(5.2f, 5.2f), 1);
 		assertEqualsVectors(lengthened, 0.70710678f, 0.70710678f);
 	}
-
-	@Test
-	public void distance_BetweenVectors_ReturnsExpected() {
-		Vector2 vector1 = new Vector2(-4.3f, 2);
-		Vector2 vector2 = new Vector2(1.6f, -6.7f);
-		assertEquals(10.511898, VectorUtils.distance(vector1, vector2), MathUtils.FLOAT_ROUNDING_ERROR);
-	}
 	
 	@Test
 	public void offset_BetweenVectors_ReturnsExpected() {
@@ -36,13 +29,21 @@ public final class VectorUtilsTest {
 	}
 	
 	@Test
-	public void angle_Vector_ReturnsExpected() {
+	public void getLineX_ValidArgs_ReturnsExpected() {
+		Vector2 from = new Vector2(2, 4);
+		Vector2 to = new Vector2(4, 8);
+		float lineY = 6;
+		assertEquals(3, VectorUtils.getLineX(from, to, lineY), MathUtils.FLOAT_ROUNDING_ERROR);
+	}
+	
+	@Test
+	public void fromAngle_Vector_ReturnsExpected() {
 		Vector2 vector = VectorUtils.fromAngle(45);
 		assertEqualsVectors(vector, 0.70710678f, 0.70710678f);
 	}
 	
 	@Test
-	public void angle_VectorAndLength_ReturnsExpected() {
+	public void fromAngle_VectorAndLength_ReturnsExpected() {
 		Vector2 vector = VectorUtils.fromAngleAndLength(45, 2.5f);
 		assertEqualsVectors(vector, 1.76776695f, 1.76776695f);
 	}

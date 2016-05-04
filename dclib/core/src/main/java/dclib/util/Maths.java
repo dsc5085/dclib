@@ -19,4 +19,8 @@ public final class Maths {
 		return value >= min && value <= max;
 	}
 	
+	public static boolean isBetween(final float value, final float min, final float max) {
+		return value >= min && value <= max;
+	}
+	
 }
