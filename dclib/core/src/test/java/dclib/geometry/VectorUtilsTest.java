@@ -35,18 +35,6 @@ public final class VectorUtilsTest {
 		float lineY = 6;
 		assertEquals(3, VectorUtils.getLineX(from, to, lineY), MathUtils.FLOAT_ROUNDING_ERROR);
 	}
-	
-	@Test
-	public void fromAngle_Vector_ReturnsExpected() {
-		Vector2 vector = VectorUtils.fromAngle(45);
-		assertEqualsVectors(vector, 0.70710678f, 0.70710678f);
-	}
-	
-	@Test
-	public void fromAngle_VectorAndLength_ReturnsExpected() {
-		Vector2 vector = VectorUtils.fromAngleAndLength(45, 2.5f);
-		assertEqualsVectors(vector, 1.76776695f, 1.76776695f);
-	}
 
 	private void assertEqualsVectors(final Vector2 vector, final float expectedX, final float expectedY) {
 		assertEquals(expectedX, vector.x, MathUtils.FLOAT_ROUNDING_ERROR);

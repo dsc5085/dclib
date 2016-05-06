@@ -12,6 +12,7 @@ public final class VectorUtils {
 		return vector.cpy().scl(1 / length);
 	}
 	
+	// TODO: Deprecated. Vector2 already has this
 	public static final Vector2 lengthened(final Vector2 vector, final float length) {
 		return vector.cpy().scl(length / vector.len());
 	}
@@ -24,15 +25,6 @@ public final class VectorUtils {
 		Vector2 offset = offset(from, to);
 		float slope = offset.y / offset.x;
 		return from.x + (lineY - from.y) / slope;
-	}
-	
-	public static final Vector2 fromAngle(final float degrees) {
-		return fromAngleAndLength(degrees, 1);
-	}
-	
-	public static final Vector2 fromAngleAndLength(final float degrees, final float length) {
-		Vector2 vector = new Vector2(length, 0);
-		return vector.rotate(degrees);
 	}
 	
 }
