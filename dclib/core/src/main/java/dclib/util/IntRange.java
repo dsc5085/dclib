@@ -8,6 +8,10 @@ public final class IntRange {
 	private final int max;
 	
 	public IntRange(final int min, final int max) {
+		if (min > max) {
+			throw new IllegalArgumentException("Min argument of " + min
+					+ " cannot be greater than max argument of " + max);
+		}
 		this.min = min;
 		this.max = max;
 	}
