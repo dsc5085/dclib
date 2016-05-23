@@ -1,7 +1,6 @@
 package dclib.geometry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.math.Polygon;
@@ -42,17 +41,6 @@ public final class VertexUtils {
 		Polygon polygon = new Polygon(shiftedVertices);
 		polygon.setPosition(position.x, position.y);
 		return polygon;
-	}
-	
-	public static final float[] addVertices(final float[] vertices, final Vector2... newVertices) {
-		float[] updatedVertices = Arrays.copyOf(vertices, vertices.length + newVertices.length * 2);
-		int currentIndex = vertices.length;
-		for (Vector2 vertex : newVertices) {
-			updatedVertices[currentIndex] = vertex.x;
-			updatedVertices[currentIndex + 1] = vertex.y;
-			currentIndex += 2;
-		}
-		return updatedVertices;
 	}
 	
 	public static final void flipY(final float[] vertices) {

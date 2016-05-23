@@ -21,6 +21,13 @@ public final class VectorUtils {
 		return to.cpy().sub(from);
 	}
 	
+	/**
+	 * Returns the x component of a line between from and to, given the y value.
+	 * @param from
+	 * @param to
+	 * @param lineY absolute y of point along line
+	 * @return
+	 */
 	public static final float getLineX(final Vector2 from, final Vector2 to, final float lineY) {
 		Vector2 offset = offset(from, to);
 		float slope = offset.y / offset.x;
