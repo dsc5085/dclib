@@ -5,11 +5,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Rectangle;
 
+import dclib.geometry.PolygonFactory;
 import dclib.geometry.VertexUtils;
 
 public final class RegionFactory {
 	
 	private static final EarClippingTriangulator triangulator = new EarClippingTriangulator();
+
+	public static final PolygonRegion createPolygonRegion(final TextureRegion textureRegion) {
+		float[] vertices = PolygonFactory.createRectangleVertices(textureRegion.getRegionWidth(), 
+				textureRegion.getRegionHeight());
+		return createPolygonRegion(textureRegion, vertices);
+	}
 	
 	public static final PolygonRegion createPolygonRegion(final TextureRegion textureRegion, final float[] vertices) {
 		Rectangle bounds = VertexUtils.bounds(vertices);
