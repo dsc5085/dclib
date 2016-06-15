@@ -23,15 +23,21 @@ public final class VectorUtils {
 	
 	/**
 	 * Returns the x component of a line between from and to, given the y value.
-	 * @param from
-	 * @param to
+	 * @param p1
+	 * @param p2
 	 * @param lineY absolute y of point along line
 	 * @return
 	 */
-	public static final float getLineX(final Vector2 from, final Vector2 to, final float lineY) {
-		Vector2 offset = offset(from, to);
+	public static final float getLineX(final Vector2 p1, final Vector2 p2, final float lineY) {
+		Vector2 offset = offset(p1, p2);
 		float slope = offset.y / offset.x;
-		return from.x + (lineY - from.y) / slope;
+		return p1.x + (lineY - p1.y) / slope;
+	}
+	
+	public static final float getLineY(final Vector2 p1, final Vector2 p2, final float lineX) {
+		Vector2 offset = offset(p1, p2);
+		float slope = offset.y / offset.x;
+		return p1.y + (lineX - p1.x) * slope;
 	}
 	
 }
