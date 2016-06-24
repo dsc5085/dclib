@@ -50,7 +50,7 @@ public final class DefaultEntityManager implements EntityManager {
 	}
 	
 	/**
-	 * Adds and manages an entity on the next call to update.
+	 * Adds and manages an entity.
 	 * @param entity the entity to add and manage
 	 */
 	@Override
@@ -64,7 +64,7 @@ public final class DefaultEntityManager implements EntityManager {
 	}
 	
 	/**
-	 * Adds the entities in the passed in collection on the next call to update.
+	 * Adds the entities in the passed in collection.
 	 * @param entities entities to add and manage
 	 */
 	@Override
@@ -75,7 +75,7 @@ public final class DefaultEntityManager implements EntityManager {
 	}
 	
 	/**
-	 * Removes an entity on the next call to update.
+	 * Removes an entity.
 	 * @param entity entity to remove
 	 */
 	@Override
@@ -83,6 +83,17 @@ public final class DefaultEntityManager implements EntityManager {
 		if (entities.remove(entity)) {
 			entity.setActive(false);
 			entityRemovedDelegate.notify(new EntityRemovedEvent(entity));
+		}
+	}
+
+	/**
+	 * Removes the entities in the passed in collection.
+	 * @param entities entities to remove
+	 */
+	@Override
+	public void removeAll(final Collection<Entity> entities) {
+		for (Entity entity : entities) {
+			remove(entity);
 		}
 	}
 	

@@ -12,6 +12,7 @@ public interface EntityManager {
 	void add(final Entity entity);
 	void addAll(final Collection<Entity> entities);
 	void remove(final Entity entity);
+	void removeAll(final Collection<Entity> entities);
 	void dispose();
 	
 }

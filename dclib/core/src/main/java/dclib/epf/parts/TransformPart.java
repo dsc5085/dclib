@@ -27,6 +27,10 @@ public final class TransformPart {
 	public final Polygon getPolygon() {
 		return PolygonFactory.copy(polygon);
 	}
+	
+	public final float[] getTransformedVertices() {
+		return polygon.getTransformedVertices();
+	}
 
 	public final Vector2 getSize() {
 		return size;
