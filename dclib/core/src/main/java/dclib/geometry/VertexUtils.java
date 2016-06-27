@@ -116,6 +116,10 @@ public final class VertexUtils {
 		return scaleVertices(vertices, scaleX, scaleY);
 	}
 	
+	public static float[] scaleVertices(final float[] vertices, final float scale) {
+		return scaleVertices(vertices, scale, scale);
+	}
+	
 	public static float[] scaleVertices(final float[] vertices, final float scaleX, final float scaleY) {
 		float[] scaledVertices = new float[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
