@@ -20,8 +20,10 @@ public final class RegionFactory {
 	
 	public static final PolygonRegion createPolygonRegion(final TextureRegion textureRegion, final float[] vertices) {
 		Rectangle bounds = VertexUtils.bounds(vertices);
-		float[] shiftedVertices = VertexUtils.shiftVertices(vertices, -bounds.x, -bounds.y);
-		TextureRegion croppedRegion = new TextureRegion(textureRegion, (int)bounds.x, (int)bounds.y, 
+		float[] shiftedVertices = VertexUtils.shift(vertices, -bounds.x, -bounds.y);
+		// libgdx y-axis is flipped
+		int regionY = (int)(textureRegion.getRegionHeight() - bounds.y - bounds.height);
+		TextureRegion croppedRegion = new TextureRegion(textureRegion, (int)bounds.x, regionY, 
 				(int)bounds.width, (int)bounds.height);
 		short[] triangles = triangulator.computeTriangles(shiftedVertices).toArray();
 		return new PolygonRegion(croppedRegion, shiftedVertices, triangles);

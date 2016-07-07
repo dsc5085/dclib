@@ -23,10 +23,10 @@ public final class ConvexHullCache {
 			TextureRegion textureRegion = textureCache.getTextureRegion(regionName);
 			float[] convexHull = TextureGeometry.createConvexHull(textureRegion);
 			// libgdx y-axis is flipped
-			VertexUtils.flipY(convexHull);
-			convexHulls.put(regionName, convexHull);
+			float[] flippedConvexHull = VertexUtils.flipY(convexHull);
+			convexHulls.put(regionName, flippedConvexHull);
 		}
-		float[] vertices = VertexUtils.sizeVertices(convexHulls.get(regionName), size);
+		float[] vertices = VertexUtils.setSize(convexHulls.get(regionName), size);
 		return new Polygon(vertices);
 	}
 

@@ -30,7 +30,7 @@ public final class EntityTransformDrawer implements EntityDrawer {
 			if (entity.hasActive(TransformPart.class)) {
 				TransformPart transformPart = entity.get(TransformPart.class);
 				float[] transformedVertices = transformPart.getTransformedVertices();
-				float[] vertices = VertexUtils.scaleVertices(transformedVertices, pixelsPerUnit);
+				float[] vertices = VertexUtils.scale(transformedVertices, pixelsPerUnit);
 				shapeRenderer.polygon(vertices);
 			}
 		}

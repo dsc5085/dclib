@@ -45,8 +45,7 @@ public final class TextureCache {
 			for (FileHandle child : fileHandle.list()) {
 				addTextures(child, namespace);
 			}
-		}
-		else if (ArrayUtils.contains(textureExtensions, fileHandle.extension())) {
+		} else if (ArrayUtils.contains(textureExtensions, fileHandle.extension())) {
 			Texture texture = new Texture(fileHandle);
 			texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 			TextureRegion region = new TextureRegion(texture);

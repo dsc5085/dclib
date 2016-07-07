@@ -15,9 +15,9 @@ public final class VertexUtilsTest {
 	@Test
 	public void flipY_Vertices_ReturnsExpected() {
 		float[] vertices = createVertices();
-		VertexUtils.flipY(vertices);
+		float[] flippedVertices = VertexUtils.flipY(vertices);
 		float[] expected = new float[] { 2.1f, 1.7f, 5.2f, 3.6f, 4, 0 };
-		assertTrue(Arrays.equals(expected, vertices));
+		assertTrue(Arrays.equals(expected, flippedVertices));
 	}
 	
 	@Test
@@ -52,11 +52,11 @@ public final class VertexUtilsTest {
 	}
 	
 	@Test
-	public void sizedVertices_Vertices_ReturnsExpected() {
+	public void setSize_Vertices_ReturnsExpected() {
 		float[] vertices = createVertices();
 		float[] expected = new float[] { 2.032258f, 1.8333334f, 5.032258f, 0.7777778f, 3.8709679f, 2.777778f };
 		Vector2 size = new Vector2(3, 2);
-		assertTrue(Arrays.equals(expected, VertexUtils.sizeVertices(vertices, size)));
+		assertTrue(Arrays.equals(expected, VertexUtils.setSize(vertices, size)));
 	}
 	
 	private float[] createVertices() {
