@@ -73,6 +73,11 @@ public final class TextureCache {
 		TextureRegion textureRegion = getTextureRegion(name);
 		float[] vertices = PolygonFactory.createRectangleVertices(textureRegion.getRegionWidth(), 
 				textureRegion.getRegionHeight());
+		return getPolygonRegion(name, vertices);
+	}
+	
+	public final PolygonRegion getPolygonRegion(final String name, final float[] vertices) {
+		TextureRegion textureRegion = getTextureRegion(name);
 		return RegionFactory.createPolygonRegion(textureRegion, vertices);
 	}
 	

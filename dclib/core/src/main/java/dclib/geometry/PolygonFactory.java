@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ShortArray;
 
 public final class PolygonFactory {
@@ -42,12 +43,16 @@ public final class PolygonFactory {
 	}
 	
 	public static final float[] createRectangleVertices(final float width, final float height) {
-		return createRectangleVertices(0, 0, width, height);
+		return createRectangleVertices(new Rectangle(0, 0, width, height));
 	}
 	
-	public static final float[] createRectangleVertices(final float x, final float y, final float width, 
-			final float height) {
-		return new float[] { x, y, x + width, y, x + width, y + height, x, y + height };
+	public static final float[] createRectangleVertices(final Rectangle rectangle) {
+		return new float[] { 
+			rectangle.x, rectangle.y, 
+			rectangle.x + rectangle.width, rectangle.y, 
+			rectangle.x + rectangle.width, rectangle.y + rectangle.height, 
+			rectangle.x, rectangle.y + rectangle.height
+		};
 	}
 	
 }

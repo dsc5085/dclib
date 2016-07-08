@@ -33,15 +33,13 @@ public final class XmlEntityCache implements EntityCache {
 			try {
 				final String entityExtension = ".xml";
 				inputStream = new FileInputStream(root + entityType + entityExtension);
-			}
-			catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}
 			try {
 				Entity entity = xmlContext.unmarshal(inputStream, entityAdapter);
 				cache.put(entityType,  entity);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw new IllegalArgumentException("Could not create entity " + entityType, e);
 			}
 		}

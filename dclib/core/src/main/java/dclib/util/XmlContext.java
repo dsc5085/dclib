@@ -18,8 +18,7 @@ public final class XmlContext {
 	public XmlContext(final Class<?>[] boundClasses) {
 		try {
 			jaxbContext = JAXBContext.newInstance(boundClasses);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new IllegalArgumentException("Could not construct context", e);
 		}
 	}
@@ -33,8 +32,7 @@ public final class XmlContext {
 		try {
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			return (T)unmarshaller.unmarshal(inputStream);
-		}
-		catch (JAXBException e) {
+		} catch (JAXBException e) {
 			throw new IllegalArgumentException("Could not unmarshal stream", e);
 		}
 	}
@@ -43,8 +41,7 @@ public final class XmlContext {
 		TAdapted adaptedObject = unmarshal(inputStream);
 		try {
 			return xmlAdapter.unmarshal(adaptedObject);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new IllegalArgumentException("Could not unmarshal stream", e);
 		}
 	}
@@ -59,8 +56,7 @@ public final class XmlContext {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			marshaller.marshal(object, outputStream);
-		}
-		catch (JAXBException e) {
+		} catch (JAXBException e) {
 			throw new IllegalArgumentException("Could not marshal " + object.toString(), e);
 		}
 	}

@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 
 public final class PolygonFactoryTest {
 	
@@ -62,15 +63,15 @@ public final class PolygonFactoryTest {
 	}
 	
 	@Test
-	public void createRectangle_WidthAndHeight_ReturnsExpected() {
+	public void createRectangleVertices_WidthAndHeight_ReturnsExpected() {
 		float[] rectangleVertices = PolygonFactory.createRectangleVertices(5, 3);
 		float[] expected = new float[] { 0, 0, 5, 0, 5, 3, 0, 3 };
 		assertTrue(Arrays.equals(expected, rectangleVertices));
 	}
 	
 	@Test
-	public void createRectangle_PositionAndSize_ReturnsExpected() {
-		float[] rectangleVertices = PolygonFactory.createRectangleVertices(2, 2, 5, 3);
+	public void createRectangleVertices_Rectangle_ReturnsExpected() {
+		float[] rectangleVertices = PolygonFactory.createRectangleVertices(new Rectangle(2, 2, 5, 3));
 		float[] expected = new float[] { 2, 2, 7, 2, 7, 5, 2, 5 };
 		assertTrue(Arrays.equals(expected, rectangleVertices));
 	}
