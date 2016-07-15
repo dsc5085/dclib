@@ -32,8 +32,10 @@ public final class ScreenManager {
 		screens.remove(screen);
 	}
 	
-	public final void swap(final Screen currentScreen, final Screen newScreen) {
-		remove(currentScreen);
+	public final void swap(final Screen newScreen) {
+		for (Screen screen : getScreens()) {
+			remove(screen);
+		}
 		add(newScreen);
 	}
 	

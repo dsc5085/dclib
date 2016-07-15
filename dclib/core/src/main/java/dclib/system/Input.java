@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
+// TODO: Refactor to be an instance per screen
 public final class Input {
 
 	private static final InputMultiplexer multiplexer = new InputMultiplexer();

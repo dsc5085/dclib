@@ -2,7 +2,6 @@ package dclib.system;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,21 +55,6 @@ public final class ScreenManagerTest {
 		addScreens(screen);
 		removeScreens(screen);
 		verify(screen).hide();
-	}
-	
-	@Test
-	public void swap_DifferentScreens_ContainsNewScreen() {
-		Screen newScreen = mock(Screen.class);
-		screenManager.swap(mock(Screen.class), newScreen);
-		assertTrue(screenManager.contains(newScreen));
-	}
-	
-	@Test
-	public void swap_DifferentScreens_DoesNotContainCurrentScreen() {
-		Screen currentScreen = mock(Screen.class);
-		addScreens(currentScreen);
-		screenManager.swap(currentScreen, mock(Screen.class));
-		assertFalse(screenManager.contains(currentScreen));
 	}
 	
 	@Test
