@@ -30,7 +30,7 @@ public final class TextureCache {
 	public final Collection<String> getRegionNames() {
 		return nameToTextureRegions.keySet();
 	}
-	public final void addTexturesAsAtlus(final String texturesPath, final String namespace) {
+	public final void addTexturesAsAtlas(final String texturesPath, final String namespace) {
 		final String tempPath = "temp/";
 		String inputDir = PathUtils.internalToAbsolutePath(texturesPath);
 		String outputDir = Gdx.files.local(tempPath).file().getAbsolutePath();
