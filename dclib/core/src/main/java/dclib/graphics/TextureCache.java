@@ -25,18 +25,19 @@ public final class TextureCache {
 	
 	private final List<TextureRegion> textureRegions = new ArrayList<TextureRegion>();
 	private final Map<String, TextureRegion> nameToTextureRegions = new HashMap<String, TextureRegion>();
-	private final List<TextureAtlas> textureAtlases = new ArrayList<TextureAtlas>();
+	private final Map<String, TextureAtlas> namespaceToAtlas = new HashMap<String, TextureAtlas>();
 	
 	public final Collection<String> getRegionNames() {
 		return nameToTextureRegions.keySet();
 	}
+	
 	public final void addTexturesAsAtlas(final String texturesPath, final String namespace) {
 		final String tempPath = "temp/";
 		String inputDir = PathUtils.internalToAbsolutePath(texturesPath);
 		String outputDir = Gdx.files.local(tempPath).file().getAbsolutePath();
 		String name = texturesPath.replace("/", "_");
 		TexturePacker.process(inputDir, outputDir, name);
-		addTextureAtlas(Gdx.files.local(tempPath + name + ".atlas"), namespace);
+		addAtlas(Gdx.files.local(tempPath + name + ".atlas"), namespace);
 	}
 	
 	public final void addTextures(final FileHandle fileHandle, final String namespace) {
@@ -53,20 +54,20 @@ public final class TextureCache {
 		}
 	}
 	
-	public final void addTextureAtlas(final FileHandle fileHandle, final String namespace) {
+	public final TextureAtlas getAtlas(final String namespace) {
+		if (!namespaceToAtlas.containsKey(namespace)) {
+			throw new IllegalArgumentException("Could not get texture atlas " + namespace
+					+ " because it does not exist");
+		}
+		return namespaceToAtlas.get(namespace);
+	}
+	
+	public final void addAtlas(final FileHandle fileHandle, final String namespace) {
 		TextureAtlas atlas = new TextureAtlas(fileHandle);
-		textureAtlases.add(atlas);
+		namespaceToAtlas.put(namespace, atlas);
 		for (AtlasRegion atlasRegion : atlas.getRegions()) {
 			addRegion(namespace, atlasRegion.name, atlasRegion);
 		}
-	}
-	
-	public void addRegion(final TextureRegion region) {
-		textureRegions.add(region);
-	}
-	
-	public void addRegion(final String namespace, final String localName, final TextureRegion region) {
-		nameToTextureRegions.put(namespace + "/" + localName, region);
 	}
 	
 	public final PolygonRegion getPolygonRegion(final String name) {
@@ -88,8 +89,16 @@ public final class TextureCache {
 		return nameToTextureRegions.get(name);
 	}
 	
+	public void addRegion(final TextureRegion region) {
+		textureRegions.add(region);
+	}
+	
+	public void addRegion(final String namespace, final String localName, final TextureRegion region) {
+		nameToTextureRegions.put(namespace + "/" + localName, region);
+	}
+	
 	public final void dispose() {
-		for (TextureAtlas atlas : textureAtlases) {
+		for (TextureAtlas atlas : namespaceToAtlas.values()) {
 			atlas.dispose();
 		}
 		dispose(textureRegions);
