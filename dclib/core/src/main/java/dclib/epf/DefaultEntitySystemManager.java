@@ -25,7 +25,7 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 		for (EntitySystem system : systems) {
 			for (Entity entity : entityManager.getAll()) {
 				if (entity.isActive()) {
-					system.updateEntity(delta, entity);
+					system.update(delta, entity);
 				}
 			}
 		}
@@ -36,7 +36,7 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 			@Override
 			public void created(final Entity entity) {
 				for (EntitySystem system : systems) {
-					system.initializeEntity(entity);
+					system.initialize(entity);
 				}
 			}
 		};
@@ -47,7 +47,7 @@ public final class DefaultEntitySystemManager implements EntitySystemManager {
 			@Override
 			public void removed(final Entity entity) {
 				for (EntitySystem system : systems) {
-					system.disposeEntity(entity);
+					system.dispose(entity);
 				}
 			}
 		};

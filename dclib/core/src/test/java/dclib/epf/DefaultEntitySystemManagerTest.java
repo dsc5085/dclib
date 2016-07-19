@@ -15,7 +15,7 @@ public final class DefaultEntitySystemManagerTest {
 		EntitySystemManager entitySystemManager = createEntitySystemManager(entityManager, entitySystem);
 		float delta = 0.5f;
 		entitySystemManager.update(delta);
-		verify(entitySystem).updateEntity(delta, entity);
+		verify(entitySystem).update(delta, entity);
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public final class DefaultEntitySystemManagerTest {
 		EntitySystem entitySystem = mock(EntitySystem.class);
 		createEntitySystemManager(entityManager, entitySystem);
 		entityManager.add(entity);
-		verify(entitySystem).initializeEntity(entity);
+		verify(entitySystem).initialize(entity);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public final class DefaultEntitySystemManagerTest {
 		EntitySystem entitySystem = mock(EntitySystem.class);
 		createEntitySystemManager(entityManager, entitySystem);
 		entityManager.remove(entity);
-		verify(entitySystem).disposeEntity(entity);
+		verify(entitySystem).dispose(entity);
 	}
 	
 	private EntitySystemManager createEntitySystemManager(final EntityManager entityManager, 

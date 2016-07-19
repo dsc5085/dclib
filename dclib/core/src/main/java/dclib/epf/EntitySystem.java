@@ -2,13 +2,13 @@ package dclib.epf;
 
 public abstract class EntitySystem {
 	
-	public void initializeEntity(final Entity entity) {
+	public void initialize(final Entity entity) {
 	}
 	
-	public void disposeEntity(final Entity entity) {
+	public void dispose(final Entity entity) {
 	}
 	
-	public void updateEntity(final float delta, final Entity entity) {
+	public void update(final float delta, final Entity entity) {
 	}
 	
 }

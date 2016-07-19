@@ -14,7 +14,7 @@ public final class TimedDeathSystem extends EntitySystem {
 	}
 	
 	@Override
-	public void updateEntity(final float delta, final Entity entity) {
+	public void update(final float delta, final Entity entity) {
 		if (entity.hasActive(TimedDeathPart.class)) {
 			TimedDeathPart timedDeathPart = entity.get(TimedDeathPart.class);
 			timedDeathPart.update(delta);

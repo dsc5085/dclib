@@ -5,9 +5,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import dclib.epf.Entity;
+import dclib.epf.parts.Attachment;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.ParticlesPart;
 import dclib.epf.parts.TransformPart;
@@ -34,7 +36,10 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 				drawablePart.getSprite().draw(spriteBatch);
 			}
 			if (entity.has(ParticlesPart.class)) {
-				entity.get(ParticlesPart.class).getParticleEffect().draw(spriteBatch);
+				List<Attachment<ParticleEffect>> attachments = entity.get(ParticlesPart.class).getAttachments();
+				for (Attachment<ParticleEffect> attachment : attachments) {
+					attachment.getObject().draw(spriteBatch);
+				}
 			}
 		}
 		spriteBatch.end();

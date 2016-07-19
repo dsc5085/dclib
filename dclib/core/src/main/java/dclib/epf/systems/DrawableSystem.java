@@ -18,7 +18,7 @@ public final class DrawableSystem extends EntitySystem {
 	}
 	
 	@Override
-	public final void updateEntity(final float delta, final Entity entity) {
+	public final void update(final float delta, final Entity entity) {
 		if (entity.hasActive(DrawablePart.class) && entity.hasActive(TransformPart.class)) {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			DrawablePart drawablePart = entity.get(DrawablePart.class);
