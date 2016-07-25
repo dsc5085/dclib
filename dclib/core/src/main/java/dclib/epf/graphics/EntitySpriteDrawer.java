@@ -35,7 +35,7 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 				DrawablePart drawablePart = entity.get(DrawablePart.class);
 				drawablePart.getSprite().draw(spriteBatch);
 			}
-			if (entity.has(ParticlesPart.class)) {
+			if (entity.hasActive(ParticlesPart.class)) {
 				List<Attachment<ParticleEffect>> attachments = entity.get(ParticlesPart.class).getAttachments();
 				for (Attachment<ParticleEffect> attachment : attachments) {
 					attachment.getObject().draw(spriteBatch);

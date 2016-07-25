@@ -18,6 +18,7 @@ public final class InputUtils {
 	private InputUtils() {
 	}
 	
+	// TODO: Replace with Gdx.input cursor method
 	public static void setCursorVisible(final boolean isVisible) {
 		if (Gdx.app.getType() != ApplicationType.Desktop && Gdx.app instanceof LwjglApplication) {
 			return;
