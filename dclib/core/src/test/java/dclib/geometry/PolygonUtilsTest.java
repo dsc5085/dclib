@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import test.dclib.geometry.TestPolygonFactory;
+
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,40 +20,30 @@ public final class PolygonUtilsTest {
 	}
 
 	@Test
-	public void center_Polygon_ReturnsExpected() {
+	public void center_ReturnsExpected() {
 		float[] vertices = new float[] { 0, 0, 0, 2, 2, 4, 0, 4 };
 		Polygon polygon = new Polygon(vertices);
 		assertEquals(new Vector2(1, 2), PolygonUtils.center(polygon));
 	}
-	
+
 	@Test
-	public void relativeCenter_PivotAndSize_ReturnsExpected() {
+	public void relativeCenter_ReturnsExpected() {
 		Vector2 pivot = new Vector2(5, 5);
 		Vector2 size = new Vector2(3, 1);
 		assertEquals(new Vector2(3.5f, 4.5f), PolygonUtils.relativeCenter(pivot, size));
 	}
-	
+
 	@Test
 	public void toGlobal_LocalVectorAndPolygon_ReturnsExpected() {
 		Vector2 local = new Vector2(0, 1);
-		Polygon polygon = createPolygon();
+		Polygon polygon = TestPolygonFactory.createSimpleRectangle();
 		assertEquals(new Vector2(2, 1), PolygonUtils.toGlobal(local, polygon));
 	}
-	
+
 	@Test
 	public void toGlobal_LocalXYAndPolygon_ReturnsExpected() {
-		Polygon polygon = createPolygon();
+		Polygon polygon = TestPolygonFactory.createSimpleRectangle();
 		assertEquals(new Vector2(2, 1), PolygonUtils.toGlobal(0, 1, polygon));
 	}
-	
-	private Polygon createPolygon() {
-		float[] vertices = new float[] { 0, 0, 5, 0, 5, 2, 0, 2 };
-		Polygon polygon = new Polygon(vertices);
-		polygon.setOrigin(1, 1);
-		polygon.setScale(2, 2);
-		polygon.setPosition(1, 2);
-		polygon.setRotation(90);
-		return polygon;
-	}
-	
+
 }

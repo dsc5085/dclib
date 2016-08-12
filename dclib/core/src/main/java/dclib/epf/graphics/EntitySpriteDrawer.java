@@ -18,12 +18,12 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 
 	private final PolygonSpriteBatch spriteBatch;
 	private final Camera camera;
-	
+
 	public EntitySpriteDrawer(final PolygonSpriteBatch spriteBatch, final Camera camera) {
 		this.spriteBatch = spriteBatch;
 		this.camera = camera;
 	}
-	
+
 	@Override
 	public final void draw(final List<Entity> entities) {
 		final EntityZComparator entityZComparator = new EntityZComparator();
@@ -44,22 +44,22 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 		}
 		spriteBatch.end();
 	}
-	
+
 	private static class EntityZComparator implements Comparator<Entity> {
-		
-	    @Override
-	    public final int compare(final Entity e1, final Entity e2) {
-	    	return Float.compare(getValue(e1), getValue(e2));
-	    }
-	    
-	    private float getValue(final Entity entity) {
-	    	if (entity.hasActive(DrawablePart.class)) {
-	    		return entity.get(TransformPart.class).getZ();
-	    	} else {
-	    		return 0;
-	    	}
-	    }
-	    
+
+		@Override
+		public final int compare(final Entity e1, final Entity e2) {
+			return Float.compare(getValue(e1), getValue(e2));
+		}
+
+		private float getValue(final Entity entity) {
+			if (entity.hasActive(DrawablePart.class)) {
+				return entity.get(TransformPart.class).getZ();
+			} else {
+				return 0;
+			}
+		}
+
 	}
-	
+
 }
