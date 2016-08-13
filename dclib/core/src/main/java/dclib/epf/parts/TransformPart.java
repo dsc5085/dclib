@@ -88,7 +88,7 @@ public final class TransformPart {
 	}
 
 	public final void translate(final Vector2 offset) {
-		setPosition(getPosition().add(offset));
+		polygon.translate(offset.x, offset.y);
 	}
 
 }

@@ -18,12 +18,6 @@ public final class VectorUtilsTest {
 	}
 
 	@Test
-	public void lengthened_ReturnsExpected() {
-		Vector2 lengthened = VectorUtils.lengthened(new Vector2(5.2f, 5.2f), 1);
-		VectorTestUtils.assertEquals(0.70710678f, 0.70710678f, lengthened);
-	}
-
-	@Test
 	public void offset_ReturnsExpected() {
 		Vector2 vector1 = new Vector2(-4.3f, 2);
 		Vector2 vector2 = new Vector2(1.6f, -6.7f);

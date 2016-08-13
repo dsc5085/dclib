@@ -1,5 +1,6 @@
 package dclib.geometry;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,10 @@ public final class UnitConverter {
 
 	public UnitConverter(final float pixelsPerUnit) {
 		this(pixelsPerUnit, null, null);
+	}
+
+	public UnitConverter(final float pixelsPerUnit, final Camera camera) {
+		this(pixelsPerUnit, camera, new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 	}
 
 	public UnitConverter(final float pixelsPerUnit, final Camera camera, final Rectangle viewport) {
