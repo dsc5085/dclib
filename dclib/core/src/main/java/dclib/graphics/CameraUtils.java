@@ -30,11 +30,11 @@ public final class CameraUtils {
 		camera.update();
 	}
 
-	public static final void centerOn(final Entity entity, final UnitConverter unitConverter, final Camera camera) {
+	public static final void follow(final Entity entity, final UnitConverter unitConverter, final Camera camera) {
 		Vector2 worldViewportSize = unitConverter.toWorldUnits(camera.viewportWidth, camera.viewportHeight);
 		TransformPart transformPart = entity.get(TransformPart.class);
 		float newCameraX = transformPart.getCenter().x  - worldViewportSize.x / 2;
-		float newCameraY = transformPart.getPosition().y - transformPart.getSize().y;
+		float newCameraY = transformPart.getCenter().y - worldViewportSize.y / 2;
 		Rectangle viewport = new Rectangle(newCameraX, newCameraY, worldViewportSize.x, worldViewportSize.y);
 		CameraUtils.setViewport(camera, viewport, unitConverter.getPixelsPerUnit());
 		camera.update();

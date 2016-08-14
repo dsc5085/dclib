@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.PolygonFactory;
 import dclib.geometry.PolygonUtils;
-import dclib.geometry.VectorUtils;
 
 public final class TransformPart {
 
@@ -25,7 +23,7 @@ public final class TransformPart {
 	}
 
 	public final Polygon getPolygon() {
-		return PolygonFactory.copy(polygon);
+		return polygon;
 	}
 
 	public final float[] getTransformedVertices() {
@@ -56,11 +54,6 @@ public final class TransformPart {
 		return PolygonUtils.center(polygon);
 	}
 
-	public final void setCenter(final Vector2 center) {
-		Vector2 offset = VectorUtils.offset(getCenter(), center);
-		translate(offset);
-	}
-
 	public final Vector2 getOrigin() {
 		return new Vector2(polygon.getOriginX(), polygon.getOriginY());
 	}
@@ -75,12 +68,6 @@ public final class TransformPart {
 
 	public final void setRotation(final float degrees) {
 		polygon.setRotation(degrees);
-	}
-
-	public final void setCenteredRotation(final float degrees) {
-		Vector2 oldCenter = getCenter();
-		setRotation(degrees);
-		setCenter(oldCenter);
 	}
 
 	public final Rectangle getBoundingBox() {

@@ -25,20 +25,6 @@ public final class TransformPartTest {
 	}
 
 	@Test
-	public void setCenter_UpdatesCenter() {
-		TransformPart transformPart = createTransformPart();
-		transformPart.setCenter(new Vector2(1, 2));
-		VectorTestUtils.assertEquals(1, 2, transformPart.getCenter());
-	}
-
-	@Test
-	public void setCenteredRotation_DoesNotUpdateCenter() {
-		TransformPart transformPart = createTransformPart();
-		transformPart.setCenteredRotation(63);
-		VectorTestUtils.assertEquals(2, 6, transformPart.getCenter());
-	}
-
-	@Test
 	public void translate_UpdatesPosition() {
 		TransformPart transformPart = createTransformPart();
 		transformPart.translate(new Vector2(-9, 1.5f));

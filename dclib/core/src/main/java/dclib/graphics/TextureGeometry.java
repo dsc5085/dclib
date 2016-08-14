@@ -9,7 +9,7 @@ public final class TextureGeometry {
 
 	private TextureGeometry() {
 	}
-	
+
 	public static final float[] createConvexHull(final TextureRegion textureRegion) {
 		FloatArray points = new FloatArray();
 		Pixmap pixmap = TextureUtils.toPixmap(textureRegion);
@@ -26,15 +26,18 @@ public final class TextureGeometry {
 		addPointsToEmptyHull(hullPoints);
 		return hullPoints.toArray();
 	}
-	
+
 	private static void removeExtraPointsFromCompute(final FloatArray hullPoints) {
-		hullPoints.removeRange(hullPoints.size - 2, hullPoints.size - 1);
+		int numExtraPoints = Math.min(hullPoints.size, 2);
+		for (int i = 0; i < numExtraPoints; i++) {
+			hullPoints.removeIndex(hullPoints.size - 1);
+		}
 	}
-	
+
 	private static void addPointsToEmptyHull(final FloatArray hullPoints) {
 		if (hullPoints.size <= 0) {
 			hullPoints.addAll(0, 0, 1, 0, 1, 1, 0, 1);
 		}
 	}
-	
+
 }
