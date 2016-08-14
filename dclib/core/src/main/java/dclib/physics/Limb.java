@@ -10,27 +10,47 @@ import dclib.geometry.PolygonUtils;
 
 public final class Limb {
 
-	private final Polygon polygon;
-	private final Vector2 parentJointLocal;
-	private final List<Joint> joints;
+	private Polygon polygon;
+	private final List<Joint> joints = new ArrayList<Joint>();
 
-	public Limb(final Polygon polygon, final Vector2 parentJointLocal) {
-		this(polygon, parentJointLocal, new ArrayList<Joint>());
+	public Limb() {
+		this(new Polygon());
 	}
 
-	public Limb(final Polygon polygon, final Vector2 parentJointLocal, final List<Joint> joints) {
+	public Limb(final Polygon polygon) {
 		this.polygon = polygon;
-		this.parentJointLocal = parentJointLocal;
-		this.joints = joints;
+	}
+
+	public final Polygon getPolygon() {
+		return polygon;
+	}
+
+	public final void setPolygon(final Polygon polygon) {
+		this.polygon = polygon;
+	}
+
+	public final Limb addJoint(final Limb limb, final float parentLocalX, final float parentLocalY,
+			final float childLocalX, final float childLocalY, final float rotation) {
+		Joint joint = new Joint(limb, new Vector2(parentLocalX, parentLocalY), new Vector2(childLocalX, childLocalY),
+				rotation);
+		joints.add(joint);
+		update(joint);
+		return this;
 	}
 
 	public final void update() {
 		for (Joint joint : joints) {
-			Limb childLimb = joint.getLimb();
-			Vector2 jointToChildGlobal = PolygonUtils.toGlobal(joint.getLocal(), polygon);
-			PolygonUtils.setGlobal(childLimb.polygon, childLimb.parentJointLocal, jointToChildGlobal);
-			childLimb.update();
+			update(joint);
 		}
+	}
+
+	private void update(final Joint joint) {
+		Limb childLimb = joint.getLimb();
+		float childRotation = polygon.getRotation() + joint.getRotation();
+		childLimb.polygon.setRotation(childRotation);
+		Vector2 parentJointGlobal = PolygonUtils.toGlobal(joint.getParentLocal(), polygon);
+		PolygonUtils.setGlobal(childLimb.polygon, joint.getChildLocal(), parentJointGlobal);
+		childLimb.update();
 	}
 
 }

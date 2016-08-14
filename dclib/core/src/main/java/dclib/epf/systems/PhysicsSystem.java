@@ -66,7 +66,7 @@ public final class PhysicsSystem extends EntitySystem {
 	}
 
 	private void bounce(final MinimumTranslationVector translation, final TranslatePart translatePart) {
-		final float bounceDampening = 0.0001f;
+		final float bounceDampening = 0.001f;
 		Vector2 currentVelocity = translatePart.getVelocity();
 		if (translation.normal.x != 0) {
 			translatePart.setVelocityX(-currentVelocity.x * bounceDampening);
