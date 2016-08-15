@@ -1,6 +1,6 @@
 package dclib.epf.parts;
 
-import dclib.physics.Limb;
+import dclib.limb.Limb;
 
 public final class LimbsPart {
 

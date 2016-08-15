@@ -1,4 +1,4 @@
-package dclib.physics;
+package dclib.limb;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -7,7 +7,7 @@ public final class Joint {
 	private final Limb limb;
 	private final Vector2 parentLocal;
 	private final Vector2 childLocal;
-	private final float rotation;
+	private float rotation;
 
 	public Joint(final Limb limb, final Vector2 parentLocal, final Vector2 childLocal, final float rotation) {
 		this.limb = limb;
@@ -30,6 +30,10 @@ public final class Joint {
 
 	public final float getRotation() {
 		return rotation;
+	}
+
+	public final void setRotation(final float rotation) {
+		this.rotation = rotation;
 	}
 
 }

@@ -1,4 +1,4 @@
-package dclib.physics;
+package dclib.limb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,11 @@ public final class Limb {
 
 	public final Limb addJoint(final Limb limb, final float parentLocalX, final float parentLocalY,
 			final float childLocalX, final float childLocalY, final float rotation) {
-		Joint joint = new Joint(limb, new Vector2(parentLocalX, parentLocalY), new Vector2(childLocalX, childLocalY),
-				rotation);
+		return addJoint(new Joint(limb, new Vector2(parentLocalX, parentLocalY), new Vector2(childLocalX, childLocalY),
+				rotation));
+	}
+
+	public final Limb addJoint(final Joint joint) {
 		joints.add(joint);
 		update(joint);
 		return this;

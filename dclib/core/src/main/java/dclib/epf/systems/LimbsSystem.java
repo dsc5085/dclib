@@ -2,6 +2,7 @@ package dclib.epf.systems;
 
 import dclib.epf.Entity;
 import dclib.epf.EntitySystem;
+import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 
 public final class LimbsSystem extends EntitySystem {
@@ -10,6 +11,9 @@ public final class LimbsSystem extends EntitySystem {
 	public final void update(final float delta, final Entity entity) {
 		if (entity.hasActive(LimbsPart.class)) {
 			entity.get(LimbsPart.class).update();
+		}
+		if (entity.hasActive(LimbAnimationsPart.class)) {
+			entity.get(LimbAnimationsPart.class).update(delta);
 		}
 	}
 
