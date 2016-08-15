@@ -3,15 +3,19 @@ package dclib.epf.systems;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntitySystem;
+import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.PhysicsPart;
 import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
 import dclib.eventing.EventDelegate;
+import dclib.geometry.PolygonFactory;
+import dclib.geometry.VectorUtils;
 import dclib.physics.BodyCollidedEvent;
 import dclib.physics.BodyCollidedListener;
 import dclib.physics.BodyType;
@@ -36,7 +40,21 @@ public final class PhysicsSystem extends EntitySystem {
 	public final void update(final float delta, final Entity entity) {
 		if (entity.get(PhysicsPart.class).getBodyType() == BodyType.DYNAMIC) {
 			entity.get(TranslatePart.class).addVelocity(0, gravity * delta);
+			updateCollisionBounds(entity);
 			processBodyCollisions(entity);
+		}
+	}
+
+	private void updateCollisionBounds(final Entity dynamicEntity) {
+		if (dynamicEntity.has(LimbsPart.class)) {
+			LimbsPart limbsPart = dynamicEntity.get(LimbsPart.class);
+			Rectangle bounds = limbsPart.getCollisionBounds();
+			TransformPart transformPart = dynamicEntity.get(TransformPart.class);
+			float[] vertices = PolygonFactory.createRectangleVertices(bounds.width, bounds.height);
+			// TODO: Don't replace all vertices.  Just update size.
+			transformPart.getPolygon().setVertices(vertices);
+			Vector2 offset = VectorUtils.offset(bounds.getPosition(new Vector2()), transformPart.getPosition());
+			limbsPart.getRoot().translate(offset.x, offset.y);
 		}
 	}
 

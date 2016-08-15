@@ -9,10 +9,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public final class VertexUtils {
-	
+
 	private VertexUtils() {
 	}
-	
+
 	public static final float[] toArray(final List<Vector2> vertices) {
 		float[] verticesArray = new float[vertices.size() * 2];
 		for (int i = 0; i < vertices.size(); i++) {
@@ -22,7 +22,7 @@ public final class VertexUtils {
 		}
 		return verticesArray;
 	}
-	
+
 	public static final List<Vector2> toList(final float[] vertices) {
 		List<Vector2> verticesList = new ArrayList<Vector2>();
 		for (int i = 0; i < vertices.length / 2; i++) {
@@ -30,7 +30,7 @@ public final class VertexUtils {
 		}
 		return verticesList;
 	}
-	
+
 	/**
 	 * Converts to a polygon, setting the position based off the vertices' minimum x and y values.
 	 * @param vertices
@@ -43,7 +43,8 @@ public final class VertexUtils {
 		polygon.setPosition(position.x, position.y);
 		return polygon;
 	}
-	
+
+	// TODO: Don't make the initial values min/max based
 	public static final float minX(final float[] vertices) {
 		float minX = Float.MAX_VALUE;
 		for (int i = 0; i < vertices.length / 2; i++) {
@@ -51,7 +52,7 @@ public final class VertexUtils {
 		}
 		return minX;
 	}
-	
+
 	public static final float maxX(final float[] vertices) {
 		float maxX = -Float.MAX_VALUE;
 		for (int i = 0; i < vertices.length / 2; i++) {
@@ -59,7 +60,7 @@ public final class VertexUtils {
 		}
 		return maxX;
 	}
-	
+
 	public static final float minY(final float[] vertices) {
 		float minY = Float.MAX_VALUE;
 		for (int i = 0; i < vertices.length / 2; i++) {
@@ -67,7 +68,7 @@ public final class VertexUtils {
 		}
 		return minY;
 	}
-	
+
 	public static final float maxY(final float[] vertices) {
 		float maxY = -Float.MAX_VALUE;
 		for (int i = 0; i < vertices.length / 2; i++) {
@@ -75,7 +76,7 @@ public final class VertexUtils {
 		}
 		return maxY;
 	}
-	
+
 	public static final Rectangle bounds(final float[] vertices) {
 		float minX = minX(vertices);
 		float maxX = maxX(vertices);
@@ -83,7 +84,7 @@ public final class VertexUtils {
 		float maxY = maxY(vertices);
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
-	
+
 	public static float[] shift(final float[] vertices, final float shiftX, final float shiftY) {
 		float[] shiftedVertices = new float[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
@@ -95,18 +96,18 @@ public final class VertexUtils {
 		}
 		return shiftedVertices;
 	}
-	
+
 	public static float[] setSize(final float[] vertices, final Vector2 size) {
 		Vector2 verticesSize = VertexUtils.bounds(vertices).getSize(new Vector2());
 		float scaleX = size.x / verticesSize.x;
 		float scaleY = size.y / verticesSize.y;
 		return scale(vertices, scaleX, scaleY);
 	}
-	
+
 	public static float[] scale(final float[] vertices, final float scale) {
 		return scale(vertices, scale, scale);
 	}
-	
+
 	public static float[] scale(final float[] vertices, final float scaleX, final float scaleY) {
 		float[] scaledVertices = new float[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
@@ -118,7 +119,7 @@ public final class VertexUtils {
 		}
 		return scaledVertices;
 	}
-	
+
 	public static final float[] flipY(final float[] vertices) {
 		float[] flippedVertices = Arrays.copyOf(vertices, vertices.length);
 		float maxY = maxY(vertices);

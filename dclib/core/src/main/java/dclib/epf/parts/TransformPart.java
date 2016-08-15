@@ -11,15 +11,9 @@ public final class TransformPart {
 	private Polygon polygon = new Polygon();
 	private final float z;
 
-	/**
-	 * size stored for performance, rather than calculated on the fly when calling {@link #getSize()}
-	 */
-	private final Vector2 size;
-
 	public TransformPart(final Polygon polygon, final float z) {
 		this.polygon = polygon;
 		this.z = z;
-		size = PolygonUtils.size(polygon);
 	}
 
 	public final Polygon getPolygon() {
@@ -31,11 +25,7 @@ public final class TransformPart {
 	}
 
 	public final Vector2 getSize() {
-		return size;
-	}
-
-	public final Vector2 getBoundingSize() {
-		return polygon.getBoundingRectangle().getSize(new Vector2());
+		return PolygonUtils.size(polygon);
 	}
 
 	public final Vector2 getPosition() {
@@ -70,7 +60,7 @@ public final class TransformPart {
 		polygon.setRotation(degrees);
 	}
 
-	public final Rectangle getBoundingBox() {
+	public final Rectangle getBounds() {
 		return new Rectangle(polygon.getBoundingRectangle());
 	}
 

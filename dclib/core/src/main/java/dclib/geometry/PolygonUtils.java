@@ -1,6 +1,7 @@
 package dclib.geometry;
 
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public final class PolygonUtils {
@@ -9,11 +10,10 @@ public final class PolygonUtils {
 	}
 
 	public static final Vector2 size(final Polygon polygon) {
-		float rotation = polygon.getRotation();
-		polygon.setRotation(0);
-		Vector2 size = polygon.getBoundingRectangle().getSize(new Vector2());
-		polygon.setRotation(rotation);
-		return size;
+		Rectangle bounds = VertexUtils.bounds(polygon.getVertices());
+		bounds.width *= polygon.getScaleY();
+		bounds.height *= polygon.getScaleX();
+		return bounds.getSize(new Vector2());
 	}
 
 	public static final Vector2 center(final Polygon polygon) {

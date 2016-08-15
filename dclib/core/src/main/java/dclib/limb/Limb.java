@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.PolygonUtils;
 
 public final class Limb {
 
-	private Polygon polygon;
+	private final Polygon polygon;
 	private final List<Joint> joints = new ArrayList<Joint>();
 
 	public Limb() {
@@ -21,12 +22,12 @@ public final class Limb {
 		this.polygon = polygon;
 	}
 
-	public final Polygon getPolygon() {
-		return polygon;
+	public final Rectangle getBounds() {
+		return new Rectangle(polygon.getBoundingRectangle());
 	}
 
-	public final void setPolygon(final Polygon polygon) {
-		this.polygon = polygon;
+	public final void translate(final float x, final float y) {
+		polygon.translate(x, y);
 	}
 
 	public final Limb addJoint(final Limb limb, final float parentLocalX, final float parentLocalY,
