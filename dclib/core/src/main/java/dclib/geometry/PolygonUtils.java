@@ -11,8 +11,8 @@ public final class PolygonUtils {
 
 	public static final Vector2 size(final Polygon polygon) {
 		Rectangle bounds = VertexUtils.bounds(polygon.getVertices());
-		bounds.width *= polygon.getScaleY();
-		bounds.height *= polygon.getScaleX();
+		bounds.width *= polygon.getScaleX();
+		bounds.height *= polygon.getScaleY();
 		return bounds.getSize(new Vector2());
 	}
 

@@ -24,6 +24,10 @@ public final class TransformPart {
 		return polygon.getTransformedVertices();
 	}
 
+	public final Vector2 getScale() {
+		return new Vector2(polygon.getScaleX(), polygon.getScaleY());
+	}
+
 	public final Vector2 getSize() {
 		return PolygonUtils.size(polygon);
 	}

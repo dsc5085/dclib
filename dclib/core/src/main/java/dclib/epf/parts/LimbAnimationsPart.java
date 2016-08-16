@@ -1,23 +1,23 @@
 package dclib.epf.parts;
 
-import java.util.List;
+import java.util.Map;
 
 import dclib.limb.LimbAnimation;
 
 public final class LimbAnimationsPart {
 
-	private final List<LimbAnimation> animations;
+	private final Map<String, LimbAnimation> animations;
 
-	public LimbAnimationsPart(final List<LimbAnimation> animations) {
+	public LimbAnimationsPart(final Map<String, LimbAnimation> animations) {
 		this.animations = animations;
 	}
 
-	public final LimbAnimation get(final int index) {
-		return animations.get(index);
+	public final LimbAnimation get(final String key) {
+		return animations.get(key);
 	}
 
 	public final void update(final float delta) {
-		for (LimbAnimation animation : animations) {
+		for (LimbAnimation animation : animations.values()) {
 			animation.update(delta);
 		}
 	}
