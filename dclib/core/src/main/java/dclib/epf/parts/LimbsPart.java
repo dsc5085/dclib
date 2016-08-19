@@ -12,6 +12,8 @@ public final class LimbsPart {
 
 	private final Limb root;
 	private final List<Limb> collisionLimbs;
+	private boolean flipX = false;
+	private boolean flipY = false;
 
 	public LimbsPart(final Limb root, final List<Limb> collisionLimbs) {
 		this.root = root;
@@ -20,6 +22,14 @@ public final class LimbsPart {
 
 	public final Limb getRoot() {
 		return root;
+	}
+
+	public final void setFlipX(final boolean flipX) {
+		this.flipX = flipX;
+	}
+
+	public final void setFlipY(final boolean flipY) {
+		this.flipY = flipY;
 	}
 
 	public final Rectangle getCollisionBounds() {
@@ -36,7 +46,7 @@ public final class LimbsPart {
 	}
 
 	public final void update() {
-		root.update();
+		root.update(flipX, flipY);
 	}
 
 }
