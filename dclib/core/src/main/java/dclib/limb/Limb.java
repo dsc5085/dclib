@@ -45,29 +45,22 @@ public final class Limb {
 		return this;
 	}
 
-	public final void update(final boolean flipX, final boolean flipY) {
+	public final void update(final boolean flip, final float flipAxisAngle) {
 		for (Joint joint : joints) {
-			update(joint, flipX, flipY);
+			update(joint, flip, flipAxisAngle);
 		}
 	}
 
-	private void update(final Joint joint, final boolean flipX, final boolean flipY) {
+	private void update(final Joint joint, final boolean flip, final float flipAxisAngle) {
 		Limb childLimb = joint.getLimb();
 		float childRotation = polygon.getRotation() + joint.getRotation();
-		if (flipX) {
-			childRotation = getFlippedRotation(childRotation, 90);
-		}
-		if (flipY) {
-			childRotation = getFlippedRotation(childRotation, 0);
+		if (flip) {
+			childRotation = flipAxisAngle * 2 - childRotation;
 		}
 		childLimb.polygon.setRotation(childRotation);
 		Vector2 parentJointGlobal = PolygonUtils.toGlobal(joint.getParentLocal(), polygon);
 		PolygonUtils.setGlobal(childLimb.polygon, joint.getChildLocal(), parentJointGlobal);
-		childLimb.update(flipX, flipY);
-	}
-
-	private float getFlippedRotation(final float childRotation, final float flipAxisAngle) {
-		return flipAxisAngle * 2 - childRotation;
+		childLimb.update(flip, childRotation);
 	}
 
 }

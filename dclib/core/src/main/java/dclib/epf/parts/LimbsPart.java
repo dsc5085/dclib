@@ -46,7 +46,16 @@ public final class LimbsPart {
 	}
 
 	public final void update() {
-		root.update(flipX, flipY);
+		// TODO: Need to be able to handle both flipX and flipY at the same time
+		boolean flip = flipX || flipY;
+		float flipAxisAngle = Float.NaN;
+		if (flipX) {
+			flipAxisAngle = 90;
+		}
+		if (flipY) {
+			flipAxisAngle = 0;
+		}
+		root.update(flip, flipAxisAngle);
 	}
 
 }
