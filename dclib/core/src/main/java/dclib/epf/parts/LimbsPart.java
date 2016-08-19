@@ -2,6 +2,7 @@ package dclib.epf.parts;
 
 import java.util.List;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -47,15 +48,23 @@ public final class LimbsPart {
 
 	public final void update() {
 		// TODO: Need to be able to handle both flipX and flipY at the same time
-		boolean flip = flipX || flipY;
-		float flipAxisAngle = Float.NaN;
-		if (flipX) {
-			flipAxisAngle = 90;
+		float flipAxisAngle = flipX ? 90 : 0;
+		flipDescendantPolygons(flipX, flipY);
+		root.update(flipX || flipY, flipAxisAngle);
+	}
+
+	private void flipDescendantPolygons(final boolean flipX, final boolean flipY) {
+		for (Polygon polygon : root.getDescendants()) {
+			float scaleY = Math.abs(polygon.getScaleY());
+			if (flipX) {
+				scaleY *= -1;
+			}
+			float scaleX = Math.abs(polygon.getScaleX());
+			if (flipY) {
+				scaleX *= -1;
+			}
+			polygon.setScale(scaleX, scaleY);
 		}
-		if (flipY) {
-			flipAxisAngle = 0;
-		}
-		root.update(flip, flipAxisAngle);
 	}
 
 }

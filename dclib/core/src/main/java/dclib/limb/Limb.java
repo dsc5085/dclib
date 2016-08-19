@@ -30,6 +30,16 @@ public final class Limb {
 		return new Rectangle(polygon.getBoundingRectangle());
 	}
 
+	public final List<Polygon> getDescendants() {
+		List<Polygon> descendants = new ArrayList<Polygon>();
+		descendants.add(polygon);
+		for (Joint joint : joints) {
+			List<Polygon> newDescendants = joint.getLimb().getDescendants();
+			descendants.addAll(newDescendants);
+		}
+		return descendants;
+	}
+
 	public final void translate(final float x, final float y) {
 		polygon.translate(x, y);
 	}
