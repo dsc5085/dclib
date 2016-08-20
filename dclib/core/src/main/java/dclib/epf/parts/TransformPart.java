@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.PolygonUtils;
+import dclib.geometry.VectorUtils;
 
 public final class TransformPart {
 
@@ -62,6 +63,13 @@ public final class TransformPart {
 
 	public final void setRotation(final float degrees) {
 		polygon.setRotation(degrees);
+	}
+
+	public final void setCenteredRotation(final float degrees) {
+		Vector2 oldCenter = getCenter();
+		setRotation(degrees);
+		Vector2 offset = VectorUtils.offset(oldCenter, getCenter());
+		polygon.translate(offset.x, offset.y);
 	}
 
 	public final Rectangle getBounds() {
