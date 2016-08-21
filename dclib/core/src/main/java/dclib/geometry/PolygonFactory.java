@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ShortArray;
 public final class PolygonFactory {
 
 	private static final EarClippingTriangulator triangulator = new EarClippingTriangulator();
-	
+
 	private PolygonFactory() {
 	}
 
@@ -23,16 +23,16 @@ public final class PolygonFactory {
 		copy.setScale(polygon.getScaleX(), polygon.getScaleY());
 		return copy;
 	}
-	
+
 	public static final List<float[]> triangulate(final float[] vertices) {
 		List<float[]> trianglesVertices = new ArrayList<float[]>();
         ShortArray trianglesVerticesIndexes = triangulator.computeTriangles(vertices);
-        final int numVerticesInTriangle = 3;
-        for (int i = 0; i < trianglesVerticesIndexes.size / numVerticesInTriangle; i++)
+        int numVertices = PolygonUtils.NUM_TRIANGLE_VERTICES;
+        for (int i = 0; i < trianglesVerticesIndexes.size / numVertices; i++)
         {
-        	float[] triangleVertices = new float[numVerticesInTriangle * 2]; 
-        	for (int j = 0; j < numVerticesInTriangle; j++) {
-        		int verticesStartIndex = trianglesVerticesIndexes.get(i * numVerticesInTriangle + j) * 2;
+        	float[] triangleVertices = new float[numVertices * 2];
+        	for (int j = 0; j < numVertices; j++) {
+        		int verticesStartIndex = trianglesVerticesIndexes.get(i * numVertices + j) * 2;
         		int triangleVerticesStartIndex = j * 2;
             	triangleVertices[triangleVerticesStartIndex] = vertices[verticesStartIndex];
             	triangleVertices[triangleVerticesStartIndex + 1] = vertices[verticesStartIndex + 1];
@@ -41,18 +41,18 @@ public final class PolygonFactory {
         }
         return trianglesVertices;
 	}
-	
+
 	public static final float[] createRectangleVertices(final float width, final float height) {
 		return createRectangleVertices(new Rectangle(0, 0, width, height));
 	}
-	
+
 	public static final float[] createRectangleVertices(final Rectangle rectangle) {
-		return new float[] { 
-			rectangle.x, rectangle.y, 
-			rectangle.x + rectangle.width, rectangle.y, 
-			rectangle.x + rectangle.width, rectangle.y + rectangle.height, 
+		return new float[] {
+			rectangle.x, rectangle.y,
+			rectangle.x + rectangle.width, rectangle.y,
+			rectangle.x + rectangle.width, rectangle.y + rectangle.height,
 			rectangle.x, rectangle.y + rectangle.height
 		};
 	}
-	
+
 }
