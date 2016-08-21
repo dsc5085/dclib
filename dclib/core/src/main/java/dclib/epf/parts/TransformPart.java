@@ -68,8 +68,8 @@ public final class TransformPart {
 	public final void setCenteredRotation(final float degrees) {
 		Vector2 oldCenter = getCenter();
 		setRotation(degrees);
-		Vector2 offset = VectorUtils.offset(oldCenter, getCenter());
-		polygon.translate(offset.x, offset.y);
+		Vector2 offset = VectorUtils.offset(getCenter(), oldCenter);
+		translate(offset);
 	}
 
 	public final Rectangle getBounds() {
