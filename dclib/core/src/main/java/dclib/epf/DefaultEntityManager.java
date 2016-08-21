@@ -13,34 +13,34 @@ import dclib.eventing.EventDelegate;
  *
  */
 public final class DefaultEntityManager implements EntityManager {
-	
+
 	private final EventDelegate<EntityAddedListener> entityAddedDelegate = new EventDelegate<EntityAddedListener>();
 	private final EventDelegate<EntityRemovedListener> entityRemovedDelegate
 	= new EventDelegate<EntityRemovedListener>();
-	
+
 	private final List<Entity> entities = new ArrayList<Entity>();
-	
+
 	public DefaultEntityManager(final Entity...entities) {
 		for (Entity entity : entities) {
 			add(entity);
 		}
 	}
-	
+
 	@Override
 	public final void addEntityAddedListener(final EntityAddedListener listener) {
 		entityAddedDelegate.listen(listener);
 	}
-	
+
 	@Override
 	public final void addEntityRemovedListener(final EntityRemovedListener listener) {
 		entityRemovedDelegate.listen(listener);
 	}
-	
+
 	@Override
 	public final boolean contains(final Entity entity) {
 		return entities.contains(entity);
 	}
-	
+
 	/**
 	 * @return all managed entities
 	 */
@@ -48,7 +48,7 @@ public final class DefaultEntityManager implements EntityManager {
 	public final List<Entity> getAll() {
 		return new ArrayList<Entity>(entities);
 	}
-	
+
 	/**
 	 * Adds and manages an entity.
 	 * @param entity the entity to add and manage
@@ -62,7 +62,7 @@ public final class DefaultEntityManager implements EntityManager {
 		entities.add(entity);
 		entityAddedDelegate.notify(new EntityAddedEvent(entity));
 	}
-	
+
 	/**
 	 * Adds the entities in the passed in collection.
 	 * @param entities entities to add and manage
@@ -73,7 +73,7 @@ public final class DefaultEntityManager implements EntityManager {
 			add(entity);
 		}
 	}
-	
+
 	/**
 	 * Removes an entity.
 	 * @param entity entity to remove
@@ -96,7 +96,7 @@ public final class DefaultEntityManager implements EntityManager {
 			remove(entity);
 		}
 	}
-	
+
 	@Override
 	public final void dispose() {
 		Iterator<Entity> it = entities.iterator();
@@ -106,5 +106,5 @@ public final class DefaultEntityManager implements EntityManager {
 			it.remove();
 		}
 	}
-	
+
 }

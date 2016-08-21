@@ -36,6 +36,7 @@ public final class TextureGeometry {
 				}
 			}
 		}
+		pixmap.dispose();
 		return points;
 	}
 

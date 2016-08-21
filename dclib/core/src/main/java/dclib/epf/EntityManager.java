@@ -14,5 +14,5 @@ public interface EntityManager {
 	void remove(final Entity entity);
 	void removeAll(final Collection<Entity> entities);
 	void dispose();
-	
+
 }
