@@ -1,5 +1,8 @@
 package dclib.epf.systems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
@@ -38,18 +41,19 @@ public final class PhysicsSystem extends EntitySystem {
 
 	@Override
 	public final void update(final float delta, final Entity entity) {
-		if (entity.get(PhysicsPart.class).getBodyType() == BodyType.DYNAMIC) {
+		BodyType bodyType = entity.get(PhysicsPart.class).getBodyType();
+		if (bodyType == BodyType.DYNAMIC) {
+			processBodyCollisions(entity);
 			entity.get(TranslatePart.class).addVelocity(0, gravity * delta);
 			updateCollisionBounds(entity);
-			processBodyCollisions(entity);
 		}
 	}
 
-	private void updateCollisionBounds(final Entity dynamicEntity) {
-		if (dynamicEntity.has(LimbsPart.class)) {
-			LimbsPart limbsPart = dynamicEntity.get(LimbsPart.class);
+	private void updateCollisionBounds(final Entity entity) {
+		if (entity.has(LimbsPart.class)) {
+			LimbsPart limbsPart = entity.get(LimbsPart.class);
 			Rectangle bounds = limbsPart.getCollisionBounds();
-			TransformPart transformPart = dynamicEntity.get(TransformPart.class);
+			TransformPart transformPart = entity.get(TransformPart.class);
 			float[] vertices = PolygonFactory.createRectangleVertices(bounds.width, bounds.height);
 			// TODO: Don't replace all vertices.  Just update size.
 			transformPart.getPolygon().setVertices(vertices);
@@ -58,38 +62,46 @@ public final class PhysicsSystem extends EntitySystem {
 		}
 	}
 
-	private void processBodyCollisions(final Entity dynamicEntity) {
+	private void processBodyCollisions(final Entity entity) {
+		List<Vector2> offsets = new ArrayList<Vector2>();
 		for (Entity staticEntity : entityManager.getAll()) {
 			if (staticEntity.get(PhysicsPart.class).getBodyType() == BodyType.STATIC) {
 				Polygon staticPolygon = staticEntity.get(TransformPart.class).getPolygon();
-				processBodyCollision(dynamicEntity, staticPolygon);
+				Vector2 offset = getTranslationOffset(entity, staticPolygon);
+				if (offset.len() > 0) {
+					bounce(offset, entity.get(TranslatePart.class));
+					entity.get(TransformPart.class).translate(offset);
+					offsets.add(offset);
+				}
 			}
+		}
+		if (!offsets.isEmpty()) {
+			bodyCollidedDelegate.notify(new BodyCollidedEvent(entity, offsets));
 		}
 	}
 
-	private void processBodyCollision(final Entity dynamicEntity, final Polygon staticPolygon) {
-		TransformPart transformPart = dynamicEntity.get(TransformPart.class);
+	private Vector2 getTranslationOffset(final Entity entity, final Polygon staticPolygon) {
+		Vector2 offset = new Vector2();
+		TransformPart transformPart = entity.get(TransformPart.class);
 		MinimumTranslationVector translation = new MinimumTranslationVector();
 		if (Intersector.overlapConvexPolygons(transformPart.getPolygon(), staticPolygon, translation)) {
-			TranslatePart translatePart = dynamicEntity.get(TranslatePart.class);
+			TranslatePart translatePart = entity.get(TranslatePart.class);
 			Vector2 currentVelocity = translatePart.getVelocity();
 			float normalXSign = -Math.signum(currentVelocity.x);
 			float normalYSign = -Math.signum(currentVelocity.y);
-			Vector2 offset = translation.normal.cpy().scl(normalXSign, normalYSign);
+			offset = translation.normal.cpy().scl(normalXSign, normalYSign);
 			offset.setLength(translation.depth);
-			bounce(translation, translatePart);
-			bodyCollidedDelegate.notify(new BodyCollidedEvent(dynamicEntity, offset));
-			transformPart.translate(offset);
 		}
+		return offset;
 	}
 
-	private void bounce(final MinimumTranslationVector translation, final TranslatePart translatePart) {
+	private void bounce(final Vector2 offset, final TranslatePart translatePart) {
 		final float bounceDampening = 0.001f;
 		Vector2 currentVelocity = translatePart.getVelocity();
-		if (translation.normal.x != 0) {
+		if (offset.x != 0) {
 			translatePart.setVelocityX(-currentVelocity.x * bounceDampening);
 		}
-		if (translation.normal.y != 0) {
+		if (offset.y != 0) {
 			translatePart.setVelocityY(-currentVelocity.y * bounceDampening);
 		}
 	}
