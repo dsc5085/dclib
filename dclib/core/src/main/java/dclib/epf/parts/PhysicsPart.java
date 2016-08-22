@@ -8,6 +8,7 @@ public final class PhysicsPart {
 
 	private final BodyType bodyType;
 	private final int[] collisionGroups;
+	private float gravityScale = 1;
 
 	public <E extends Enum<E>> PhysicsPart(final BodyType bodyType, final E[] collisionGroups) {
 		this.bodyType = bodyType;
@@ -19,6 +20,14 @@ public final class PhysicsPart {
 
 	public final BodyType getBodyType() {
 		return bodyType;
+	}
+
+	public final float getGravityScale() {
+		return gravityScale;
+	}
+
+	public final void setGravityScale(final float gravityScale) {
+		this.gravityScale = gravityScale;
 	}
 
 	public final <E extends Enum<E>> boolean inCollisionGroups(final E collisionGroup) {

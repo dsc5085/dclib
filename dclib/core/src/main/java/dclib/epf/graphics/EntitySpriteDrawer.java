@@ -6,15 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityAddedListener;
 import dclib.epf.EntityManager;
-import dclib.epf.parts.Attachment;
 import dclib.epf.parts.DrawablePart;
-import dclib.epf.parts.ParticlesPart;
 import dclib.epf.parts.TransformPart;
 
 public final class EntitySpriteDrawer implements EntityDrawer {
@@ -56,12 +53,6 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 		if (entity.hasActive(DrawablePart.class)) {
 			DrawablePart drawablePart = entity.get(DrawablePart.class);
 			drawablePart.getSprite().draw(spriteBatch);
-		}
-		if (entity.hasActive(ParticlesPart.class)) {
-			List<Attachment<ParticleEffect>> attachments = entity.get(ParticlesPart.class).getAttachments();
-			for (Attachment<ParticleEffect> attachment : attachments) {
-				attachment.getObject().draw(spriteBatch);
-			}
 		}
 	}
 

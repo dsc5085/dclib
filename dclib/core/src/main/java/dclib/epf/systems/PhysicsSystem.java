@@ -41,10 +41,10 @@ public final class PhysicsSystem extends EntitySystem {
 
 	@Override
 	public final void update(final float delta, final Entity entity) {
-		BodyType bodyType = entity.get(PhysicsPart.class).getBodyType();
-		if (bodyType == BodyType.DYNAMIC) {
+		PhysicsPart physicsPart = entity.get(PhysicsPart.class);
+		if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
 			processBodyCollisions(entity);
-			entity.get(TranslatePart.class).addVelocity(0, gravity * delta);
+			entity.get(TranslatePart.class).addVelocity(0, gravity * physicsPart.getGravityScale() * delta);
 			updateCollisionBounds(entity);
 		}
 	}
