@@ -18,7 +18,7 @@ import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
 import dclib.eventing.EventDelegate;
 import dclib.geometry.PolygonFactory;
-import dclib.geometry.VectorUtils;
+import dclib.geometry.RectangleUtils;
 import dclib.physics.BodyCollidedEvent;
 import dclib.physics.BodyCollidedListener;
 import dclib.physics.BodyType;
@@ -44,33 +44,23 @@ public final class PhysicsSystem extends EntitySystem {
 		PhysicsPart physicsPart = entity.get(PhysicsPart.class);
 		if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
 			processBodyCollisions(entity);
-			entity.get(TranslatePart.class).addVelocity(0, gravity * physicsPart.getGravityScale() * delta);
-			updateCollisionBounds(entity);
-		}
-	}
-
-	private void updateCollisionBounds(final Entity entity) {
-		if (entity.has(LimbsPart.class)) {
-			LimbsPart limbsPart = entity.get(LimbsPart.class);
-			Rectangle bounds = limbsPart.getCollisionBounds();
-			TransformPart transformPart = entity.get(TransformPart.class);
-			float[] vertices = PolygonFactory.createRectangleVertices(bounds.width, bounds.height);
-			// TODO: Don't replace all vertices.  Just update size.
-			transformPart.getPolygon().setVertices(vertices);
-			Vector2 offset = VectorUtils.offset(bounds.getPosition(new Vector2()), transformPart.getPosition());
-			limbsPart.getRoot().translate(offset.x, offset.y);
+			float velocityY = gravity * physicsPart.getGravityScale() * delta;
+			entity.get(TranslatePart.class).addVelocity(0, velocityY);
 		}
 	}
 
 	private void processBodyCollisions(final Entity entity) {
 		List<Vector2> offsets = new ArrayList<Vector2>();
+		Polygon collisionPolygon = getCollisionPolygon(entity);
 		for (Entity staticEntity : entityManager.getAll()) {
+			TransformPart transformPart = entity.get(TransformPart.class);
 			if (staticEntity.get(PhysicsPart.class).getBodyType() == BodyType.STATIC) {
 				Polygon staticPolygon = staticEntity.get(TransformPart.class).getPolygon();
-				Vector2 offset = getTranslationOffset(entity, staticPolygon);
+				Vector2 offset = getTranslationOffset(collisionPolygon, staticPolygon);
 				if (offset.len() > 0) {
 					bounce(offset, entity.get(TranslatePart.class));
-					entity.get(TransformPart.class).translate(offset);
+					collisionPolygon.translate(offset.x, offset.y);
+					transformPart.translate(offset);
 					offsets.add(offset);
 				}
 			}
@@ -80,16 +70,37 @@ public final class PhysicsSystem extends EntitySystem {
 		}
 	}
 
-	private Vector2 getTranslationOffset(final Entity entity, final Polygon staticPolygon) {
+	private Polygon getCollisionPolygon(final Entity entity) {
+		Polygon boundsPolygon;
+		if (entity.has(LimbsPart.class)) {
+			List<Polygon> collisionPolygons = entity.get(LimbsPart.class).getCollisionPolygons();
+			boundsPolygon = getBoundsPolygon(collisionPolygons);
+		} else {
+			boundsPolygon = entity.get(TransformPart.class).getPolygon();
+		}
+		return boundsPolygon;
+	}
+
+	public final Polygon getBoundsPolygon(final List<Polygon> polygons) {
+		Vector2 min = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
+		Vector2 max = new Vector2(-Float.MAX_VALUE, -Float.MAX_VALUE);
+		for (Polygon polygon : polygons) {
+			Rectangle bounds = polygon.getBoundingRectangle();
+			min.x = Math.min(min.x, bounds.x);
+			min.y = Math.min(min.y, bounds.y);
+			max.x = Math.max(max.x, RectangleUtils.right(bounds));
+			max.y = Math.max(max.y, RectangleUtils.top(bounds));
+		}
+		Rectangle bounds = new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
+		float[] vertices = PolygonFactory.createRectangleVertices(bounds);
+		return new Polygon(vertices);
+	}
+
+	private Vector2 getTranslationOffset(final Polygon colliderPolygon, final Polygon staticPolygon) {
 		Vector2 offset = new Vector2();
-		TransformPart transformPart = entity.get(TransformPart.class);
 		MinimumTranslationVector translation = new MinimumTranslationVector();
-		if (Intersector.overlapConvexPolygons(transformPart.getPolygon(), staticPolygon, translation)) {
-			TranslatePart translatePart = entity.get(TranslatePart.class);
-			Vector2 currentVelocity = translatePart.getVelocity();
-			float normalXSign = -Math.signum(currentVelocity.x);
-			float normalYSign = -Math.signum(currentVelocity.y);
-			offset = translation.normal.cpy().scl(normalXSign, normalYSign);
+		if (Intersector.overlapConvexPolygons(colliderPolygon, staticPolygon, translation)) {
+			offset = translation.normal.cpy().scl(translation.depth);
 			offset.setLength(translation.depth);
 		}
 		return offset;

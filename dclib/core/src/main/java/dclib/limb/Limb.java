@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.PolygonUtils;
@@ -26,16 +25,11 @@ public final class Limb {
 		return polygon;
 	}
 
-	public final Rectangle getBounds() {
-		return new Rectangle(polygon.getBoundingRectangle());
-	}
-
 	public final List<Polygon> getDescendants() {
 		List<Polygon> descendants = new ArrayList<Polygon>();
-		descendants.add(polygon);
 		for (Joint joint : joints) {
-			List<Polygon> newDescendants = joint.getLimb().getDescendants();
-			descendants.addAll(newDescendants);
+			descendants.add(joint.getLimb().polygon);
+			descendants.addAll(joint.getLimb().getDescendants());
 		}
 		return descendants;
 	}
