@@ -1,5 +1,6 @@
 package dclib.util;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 
 public final class FloatRange {
@@ -30,6 +31,10 @@ public final class FloatRange {
 
 	public final float clamp(final float value) {
 		return MathUtils.clamp(value, min, max);
+	}
+
+	public final float interpolate(final float value) {
+		return Interpolation.linear.apply(min, max, value);
 	}
 
 	public final float random() {
