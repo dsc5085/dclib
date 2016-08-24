@@ -43,7 +43,8 @@ public final class LimbsPart {
 	}
 
 	private void flipDescendantPolygons(final boolean flipX, final boolean flipY) {
-		for (Polygon polygon : root.getDescendants()) {
+		for (Limb limb : root.getDescendants()) {
+			Polygon polygon = limb.getPolygon();
 			float scaleY = Math.abs(polygon.getScaleY());
 			if (flipX) {
 				scaleY *= -1;

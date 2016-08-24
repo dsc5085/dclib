@@ -10,8 +10,12 @@ import dclib.geometry.PolygonUtils;
 
 public final class Limb {
 
-	private final Polygon polygon;
+	private Polygon polygon;
 	private final List<Joint> joints = new ArrayList<Joint>();
+
+	public Limb() {
+		polygon = null;
+	}
 
 	public Limb(final Polygon polygon) {
 		this.polygon = polygon;
@@ -21,10 +25,14 @@ public final class Limb {
 		return polygon;
 	}
 
-	public final List<Polygon> getDescendants() {
-		List<Polygon> descendants = new ArrayList<Polygon>();
+	public final void setPolygon(final Polygon polygon) {
+		this.polygon = polygon;
+	}
+
+	public final List<Limb> getDescendants() {
+		List<Limb> descendants = new ArrayList<Limb>();
 		for (Joint joint : joints) {
-			descendants.add(joint.getLimb().polygon);
+			descendants.add(joint.getLimb());
 			descendants.addAll(joint.getLimb().getDescendants());
 		}
 		return descendants;
