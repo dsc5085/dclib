@@ -42,6 +42,11 @@ public final class PolygonFactory {
         return trianglesVertices;
 	}
 
+	public static final Polygon createDefault() {
+		float[] vertices = new float[] { 0, 0, 1, 0, 0, 1 };
+		return new Polygon(vertices);
+	}
+
 	public static final float[] createRectangleVertices(final float width, final float height) {
 		return createRectangleVertices(new Rectangle(0, 0, width, height));
 	}

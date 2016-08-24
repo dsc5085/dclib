@@ -13,10 +13,6 @@ public final class Limb {
 	private final Polygon polygon;
 	private final List<Joint> joints = new ArrayList<Joint>();
 
-	public Limb() {
-		this(new Polygon());
-	}
-
 	public Limb(final Polygon polygon) {
 		this.polygon = polygon;
 	}
