@@ -14,7 +14,7 @@ public final class DefaultEntityManagerTest {
 
 	private Entity entity;
 	private EntityManager entityManager;
-	
+
 	@Test
 	public void add_Entity_SetsEntityToActive() {
 		setupAddTest();
@@ -35,7 +35,7 @@ public final class DefaultEntityManagerTest {
 		EntityAddedListener listener = mock(EntityAddedListener.class);
 		entityManager.addEntityAddedListener(listener);
 		entityManager.add(entity);
-		verify(listener).created(entity);
+		verify(listener).added(entity);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -52,7 +52,7 @@ public final class DefaultEntityManagerTest {
 		entityManager.addAll(entities);
 		assertTrue(entityManager.contains(entity));
 	}
-	
+
 	@Test
 	public void remove_Entity_SetsEntityToInactive() {
 		setupRemoveTest();
@@ -75,15 +75,15 @@ public final class DefaultEntityManagerTest {
 		entityManager.remove(entity);
 		verify(listener).removed(entity);
 	}
-	
+
 	private void setupAddTest() {
 		entity = new Entity();
 		entityManager = new DefaultEntityManager();
 	}
-	
+
 	private void setupRemoveTest() {
 		entity = new Entity();
 		entityManager = new DefaultEntityManager(entity);
 	}
-	
+
 }

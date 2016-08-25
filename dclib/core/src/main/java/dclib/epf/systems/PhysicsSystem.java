@@ -52,21 +52,34 @@ public final class PhysicsSystem extends EntitySystem {
 	private void processBodyCollisions(final Entity entity) {
 		List<Vector2> offsets = new ArrayList<Vector2>();
 		Polygon collisionPolygon = getCollisionPolygon(entity);
-		for (Entity staticEntity : entityManager.getAll()) {
-			TransformPart transformPart = entity.get(TransformPart.class);
-			if (staticEntity.get(PhysicsPart.class).getBodyType() == BodyType.STATIC) {
-				Polygon staticPolygon = staticEntity.get(TransformPart.class).getPolygon();
-				Vector2 offset = getTranslationOffset(collisionPolygon, staticPolygon);
-				if (offset.len() > 0) {
-					bounce(offset, entity.get(TranslatePart.class));
-					collisionPolygon.translate(offset.x, offset.y);
-					transformPart.translate(offset);
-					offsets.add(offset);
-				}
+		for (Entity other : entityManager.getAll()) {
+			Vector2 offset = processStaticCollision(entity, other, collisionPolygon);
+			if (offset.len() > 0) {
+				offsets.add(offset);
 			}
 		}
+		processOffsets(entity, offsets);
+	}
+
+	private Vector2 processStaticCollision(final Entity entity, final Entity other, final Polygon collisionPolygon) {
+		TransformPart transformPart = entity.get(TransformPart.class);
+		if (other.get(PhysicsPart.class).getBodyType() == BodyType.STATIC) {
+			Polygon otherPolygon = other.get(TransformPart.class).getPolygon();
+			Vector2 offset = getTranslationOffset(collisionPolygon, otherPolygon);
+			if (offset.len() > 0) {
+				collisionPolygon.translate(offset.x, offset.y);
+				transformPart.translate(offset);
+				return offset;
+			}
+		}
+		return new Vector2();
+	}
+
+	private void processOffsets(final Entity entity, final List<Vector2> offsets) {
 		if (!offsets.isEmpty()) {
 			bodyCollidedDelegate.notify(new BodyCollidedEvent(entity, offsets));
+			Vector2 lastOffset = offsets.get(offsets.size() - 1);
+			bounce(lastOffset, entity.get(TranslatePart.class));
 		}
 	}
 

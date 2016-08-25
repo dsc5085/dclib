@@ -11,6 +11,6 @@ public interface EntityAddedListener {
 	 * Handles the event that an entity is about to be created.
 	 * @param entity entity to be created
 	 */
-	void created(final Entity entity);
+	void added(final Entity entity);
 	
 }

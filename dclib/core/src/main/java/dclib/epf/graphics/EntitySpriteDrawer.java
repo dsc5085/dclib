@@ -27,7 +27,7 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 		this.camera = camera;
 		entityManager.addEntityAddedListener(new EntityAddedListener() {
 			@Override
-			public void created(final Entity entity) {
+			public void added(final Entity entity) {
 				newEntities.add(entity);
 			}
 		});

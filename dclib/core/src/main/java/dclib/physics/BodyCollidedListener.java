@@ -8,6 +8,6 @@ import dclib.epf.Entity;
 
 public interface BodyCollidedListener {
 
-	void collided(final Entity entity, final List<Vector2> offset);
+	void collided(final Entity entity, final List<Vector2> offsets);
 
 }

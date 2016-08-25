@@ -21,7 +21,7 @@ public final class EntityAddedEvent implements Event<EntityAddedListener> {
 	
 	@Override
 	public final void notify(final EntityAddedListener listener) {
-		listener.created(entity);
+		listener.added(entity);
 	}
 	
 }
