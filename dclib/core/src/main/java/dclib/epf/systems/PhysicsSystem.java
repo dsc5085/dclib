@@ -3,6 +3,8 @@ package dclib.epf.systems;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
@@ -11,7 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
-import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.PhysicsPart;
 import dclib.epf.parts.TransformPart;
@@ -23,7 +24,7 @@ import dclib.physics.BodyCollidedEvent;
 import dclib.physics.BodyCollidedListener;
 import dclib.physics.BodyType;
 
-public final class PhysicsSystem extends EntitySystem {
+public final class PhysicsSystem {
 
 	private final EventDelegate<BodyCollidedListener> bodyCollidedDelegate = new EventDelegate<BodyCollidedListener>();
 
@@ -39,26 +40,40 @@ public final class PhysicsSystem extends EntitySystem {
 		bodyCollidedDelegate.listen(listener);
 	}
 
-	@Override
-	public final void update(final float delta, final Entity entity) {
-		PhysicsPart physicsPart = entity.get(PhysicsPart.class);
-		if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
-			processBodyCollisions(entity);
-			float velocityY = gravity * physicsPart.getGravityScale() * delta;
-			entity.get(TranslatePart.class).addVelocity(0, velocityY);
-		}
+	public final void update(final float delta) {
+		List<Entity> entities = getEntities();
+		processStaticCollisions(entities);
+		processNormalCollisions(entities);
+		applyGravity(entities, delta);
 	}
 
-	private void processBodyCollisions(final Entity entity) {
-		List<Vector2> offsets = new ArrayList<Vector2>();
-		Polygon collisionPolygon = getCollisionPolygon(entity);
-		for (Entity other : entityManager.getAll()) {
-			Vector2 offset = processStaticCollision(entity, other, collisionPolygon);
-			if (offset.len() > 0) {
-				offsets.add(offset);
+	private List<Entity> getEntities() {
+		List<Entity> entities = new ArrayList<Entity>();
+		for (Entity entity : entityManager.getAll()) {
+			if (entity.has(PhysicsPart.class)) {
+				entities.add(entity);
 			}
 		}
-		processOffsets(entity, offsets);
+		return entities;
+	}
+
+	private void processStaticCollisions(final List<Entity> entities) {
+		for (Entity entity : entities) {
+			PhysicsPart physicsPart = entity.get(PhysicsPart.class);
+			if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
+				List<Vector2> offsets = new ArrayList<Vector2>();
+				Polygon collisionPolygon = getCollisionPolygon(entity);
+				Entity staticEntity = null;
+				for (Entity other : entityManager.getAll()) {
+					Vector2 offset = processStaticCollision(entity, other, collisionPolygon);
+					if (offset.len() > 0) {
+						offsets.add(offset);
+						staticEntity = other;
+					}
+				}
+				processOffsets(entity, staticEntity, offsets);
+			}
+		}
 	}
 
 	private Vector2 processStaticCollision(final Entity entity, final Entity other, final Polygon collisionPolygon) {
@@ -75,11 +90,14 @@ public final class PhysicsSystem extends EntitySystem {
 		return new Vector2();
 	}
 
-	private void processOffsets(final Entity entity, final List<Vector2> offsets) {
+	private void processOffsets(final Entity e1, final Entity e2, final List<Vector2> offsets) {
+		Vector2 summedOffset = new Vector2();
+		for (Vector2 offset : offsets) {
+			summedOffset.add(offset);
+		}
 		if (!offsets.isEmpty()) {
-			bodyCollidedDelegate.notify(new BodyCollidedEvent(entity, offsets));
-			Vector2 lastOffset = offsets.get(offsets.size() - 1);
-			bounce(lastOffset, entity.get(TranslatePart.class));
+			bodyCollidedDelegate.notify(new BodyCollidedEvent(e1, e2, summedOffset));
+			bounce(summedOffset, e1.get(TranslatePart.class));
 		}
 	}
 
@@ -127,6 +145,41 @@ public final class PhysicsSystem extends EntitySystem {
 		}
 		if (offset.y != 0) {
 			translatePart.setVelocityY(-currentVelocity.y * bounceDampening);
+		}
+	}
+
+	private void processNormalCollisions(final List<Entity> entities) {
+		for (int i = 0; i < entities.size() - 1; i++) {
+			for (int j = i + 1; j < entities.size(); j++) {
+				processNormalCollision(entities.get(i), entities.get(j));
+			}
+		}
+	}
+
+	private void processNormalCollision(final Entity e1, final Entity e2) {
+		final BodyType[] collisionBodyTypes = new BodyType[] { BodyType.DYNAMIC, BodyType.SENSOR };
+		PhysicsPart physicsPart1 = e1.get(PhysicsPart.class);
+		PhysicsPart physicsPart2 = e2.get(PhysicsPart.class);
+		boolean canE1Collide = ArrayUtils.contains(collisionBodyTypes, physicsPart1.getBodyType());
+		boolean canE2Collide = ArrayUtils.contains(collisionBodyTypes, physicsPart2.getBodyType());
+		if (canE1Collide && canE2Collide) {
+			Polygon polygon1 = e1.get(TransformPart.class).getPolygon();
+			Polygon polygon2 = e2.get(TransformPart.class).getPolygon();
+			if (Intersector.overlapConvexPolygons(polygon1, polygon2)) {
+				bodyCollidedDelegate.notify(new BodyCollidedEvent(e1, e2, new Vector2()));
+				bodyCollidedDelegate.notify(new BodyCollidedEvent(e2, e1, new Vector2()));
+			}
+		}
+	}
+
+	private void applyGravity(final List<Entity> entities, final float delta) {
+		for (Entity entity : entities) {
+			PhysicsPart physicsPart = entity.get(PhysicsPart.class);
+			if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
+				float gravityScale = entity.get(PhysicsPart.class).getGravityScale();
+				float velocityY = gravity * gravityScale * delta;
+				entity.get(TranslatePart.class).addVelocity(0, velocityY);
+			}
 		}
 	}
 

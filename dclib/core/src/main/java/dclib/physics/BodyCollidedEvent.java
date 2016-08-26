@@ -1,7 +1,5 @@
 package dclib.physics;
 
-import java.util.List;
-
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
@@ -9,17 +7,19 @@ import dclib.eventing.Event;
 
 public final class BodyCollidedEvent implements Event<BodyCollidedListener> {
 
-	private final Entity entity;
-	private final List<Vector2> offsets;
+	private final Entity collider;
+	private final Entity collidee;
+	private final Vector2 offset;
 
-	public BodyCollidedEvent(final Entity entity, final List<Vector2> offsets) {
-		this.entity = entity;
-		this.offsets = offsets;
+	public BodyCollidedEvent(final Entity collider, final Entity collidee, final Vector2 offset) {
+		this.collider = collider;
+		this.collidee = collidee;
+		this.offset = offset;
 	}
 
 	@Override
 	public final void notify(final BodyCollidedListener listener) {
-		listener.collided(entity, offsets);
+		listener.collided(collider, collidee, offset);
 	}
 
 }
