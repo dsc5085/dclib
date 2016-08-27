@@ -1,8 +1,17 @@
 package dclib.system;
 
-public abstract class Advancer {
-	
+import java.util.ArrayList;
+import java.util.List;
+
+public final class Advancer {
+
+	private final List<Updater> updaters = new ArrayList<Updater>();
 	private float accumulatedDelta = 0;
+
+	public final Advancer add(final Updater updater) {
+		updaters.add(updater);
+		return this;
+	}
 
 	public final void advance(final float delta) {
 		accumulatedDelta += delta;
@@ -12,7 +21,11 @@ public abstract class Advancer {
 			accumulatedDelta -= maxUpdateDelta;
 		}
 	}
-	
-	protected abstract void update(final float delta);
-	
+
+	private void update(final float delta) {
+		for (Updater updater : updaters) {
+			updater.update(delta);
+		}
+	}
+
 }

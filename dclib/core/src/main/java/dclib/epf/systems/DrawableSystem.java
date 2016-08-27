@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
-import dclib.epf.EntitySystem;
+import dclib.epf.EntityManager;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
 import dclib.geometry.UnitConverter;
@@ -13,7 +13,8 @@ public final class DrawableSystem extends EntitySystem {
 
 	private final UnitConverter unitConverter;
 
-	public DrawableSystem(final UnitConverter unitConverter) {
+	public DrawableSystem(final EntityManager entityManager, final UnitConverter unitConverter) {
+		super(entityManager);
 		this.unitConverter = unitConverter;
 	}
 

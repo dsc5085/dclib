@@ -21,8 +21,9 @@ import dclib.geometry.RectangleUtils;
 import dclib.physics.BodyType;
 import dclib.physics.CollidedEvent;
 import dclib.physics.CollidedListener;
+import dclib.system.Updater;
 
-public final class PhysicsSystem {
+public final class PhysicsSystem implements Updater {
 
 	private final EventDelegate<CollidedListener> collidedDelegate = new EventDelegate<CollidedListener>();
 

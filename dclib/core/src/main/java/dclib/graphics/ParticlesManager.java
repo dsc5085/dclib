@@ -11,8 +11,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.UnitConverter;
+import dclib.system.Updater;
 
-public final class ParticlesManager {
+public final class ParticlesManager implements Updater {
 
 	private final TextureCache textureCache;
 	private final Camera camera;

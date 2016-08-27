@@ -5,7 +5,6 @@ import java.util.List;
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntityRemovedListener;
-import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.util.LimbUtils;
@@ -16,6 +15,7 @@ public final class LimbsSystem extends EntitySystem {
 	private final EntityManager entityManager;
 
 	public LimbsSystem(final EntityManager entityManager) {
+		super(entityManager);
 		this.entityManager = entityManager;
 		entityManager.addEntityRemovedListener(entityRemoved());
 	}

@@ -3,11 +3,15 @@ package dclib.epf.systems;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
-import dclib.epf.EntitySystem;
+import dclib.epf.EntityManager;
 import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
 
 public final class TranslateSystem extends EntitySystem {
+
+	public TranslateSystem(final EntityManager entityManager) {
+		super(entityManager);
+	}
 
 	@Override
 	public final void update(final float delta, final Entity entity) {

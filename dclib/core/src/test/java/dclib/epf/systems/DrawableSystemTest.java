@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
+import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
@@ -32,7 +33,7 @@ public class DrawableSystemTest {
 	@BeforeClass
 	public static final void oneTimeSetUp() {
 		UnitConverter unitConverter = new UnitConverter(2);
-		drawableSystem = new DrawableSystem(unitConverter);
+		drawableSystem = new DrawableSystem(new DefaultEntityManager(), unitConverter);
 	}
 
 	@Test
