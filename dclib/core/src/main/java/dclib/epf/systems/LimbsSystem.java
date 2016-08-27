@@ -2,12 +2,14 @@ package dclib.epf.systems;
 
 import java.util.List;
 
+import com.badlogic.gdx.math.Polygon;
+
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntityRemovedListener;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
-import dclib.epf.util.LimbUtils;
+import dclib.epf.parts.TransformPart;
 import dclib.limb.Limb;
 
 public final class LimbsSystem extends EntitySystem {
@@ -34,12 +36,16 @@ public final class LimbsSystem extends EntitySystem {
 		return new EntityRemovedListener() {
 			@Override
 			public void removed(final Entity removedEntity) {
-				if (removedEntity.has(LimbsPart.class)) {
-					List<Limb> descendants = removedEntity.get(LimbsPart.class).getRoot().getDescendants();
+				if (removedEntity.has(TransformPart.class)) {
+					Polygon polygon = removedEntity.get(TransformPart.class).getPolygon();
 					List<Entity> entities = entityManager.getAll();
-					for (Limb descendant : descendants) {
-						Entity limbEntity = LimbUtils.findEntity(entities, descendant);
-						entityManager.remove(limbEntity);
+					for (Entity entity : entities) {
+						if (entity.has(LimbsPart.class)) {
+							Limb foundLimb = entity.get(LimbsPart.class).remove(polygon);
+							if (foundLimb != null) {
+								break;
+							}
+						}
 					}
 				}
 			}

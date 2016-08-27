@@ -10,13 +10,15 @@ import dclib.limb.Limb;
 public final class LimbsPart {
 
 	private final Limb root;
-	private final List<Polygon> collisionPolygons;
+	private final List<Polygon> collisionPolygons = new ArrayList<Polygon>();
 	private boolean flipX = false;
 	private boolean flipY = false;
 
-	public LimbsPart(final Limb root, final List<Polygon> collisionPolygons) {
+	public LimbsPart(final Limb root, final Limb... collisionLimbs) {
 		this.root = root;
-		this.collisionPolygons = collisionPolygons;
+		for (Limb collisionLimb : collisionLimbs) {
+			collisionPolygons.add(collisionLimb.getPolygon());
+		}
 	}
 
 	public final Limb getRoot() {
@@ -33,6 +35,12 @@ public final class LimbsPart {
 
 	public final List<Polygon> getCollisionPolygons() {
 		return new ArrayList<Polygon>(collisionPolygons);
+	}
+
+	public final Limb remove(final Polygon descendantPolygon) {
+		// TODO: Needs to take into account child limbs
+		collisionPolygons.remove(descendantPolygon);
+		return root.remove(descendantPolygon);
 	}
 
 	public final void update() {

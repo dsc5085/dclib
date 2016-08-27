@@ -29,6 +29,22 @@ public final class Limb {
 		this.polygon = polygon;
 	}
 
+	public final Limb remove(final Polygon descendantPolygon) {
+		for (Joint joint : joints) {
+			Polygon polygon = joint.getLimb().getPolygon();
+			if (polygon == descendantPolygon) {
+				joints.remove(joint);
+				return joint.getLimb();
+			}
+			Limb foundLimb = joint.getLimb().remove(descendantPolygon);
+			if (foundLimb != null)
+			{
+				return foundLimb;
+			}
+		}
+		return null;
+	}
+
 	public final List<Limb> getDescendants() {
 		List<Limb> descendants = new ArrayList<Limb>();
 		for (Joint joint : joints) {
