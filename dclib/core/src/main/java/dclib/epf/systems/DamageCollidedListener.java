@@ -15,7 +15,7 @@ public final class DamageCollidedListener implements CollidedListener {
 		if (collider.hasActive(CollisionDamagePart.class) && collidee.hasActive(PhysicsPart.class)) {
 			CollisionDamagePart collisionDamagePart = collider.get(CollisionDamagePart.class);
 			PhysicsPart physicsPart = collidee.get(PhysicsPart.class);
-			if (physicsPart.containsAny(collisionDamagePart.getCollisionTypes())) {
+			if (physicsPart.containsAny(collisionDamagePart.getCollisionGroups())) {
 				collidee.get(HealthPart.class).decrease(collisionDamagePart.getDamage());
 			}
 		}
