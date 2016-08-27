@@ -30,6 +30,9 @@ public final class Limb {
 	}
 
 	public final Limb remove(final Polygon descendantPolygon) {
+		if (polygon == descendantPolygon) {
+			return this;
+		}
 		for (Joint joint : joints) {
 			Polygon polygon = joint.getLimb().getPolygon();
 			if (polygon == descendantPolygon) {

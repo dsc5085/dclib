@@ -10,6 +10,7 @@ import dclib.epf.EntityRemovedListener;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
+import dclib.epf.util.LimbUtils;
 import dclib.limb.Limb;
 
 public final class LimbsSystem extends EntitySystem {
@@ -37,17 +38,30 @@ public final class LimbsSystem extends EntitySystem {
 			@Override
 			public void removed(final Entity removedEntity) {
 				if (removedEntity.has(TransformPart.class)) {
+					// TODO: Limb relationships are messy.  Cleanup
 					Polygon polygon = removedEntity.get(TransformPart.class).getPolygon();
 					List<Entity> entities = entityManager.getAll();
+					entities.add(removedEntity);
 					for (Entity entity : entities) {
 						if (entity.has(LimbsPart.class)) {
-							Limb foundLimb = entity.get(LimbsPart.class).remove(polygon);
-							if (foundLimb != null) {
+							if (removeLimb(polygon, entities, entity)) {
 								break;
 							}
 						}
 					}
 				}
+			}
+
+			private boolean removeLimb(final Polygon limbPolygon, final List<Entity> entities, final Entity parent) {
+				Limb limb = parent.get(LimbsPart.class).remove(limbPolygon);
+				boolean found = limb != null;
+				if (found) {
+					for (Limb descendantLimb : limb.getDescendants()) {
+						Entity descendant = LimbUtils.findEntity(entities, descendantLimb);
+						entityManager.remove(descendant);
+					}
+				}
+				return found;
 			}
 		};
 	}
