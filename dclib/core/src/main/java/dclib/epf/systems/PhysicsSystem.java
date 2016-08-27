@@ -3,8 +3,6 @@ package dclib.epf.systems;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
@@ -34,6 +32,7 @@ public final class PhysicsSystem {
 	public PhysicsSystem(final EntityManager entityManager, final float gravity) {
 		this.entityManager = entityManager;
 		this.gravity = gravity;
+		addCollidedListener(collided());
 	}
 
 	public final void addCollidedListener(final CollidedListener listener) {
@@ -42,9 +41,28 @@ public final class PhysicsSystem {
 
 	public final void update(final float delta) {
 		List<Entity> entities = getEntities();
-		processStaticCollisions(entities);
-		processNormalCollisions(entities);
+		checkCollisions(entities);
 		applyGravity(entities, delta);
+	}
+
+	private final CollidedListener collided() {
+		return new CollidedListener() {
+			@Override
+			public void collided(final Entity collider, final Entity collidee, final Vector2 offset) {
+				BodyType colliderBodyType = collider.get(PhysicsPart.class).getBodyType();
+				BodyType collideeBodyType = collidee.get(PhysicsPart.class).getBodyType();
+				if (colliderBodyType == BodyType.DYNAMIC && collideeBodyType == BodyType.STATIC) {
+					collider.get(TransformPart.class).translate(offset);
+					TranslatePart translatePart = collider.get(TranslatePart.class);
+					if (offset.x != 0) {
+						translatePart.setVelocityX(0);
+					}
+					if (offset.y != 0) {
+						translatePart.setVelocityY(0);
+					}
+				}
+			}
+		};
 	}
 
 	private List<Entity> getEntities() {
@@ -57,47 +75,22 @@ public final class PhysicsSystem {
 		return entities;
 	}
 
-	private void processStaticCollisions(final List<Entity> entities) {
-		for (Entity entity : entities) {
-			PhysicsPart physicsPart = entity.get(PhysicsPart.class);
-			if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
-				List<Vector2> offsets = new ArrayList<Vector2>();
-				Polygon collisionPolygon = getCollisionPolygon(entity);
-				Entity staticEntity = null;
-				for (Entity other : entityManager.getAll()) {
-					Vector2 offset = processStaticCollision(entity, other, collisionPolygon);
-					if (offset.len() > 0) {
-						offsets.add(offset);
-						staticEntity = other;
-					}
-				}
-				processOffsets(entity, staticEntity, offsets);
+	private void checkCollisions(final List<Entity> entities) {
+		for (int i = 0; i < entities.size() - 1; i++) {
+			for (int j = i + 1; j < entities.size(); j++) {
+				checkCollision(entities.get(i), entities.get(j));
 			}
 		}
 	}
 
-	private Vector2 processStaticCollision(final Entity entity, final Entity other, final Polygon collisionPolygon) {
-		TransformPart transformPart = entity.get(TransformPart.class);
-		if (other.get(PhysicsPart.class).getBodyType() == BodyType.STATIC) {
-			Polygon otherPolygon = other.get(TransformPart.class).getPolygon();
-			Vector2 offset = getTranslationOffset(collisionPolygon, otherPolygon);
-			if (offset.len() > 0) {
-				collisionPolygon.translate(offset.x, offset.y);
-				transformPart.translate(offset);
-				return offset;
-			}
-		}
-		return new Vector2();
-	}
-
-	private void processOffsets(final Entity collider, final Entity collidee, final List<Vector2> offsets) {
-		Vector2 summedOffset = new Vector2();
-		for (Vector2 offset : offsets) {
-			summedOffset.add(offset);
-		}
-		if (!offsets.isEmpty()) {
-			collidedDelegate.notify(new CollidedEvent(collider, collidee, summedOffset));
-			bounce(summedOffset, collider.get(TranslatePart.class));
+	private void checkCollision(final Entity e1, final Entity e2) {
+		// TODO: Cache these collision polygons
+		Polygon polygon1 = getCollisionPolygon(e1);
+		Polygon polygon2 = getCollisionPolygon(e2);
+		Vector2 offset = getTranslationOffset(polygon1, polygon2);
+		if (offset.len() > 0) {
+			collidedDelegate.notify(new CollidedEvent(e1, e2, offset.cpy().scl(-1)));
+			collidedDelegate.notify(new CollidedEvent(e2, e1, offset));
 		}
 	}
 
@@ -127,49 +120,14 @@ public final class PhysicsSystem {
 		return new Polygon(vertices);
 	}
 
-	private Vector2 getTranslationOffset(final Polygon colliderPolygon, final Polygon staticPolygon) {
+	private Vector2 getTranslationOffset(final Polygon collider, final Polygon collidee) {
 		Vector2 offset = new Vector2();
 		MinimumTranslationVector translation = new MinimumTranslationVector();
-		if (Intersector.overlapConvexPolygons(colliderPolygon, staticPolygon, translation)) {
+		if (Intersector.overlapConvexPolygons(collider, collidee, translation)) {
 			offset = translation.normal.cpy().scl(translation.depth);
 			offset.setLength(translation.depth);
 		}
 		return offset;
-	}
-
-	private void bounce(final Vector2 offset, final TranslatePart translatePart) {
-		final float bounceDampening = 0.001f;
-		Vector2 currentVelocity = translatePart.getVelocity();
-		if (offset.x != 0) {
-			translatePart.setVelocityX(-currentVelocity.x * bounceDampening);
-		}
-		if (offset.y != 0) {
-			translatePart.setVelocityY(-currentVelocity.y * bounceDampening);
-		}
-	}
-
-	private void processNormalCollisions(final List<Entity> entities) {
-		for (int i = 0; i < entities.size() - 1; i++) {
-			for (int j = i + 1; j < entities.size(); j++) {
-				processNormalCollision(entities.get(i), entities.get(j));
-			}
-		}
-	}
-
-	private void processNormalCollision(final Entity e1, final Entity e2) {
-		final BodyType[] collisionBodyTypes = new BodyType[] { BodyType.DYNAMIC, BodyType.SENSOR };
-		PhysicsPart physicsPart1 = e1.get(PhysicsPart.class);
-		PhysicsPart physicsPart2 = e2.get(PhysicsPart.class);
-		boolean canE1Collide = ArrayUtils.contains(collisionBodyTypes, physicsPart1.getBodyType());
-		boolean canE2Collide = ArrayUtils.contains(collisionBodyTypes, physicsPart2.getBodyType());
-		if (canE1Collide && canE2Collide) {
-			Polygon polygon1 = e1.get(TransformPart.class).getPolygon();
-			Polygon polygon2 = e2.get(TransformPart.class).getPolygon();
-			if (Intersector.overlapConvexPolygons(polygon1, polygon2)) {
-				collidedDelegate.notify(new CollidedEvent(e1, e2, new Vector2()));
-				collidedDelegate.notify(new CollidedEvent(e2, e1, new Vector2()));
-			}
-		}
 	}
 
 	private void applyGravity(final List<Entity> entities, final float delta) {

@@ -6,6 +6,6 @@ import dclib.epf.Entity;
 
 public interface CollidedListener {
 
-	void collided(final Entity collider, final Entity collidee, final Vector2 offsets);
+	void collided(final Entity collider, final Entity collidee, final Vector2 offset);
 
 }
