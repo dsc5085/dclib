@@ -10,12 +10,9 @@ public final class PhysicsPart {
 	private final int[] collisionGroups;
 	private float gravityScale = 1;
 
-	public <E extends Enum<E>> PhysicsPart(final BodyType bodyType, final E[] collisionGroups) {
+	public PhysicsPart(final BodyType bodyType, final int[] collisionGroups) {
 		this.bodyType = bodyType;
-		this.collisionGroups = new int[collisionGroups.length];
-		for (int i = 0; i < collisionGroups.length; i++) {
-			this.collisionGroups[i] = collisionGroups[i].ordinal();
-		}
+		this.collisionGroups = collisionGroups;
 	}
 
 	public final BodyType getBodyType() {
@@ -30,8 +27,13 @@ public final class PhysicsPart {
 		this.gravityScale = gravityScale;
 	}
 
-	public final <E extends Enum<E>> boolean inCollisionGroups(final E collisionGroup) {
-		return ArrayUtils.contains(collisionGroups, collisionGroup.ordinal());
+	public final boolean containsAny(final int... collisionGroups) {
+		for (int collisionGroup : collisionGroups) {
+			if (ArrayUtils.contains(this.collisionGroups, collisionGroup)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

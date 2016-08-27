@@ -20,13 +20,13 @@ import dclib.epf.parts.TranslatePart;
 import dclib.eventing.EventDelegate;
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.RectangleUtils;
-import dclib.physics.BodyCollidedEvent;
-import dclib.physics.BodyCollidedListener;
 import dclib.physics.BodyType;
+import dclib.physics.CollidedEvent;
+import dclib.physics.CollidedListener;
 
 public final class PhysicsSystem {
 
-	private final EventDelegate<BodyCollidedListener> bodyCollidedDelegate = new EventDelegate<BodyCollidedListener>();
+	private final EventDelegate<CollidedListener> collidedDelegate = new EventDelegate<CollidedListener>();
 
 	private final EntityManager entityManager;
 	private final float gravity;
@@ -36,8 +36,8 @@ public final class PhysicsSystem {
 		this.gravity = gravity;
 	}
 
-	public final void addBodyCollidedListener(final BodyCollidedListener listener) {
-		bodyCollidedDelegate.listen(listener);
+	public final void addCollidedListener(final CollidedListener listener) {
+		collidedDelegate.listen(listener);
 	}
 
 	public final void update(final float delta) {
@@ -90,14 +90,14 @@ public final class PhysicsSystem {
 		return new Vector2();
 	}
 
-	private void processOffsets(final Entity e1, final Entity e2, final List<Vector2> offsets) {
+	private void processOffsets(final Entity collider, final Entity collidee, final List<Vector2> offsets) {
 		Vector2 summedOffset = new Vector2();
 		for (Vector2 offset : offsets) {
 			summedOffset.add(offset);
 		}
 		if (!offsets.isEmpty()) {
-			bodyCollidedDelegate.notify(new BodyCollidedEvent(e1, e2, summedOffset));
-			bounce(summedOffset, e1.get(TranslatePart.class));
+			collidedDelegate.notify(new CollidedEvent(collider, collidee, summedOffset));
+			bounce(summedOffset, collider.get(TranslatePart.class));
 		}
 	}
 
@@ -166,8 +166,8 @@ public final class PhysicsSystem {
 			Polygon polygon1 = e1.get(TransformPart.class).getPolygon();
 			Polygon polygon2 = e2.get(TransformPart.class).getPolygon();
 			if (Intersector.overlapConvexPolygons(polygon1, polygon2)) {
-				bodyCollidedDelegate.notify(new BodyCollidedEvent(e1, e2, new Vector2()));
-				bodyCollidedDelegate.notify(new BodyCollidedEvent(e2, e1, new Vector2()));
+				collidedDelegate.notify(new CollidedEvent(e1, e2, new Vector2()));
+				collidedDelegate.notify(new CollidedEvent(e2, e1, new Vector2()));
 			}
 		}
 	}
