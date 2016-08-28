@@ -50,8 +50,8 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 	}
 
 	private void draw(final Entity entity) {
-		if (entity.has(DrawablePart.class)) {
-			DrawablePart drawablePart = entity.get(DrawablePart.class);
+		DrawablePart drawablePart = entity.tryGet(DrawablePart.class);
+		if (drawablePart != null) {
 			drawablePart.getSprite().draw(spriteBatch);
 		}
 	}
@@ -64,8 +64,9 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 		}
 
 		private float getValue(final Entity entity) {
-			if (entity.has(DrawablePart.class)) {
-				return entity.get(TransformPart.class).getZ();
+			TransformPart transformPart = entity.tryGet(TransformPart.class);
+			if (transformPart != null) {
+				return transformPart.getZ();
 			} else {
 				return 0;
 			}

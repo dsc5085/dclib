@@ -12,10 +12,10 @@ public final class DamageCollidedListener implements CollidedListener {
 
 	@Override
 	public final void collided(final Entity collider, final Entity collidee, final Vector2 offsets) {
-		if (collider.has(CollisionDamagePart.class) && collidee.has(PhysicsPart.class)) {
-			CollisionDamagePart collisionDamagePart = collider.get(CollisionDamagePart.class);
-			PhysicsPart physicsPart = collidee.get(PhysicsPart.class);
-			if (physicsPart.containsAny(collisionDamagePart.getCollisionGroups())) {
+		CollisionDamagePart collisionDamagePart = collider.tryGet(CollisionDamagePart.class);
+		PhysicsPart collideePhysicsPart = collidee.tryGet(PhysicsPart.class);
+		if (collisionDamagePart != null && collideePhysicsPart != null) {
+			if (collideePhysicsPart.containsAny(collisionDamagePart.getCollisionGroups())) {
 				collidee.get(HealthPart.class).decrease(collisionDamagePart.getDamage());
 			}
 		}

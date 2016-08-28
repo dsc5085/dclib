@@ -44,6 +44,10 @@ public class Entity {
 		return true;
 	}
 
+	public final <T> T tryGet(final Class<T> partClass) {
+		return has(partClass) ? get(partClass) : null;
+	}
+
 	/**
 	 * @param partClass The class of the part to get.
 	 * @return The part attached to the entity of type T.

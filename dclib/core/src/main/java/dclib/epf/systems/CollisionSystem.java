@@ -60,8 +60,9 @@ public final class CollisionSystem implements Updater {
 
 	private Polygon getCollisionPolygon(final Entity entity) {
 		Polygon boundsPolygon;
-		if (entity.has(LimbsPart.class)) {
-			List<Polygon> collisionPolygons = entity.get(LimbsPart.class).getCollisionPolygons();
+		LimbsPart limbsPart = entity.tryGet(LimbsPart.class);
+		if (limbsPart != null) {
+			List<Polygon> collisionPolygons = limbsPart.getCollisionPolygons();
 			boundsPolygon = getBoundsPolygon(collisionPolygons);
 		} else {
 			boundsPolygon = entity.get(TransformPart.class).getPolygon();

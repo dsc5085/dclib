@@ -27,8 +27,8 @@ public final class EntityTransformDrawer implements EntityDrawer {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Line);
 		for (Entity entity : entities) {
-			if (entity.has(TransformPart.class)) {
-				TransformPart transformPart = entity.get(TransformPart.class);
+			TransformPart transformPart = entity.tryGet(TransformPart.class);
+			if (transformPart != null) {
 				float[] transformedVertices = transformPart.getTransformedVertices();
 				float[] vertices = VertexUtils.scale(transformedVertices, pixelsPerUnit);
 				shapeRenderer.polygon(vertices);

@@ -20,9 +20,9 @@ public final class DrawableSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		if (entity.has(DrawablePart.class)) {
+		DrawablePart drawablePart = entity.tryGet(DrawablePart.class);
+		if (drawablePart != null) {
 			TransformPart transformPart = entity.get(TransformPart.class);
-			DrawablePart drawablePart = entity.get(DrawablePart.class);
 			PolygonSprite sprite = drawablePart.getSprite();
 			Vector2 origin = unitConverter.toPixelUnits(transformPart.getOrigin());
 			sprite.setOrigin(origin.x, origin.y);

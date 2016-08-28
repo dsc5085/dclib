@@ -13,8 +13,8 @@ public final class LimbUtils {
 
 	public static final Entity findEntity(final List<Entity> entities, final Limb limb) {
 		for (Entity entity : entities) {
-			if (entity.has(TransformPart.class)) {
-				TransformPart transformPart = entity.get(TransformPart.class);
+			TransformPart transformPart = entity.tryGet(TransformPart.class);
+			if (transformPart != null) {
 				if (transformPart.getPolygon() == limb.getPolygon()) {
 					return entity;
 				}

@@ -25,11 +25,13 @@ public final class LimbsSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		if (entity.has(LimbsPart.class)) {
-			entity.get(LimbsPart.class).update();
+		LimbsPart limbsPart = entity.tryGet(LimbsPart.class);
+		if (limbsPart != null) {
+			limbsPart.update();
 		}
-		if (entity.has(LimbAnimationsPart.class)) {
-			entity.get(LimbAnimationsPart.class).update(delta);
+		LimbAnimationsPart limbAnimationsPart = entity.tryGet(LimbAnimationsPart.class);
+		if (limbAnimationsPart != null) {
+			limbAnimationsPart.update(delta);
 		}
 	}
 
@@ -37,9 +39,10 @@ public final class LimbsSystem extends EntitySystem {
 		return new EntityRemovedListener() {
 			@Override
 			public void removed(final Entity removedEntity) {
-				if (removedEntity.has(TransformPart.class)) {
+				TransformPart transformPart = removedEntity.tryGet(TransformPart.class);
+				if (transformPart != null) {
 					// TODO: Limb relationships are messy.  Cleanup
-					Polygon polygon = removedEntity.get(TransformPart.class).getPolygon();
+					Polygon polygon = transformPart.getPolygon();
 					List<Entity> entities = entityManager.getAll();
 					entities.add(removedEntity);
 					for (Entity entity : entities) {

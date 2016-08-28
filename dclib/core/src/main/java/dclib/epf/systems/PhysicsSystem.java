@@ -50,8 +50,9 @@ public final class PhysicsSystem extends EntitySystem {
 
 	private void translate(final Entity entity, final Vector2 offset) {
 		entity.get(TransformPart.class).translate(offset);
-		if (entity.has(LimbsPart.class)) {
-			entity.get(LimbsPart.class).update();
+		LimbsPart limbsPart = entity.tryGet(LimbsPart.class);
+		if (limbsPart != null) {
+			limbsPart.update();
 		}
 	}
 

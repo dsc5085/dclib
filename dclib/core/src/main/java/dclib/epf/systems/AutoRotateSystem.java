@@ -16,8 +16,8 @@ public final class AutoRotateSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		if (entity.has(AutoRotatePart.class)) {
-			AutoRotatePart autoRotatePart = entity.get(AutoRotatePart.class);
+		AutoRotatePart autoRotatePart = entity.tryGet(AutoRotatePart.class);
+		if (autoRotatePart != null) {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			Vector2 oldPosition = autoRotatePart.getOldPosition();
 			if (oldPosition != null) {

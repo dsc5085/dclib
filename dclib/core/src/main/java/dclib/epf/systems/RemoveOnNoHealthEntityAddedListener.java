@@ -17,8 +17,9 @@ public final class RemoveOnNoHealthEntityAddedListener implements EntityAddedLis
 
 	@Override
 	public final void added(final Entity entity) {
-		if (entity.has(HealthPart.class)) {
-			entity.get(HealthPart.class).addNoHealthListener(noHealth(entity));
+		HealthPart healthPart = entity.tryGet(HealthPart.class);
+		if (healthPart != null) {
+			healthPart.addNoHealthListener(noHealth(entity));
 		}
 	}
 

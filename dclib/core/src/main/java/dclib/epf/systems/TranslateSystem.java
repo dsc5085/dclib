@@ -15,9 +15,10 @@ public final class TranslateSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		if (entity.has(TranslatePart.class)) {
+		TranslatePart translatePart = entity.tryGet(TranslatePart.class);
+		if (translatePart != null) {
 			TransformPart transformPart = entity.get(TransformPart.class);
-			Vector2 offset = entity.get(TranslatePart.class).getVelocity().scl(delta);
+			Vector2 offset = translatePart.getVelocity().scl(delta);
 			Vector2 newPosition = transformPart.getPosition().add(offset);
 			transformPart.setPosition(newPosition);
 		}
