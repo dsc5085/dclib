@@ -20,7 +20,7 @@ public final class LimbUtils {
 				}
 			}
 		}
-		throw new IllegalArgumentException("Matching entity for limb could not be found");
+		return null;
 	}
 
 }
