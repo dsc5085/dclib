@@ -19,8 +19,8 @@ public final class DrawableSystem extends EntitySystem {
 	}
 
 	@Override
-	public final void update(final float delta, final Entity entity) {
-		if (entity.hasActive(DrawablePart.class)) {
+	protected final void update(final float delta, final Entity entity) {
+		if (entity.has(DrawablePart.class)) {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			DrawablePart drawablePart = entity.get(DrawablePart.class);
 			PolygonSprite sprite = drawablePart.getSprite();

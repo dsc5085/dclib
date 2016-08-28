@@ -14,8 +14,8 @@ public final class TranslateSystem extends EntitySystem {
 	}
 
 	@Override
-	public final void update(final float delta, final Entity entity) {
-		if (entity.hasActive(TranslatePart.class)) {
+	protected final void update(final float delta, final Entity entity) {
+		if (entity.has(TranslatePart.class)) {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			Vector2 offset = entity.get(TranslatePart.class).getVelocity().scl(delta);
 			Vector2 newPosition = transformPart.getPosition().add(offset);

@@ -12,17 +12,17 @@ import java.util.Map;
  *
  */
 public class Entity {
-	
+
 	private boolean isActive = false;
-	private final Map<Class<?>, Part> parts = new HashMap<Class<?>, Part>();
-	
+	private final Map<Class<?>, Object> parts = new HashMap<Class<?>, Object>();
+
 	/**
 	 * @return If the entity will be updated.
 	 */
 	public final boolean isActive() {
 		return isActive;
 	}
-	
+
 	/**
 	 * Sets the entity to be active or inactive.
 	 * @param isActive True to make the entity active.  False to make it inactive.
@@ -30,28 +30,7 @@ public class Entity {
 	public final void setActive(final boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	/**
-	 * Sets a part of the entity to be active or inactive.
-	 * @param isActive true to make the part active.  False to make it inactive.
-	 */
-	public final void setActive(final Class<?> partClass, final boolean isActive) {
-		getPart(partClass).isActive = isActive;
-	}
-	
-	/**
-	 * @param partClass The classes of the parts to check.
-	 * @return If there are active parts of the specified classes attached to the entity.
-	 */
-	public final boolean hasActive(final Class<?> ... partClasses) {
-		for (Class<?> partClass : partClasses) {
-			if (!has(partClass) || !getPart(partClass).isActive) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
+
 	/**
 	 * @param partClass The classes of the parts to check.
 	 * @return If there are parts attached to the entity.
@@ -64,7 +43,7 @@ public class Entity {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * @param partClass The class of the part to get.
 	 * @return The part attached to the entity of type T.
@@ -72,7 +51,10 @@ public class Entity {
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T> T get(final Class<T> partClass) {
-		return (T)getPart(partClass).object;
+		if (!has(partClass)) {
+			throw new IllegalArgumentException("Part of type " + partClass.getName() + " could not be found.");
+		}
+		return (T)parts.get(partClass);
 	}
 
 	/**
@@ -80,25 +62,24 @@ public class Entity {
 	 */
 	public final List<Object> getAll() {
 		List<Object> partObjects = new ArrayList<Object>();
-		for (Part part : parts.values()) {
-			partObjects.add(part.object);
+		for (Object part : parts.values()) {
+			partObjects.add(part);
 		}
 		return partObjects;
 	}
-	
+
 	/**
 	 * Adds a part.
 	 * @param part The part.
 	 */
-	public final void attach(final Object partObject) {
-		if (has(partObject.getClass())) {
-			throw new IllegalArgumentException("Part of type " + partObject.getClass().getName()
+	public final void attach(final Object part) {
+		if (has(part.getClass())) {
+			throw new IllegalArgumentException("Part of type " + part.getClass().getName()
 					+ " is already attached.");
 		}
-		Part part = new Part(partObject);
-		parts.put(partObject.getClass(), part);
+		parts.put(part.getClass(), part);
 	}
-	
+
 	/**
 	 * Removes a part of type T if it exists.
 	 * @param partClass The class of the part to remove.
@@ -106,23 +87,5 @@ public class Entity {
 	public final void detach(final Class<?> partClass) {
 		parts.remove(partClass);
 	}
-	
-	private Part getPart(final Class<?> partClass) {
-		if (!has(partClass)) {
-			throw new IllegalArgumentException("Part of type " + partClass.getName() + " could not be found.");
-		}
-		return parts.get(partClass);
-	}
-	
-	private final class Part {
-		
-		public Object object;
-		public boolean isActive = true;
-		
-		public Part(final Object object) {
-			this.object = object;
-		}
-		
-	}
-	
+
 }

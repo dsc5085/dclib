@@ -16,8 +16,8 @@ public final class ColorChangeSystem extends EntitySystem {
 	}
 
 	@Override
-	public final void update(final float delta, final Entity entity) {
-		if (entity.hasActive(ColorChangePart.class)) {
+	protected final void update(final float delta, final Entity entity) {
+		if (entity.has(ColorChangePart.class)) {
 			ColorChangePart colorChangePart = entity.get(ColorChangePart.class);
 			Timer changeTimer = colorChangePart.getChangeTimer();
 			Color startColor = colorChangePart.getStartColor();

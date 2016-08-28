@@ -24,11 +24,11 @@ public final class LimbsSystem extends EntitySystem {
 	}
 
 	@Override
-	public final void update(final float delta, final Entity entity) {
-		if (entity.hasActive(LimbsPart.class)) {
+	protected final void update(final float delta, final Entity entity) {
+		if (entity.has(LimbsPart.class)) {
 			entity.get(LimbsPart.class).update();
 		}
-		if (entity.hasActive(LimbAnimationsPart.class)) {
+		if (entity.has(LimbAnimationsPart.class)) {
 			entity.get(LimbAnimationsPart.class).update(delta);
 		}
 	}

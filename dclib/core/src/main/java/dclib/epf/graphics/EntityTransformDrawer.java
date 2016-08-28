@@ -15,19 +15,19 @@ public final class EntityTransformDrawer implements EntityDrawer {
 	private final ShapeRenderer shapeRenderer;
 	private final Camera camera;
 	private final float pixelsPerUnit;
-	
+
 	public EntityTransformDrawer(final ShapeRenderer shapeRenderer, final Camera camera, final float pixelsPerUnit) {
 		this.shapeRenderer = shapeRenderer;
 		this.camera = camera;
 		this.pixelsPerUnit = pixelsPerUnit;
 	}
-	
+
 	@Override
 	public final void draw(final List<Entity> entities) {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Line);
 		for (Entity entity : entities) {
-			if (entity.hasActive(TransformPart.class)) {
+			if (entity.has(TransformPart.class)) {
 				TransformPart transformPart = entity.get(TransformPart.class);
 				float[] transformedVertices = transformPart.getTransformedVertices();
 				float[] vertices = VertexUtils.scale(transformedVertices, pixelsPerUnit);
@@ -36,5 +36,5 @@ public final class EntityTransformDrawer implements EntityDrawer {
 		}
 		shapeRenderer.end();
 	}
-	
+
 }
