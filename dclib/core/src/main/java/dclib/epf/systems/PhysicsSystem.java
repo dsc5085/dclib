@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.PhysicsPart;
 import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
@@ -27,14 +28,14 @@ public final class PhysicsSystem extends EntitySystem {
 		}
 	}
 
-	private final CollidedListener collided() {
+	private CollidedListener collided() {
 		return new CollidedListener() {
 			@Override
 			public void collided(final Entity collider, final Entity collidee, final Vector2 offset) {
 				BodyType colliderBodyType = collider.get(PhysicsPart.class).getBodyType();
 				BodyType collideeBodyType = collidee.get(PhysicsPart.class).getBodyType();
 				if (colliderBodyType == BodyType.DYNAMIC && collideeBodyType == BodyType.STATIC) {
-					collider.get(TransformPart.class).translate(offset);
+					translate(collider, offset);
 					TranslatePart translatePart = collider.get(TranslatePart.class);
 					if (offset.x != 0) {
 						translatePart.setVelocityX(0);
@@ -45,6 +46,13 @@ public final class PhysicsSystem extends EntitySystem {
 				}
 			}
 		};
+	}
+
+	private void translate(final Entity entity, final Vector2 offset) {
+		entity.get(TransformPart.class).translate(offset);
+		if (entity.hasActive(LimbsPart.class)) {
+			entity.get(LimbsPart.class).update();
+		}
 	}
 
 	private void applyGravity(final Entity entity, final float delta) {
