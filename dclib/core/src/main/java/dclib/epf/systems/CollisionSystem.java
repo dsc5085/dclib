@@ -50,10 +50,11 @@ public final class CollisionSystem implements Updater {
 		// TODO: Cache these collision polygons
 		Polygon polygon1 = getCollisionPolygon(e1);
 		Polygon polygon2 = getCollisionPolygon(e2);
-		Vector2 offset = getTranslationOffset(polygon1, polygon2);
-		if (offset.len() > 0) {
-			collidedDelegate.notify(new CollidedEvent(e1, e2, offset.cpy().scl(-1)));
-			collidedDelegate.notify(new CollidedEvent(e2, e1, offset));
+		Vector2 offset1 = getTranslationOffset(polygon1, polygon2);
+		if (offset1.len() > 0) {
+			collidedDelegate.notify(new CollidedEvent(e1, e2, offset1));
+			Vector2 offset2 = getTranslationOffset(polygon2, polygon1);
+			collidedDelegate.notify(new CollidedEvent(e2, e1, offset2));
 		}
 	}
 
@@ -87,7 +88,7 @@ public final class CollisionSystem implements Updater {
 		Vector2 offset = new Vector2();
 		MinimumTranslationVector translation = new MinimumTranslationVector();
 		if (Intersector.overlapConvexPolygons(collider, collidee, translation)) {
-			offset = translation.normal.cpy().scl(translation.depth);
+			offset = translation.normal.cpy();
 			offset.setLength(translation.depth);
 		}
 		return offset;
