@@ -1,5 +1,6 @@
 package dclib.epf.systems;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Intersector;
@@ -15,7 +16,7 @@ import dclib.epf.parts.TransformPart;
 import dclib.eventing.EventDelegate;
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.RectangleUtils;
-import dclib.physics.CollidedEvent;
+import dclib.physics.Collision;
 import dclib.physics.CollidedListener;
 import dclib.system.Updater;
 
@@ -24,6 +25,7 @@ public final class CollisionSystem implements Updater {
 	private final EventDelegate<CollidedListener> collidedDelegate = new EventDelegate<CollidedListener>();
 
 	private final EntityManager entityManager;
+	private final List<Collision> collisions = new ArrayList<Collision>();
 
 	public CollisionSystem(final EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -33,8 +35,19 @@ public final class CollisionSystem implements Updater {
 		collidedDelegate.listen(listener);
 	}
 
+	public final List<Collision> getCollisions(final Entity collider) {
+		List<Collision> colliderCollisions = new ArrayList<Collision>();
+		for (Collision collision : collisions) {
+			if (collision.getCollider() == collider) {
+				colliderCollisions.add(collision);
+			}
+		}
+		return colliderCollisions;
+	}
+
 	@Override
 	public final void update(final float delta) {
+		collisions.clear();
 		checkCollisions(entityManager.getAll());
 	}
 
@@ -52,10 +65,16 @@ public final class CollisionSystem implements Updater {
 		Polygon polygon2 = getCollisionPolygon(e2);
 		Vector2 offset1 = getTranslationOffset(polygon1, polygon2);
 		if (offset1.len() > 0) {
-			collidedDelegate.notify(new CollidedEvent(e1, e2, offset1));
+			notifyCollided(e1, e2, offset1);
 			Vector2 offset2 = getTranslationOffset(polygon2, polygon1);
-			collidedDelegate.notify(new CollidedEvent(e2, e1, offset2));
+			notifyCollided(e2, e1, offset2);
 		}
+	}
+
+	private void notifyCollided(final Entity collider, final Entity collidee, final Vector2 offset) {
+		Collision collision = new Collision(collider, collidee, offset);
+		collidedDelegate.notify(collision);
+		collisions.add(collision);
 	}
 
 	private Polygon getCollisionPolygon(final Entity entity) {
