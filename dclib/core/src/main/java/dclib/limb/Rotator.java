@@ -15,6 +15,10 @@ public final class Rotator {
 		this.rotateSpeed = rotateSpeed;
 	}
 
+	public final Joint getJoint() {
+		return joint;
+	}
+
 	public final void setRotateMultiplier(final float rotateMultiplier) {
 		this.rotateMultiplier = rotateMultiplier;
 	}

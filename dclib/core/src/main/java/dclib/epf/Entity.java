@@ -35,7 +35,7 @@ public class Entity {
 	 * @param partClass The classes of the parts to check.
 	 * @return If there are parts attached to the entity.
 	 */
-	public final boolean has(final Class<?> ... partClasses) {
+	public final boolean has(final Class<?>... partClasses) {
 		for (Class<?> partClass : partClasses) {
 			if (!parts.containsKey(partClass)) {
 				return false;
