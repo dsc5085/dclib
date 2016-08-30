@@ -1,22 +1,26 @@
 package dclib.epf.parts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public final class CollisionDamagePart {
 
-	private final Enum<?>[] collisionGroups;
+	private final List<Enum<?>> collisionGroups;
 	private final float damage;
 
 	public CollisionDamagePart(final float damage, final Enum<?>... collisionGroups) {
 		this.damage = damage;
-		this.collisionGroups = collisionGroups;
+		this.collisionGroups = Arrays.asList(collisionGroups);
 	}
 
 	public final float getDamage() {
 		return damage;
 	}
 
-	public final Enum<?>[] getCollisionGroups() {
-		return collisionGroups.clone();
+	public final List<Enum<?>> getCollisionGroups() {
+		return new ArrayList<Enum<?>>(collisionGroups);
 	}
 
 }
