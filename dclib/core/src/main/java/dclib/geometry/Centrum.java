@@ -17,6 +17,7 @@ public final class Centrum {
 		return PolygonUtils.toGlobal(local, polygon);
 	}
 
+	// TODO: Change to angle?
 	public final float getRotation() {
 		return polygon.getRotation();
 	}

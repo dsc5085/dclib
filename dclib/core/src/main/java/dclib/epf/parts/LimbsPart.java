@@ -25,6 +25,10 @@ public final class LimbsPart {
 		return root;
 	}
 
+	public final boolean getFlipX() {
+		return flipX;
+	}
+
 	public final void setFlipX(final boolean flipX) {
 		this.flipX = flipX;
 	}
