@@ -30,6 +30,10 @@ public final class PhysicsPart {
 		this.gravityScale = gravityScale;
 	}
 
+	public final boolean containsAny(final Enum<?>... collisionGroups) {
+		return containsAny(Arrays.asList(collisionGroups));
+	}
+
 	public final boolean containsAny(final List<Enum<?>> collisionGroups) {
 		return CollectionUtils.containsAny(this.collisionGroups, collisionGroups);
 	}
