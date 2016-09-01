@@ -11,13 +11,14 @@ import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.parts.CollisionPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
 import dclib.eventing.EventDelegate;
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.RectangleUtils;
-import dclib.physics.Collision;
 import dclib.physics.CollidedListener;
+import dclib.physics.Collision;
 import dclib.system.Updater;
 
 public final class CollisionSystem implements Updater {
@@ -60,14 +61,16 @@ public final class CollisionSystem implements Updater {
 	}
 
 	private void checkCollision(final Entity e1, final Entity e2) {
-		// TODO: Cache these collision polygons
-		Polygon polygon1 = getCollisionPolygon(e1);
-		Polygon polygon2 = getCollisionPolygon(e2);
-		Vector2 offset1 = getTranslationOffset(polygon1, polygon2);
-		if (offset1.len() > 0) {
-			notifyCollided(e1, e2, offset1);
-			Vector2 offset2 = getTranslationOffset(polygon2, polygon1);
-			notifyCollided(e2, e1, offset2);
+		if (e1.has(CollisionPart.class) && e2.has(CollisionPart.class)) {
+			// TODO: Cache these collision polygons
+			Polygon polygon1 = getCollisionPolygon(e1);
+			Polygon polygon2 = getCollisionPolygon(e2);
+			Vector2 offset1 = getTranslationOffset(polygon1, polygon2);
+			if (offset1.len() > 0) {
+				notifyCollided(e1, e2, offset1);
+				Vector2 offset2 = getTranslationOffset(polygon2, polygon1);
+				notifyCollided(e2, e1, offset2);
+			}
 		}
 	}
 

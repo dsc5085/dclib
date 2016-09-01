@@ -1,21 +1,14 @@
 package dclib.epf.parts;
 
-import java.util.Arrays;
-import java.util.List;
-
 import dclib.physics.BodyType;
-import dclib.util.CollectionUtils;
 
 public final class PhysicsPart {
 
 	private final BodyType bodyType;
-	// TODO: Move to a collisionpart class
-	private final List<Enum<?>> collisionGroups;
 	private float gravityScale = 1;
 
-	public PhysicsPart(final BodyType bodyType, final Enum<?>... collisionGroups) {
+	public PhysicsPart(final BodyType bodyType) {
 		this.bodyType = bodyType;
-		this.collisionGroups = Arrays.asList(collisionGroups);
 	}
 
 	public final BodyType getBodyType() {
@@ -28,14 +21,6 @@ public final class PhysicsPart {
 
 	public final void setGravityScale(final float gravityScale) {
 		this.gravityScale = gravityScale;
-	}
-
-	public final boolean containsAny(final Enum<?>... collisionGroups) {
-		return containsAny(Arrays.asList(collisionGroups));
-	}
-
-	public final boolean containsAny(final List<Enum<?>> collisionGroups) {
-		return CollectionUtils.containsAny(this.collisionGroups, collisionGroups);
 	}
 
 }

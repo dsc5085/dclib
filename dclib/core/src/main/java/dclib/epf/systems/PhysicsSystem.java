@@ -32,16 +32,19 @@ public final class PhysicsSystem extends EntitySystem {
 		return new CollidedListener() {
 			@Override
 			public void collided(final Entity collider, final Entity collidee, final Vector2 offset) {
-				BodyType colliderBodyType = collider.get(PhysicsPart.class).getBodyType();
-				BodyType collideeBodyType = collidee.get(PhysicsPart.class).getBodyType();
-				if (colliderBodyType == BodyType.DYNAMIC && collideeBodyType == BodyType.STATIC) {
-					translate(collider, offset);
-					TranslatePart translatePart = collider.get(TranslatePart.class);
-					if (offset.x != 0) {
-						translatePart.setVelocityX(0);
-					}
-					if (offset.y != 0) {
-						translatePart.setVelocityY(0);
+				PhysicsPart colliderPhysicsPart = collider.tryGet(PhysicsPart.class);
+				PhysicsPart collideePhysicsPart = collidee.tryGet(PhysicsPart.class);
+				if (colliderPhysicsPart != null && collideePhysicsPart != null) {
+					if (colliderPhysicsPart.getBodyType() == BodyType.DYNAMIC
+							&& collideePhysicsPart.getBodyType() == BodyType.STATIC) {
+						translate(collider, offset);
+						TranslatePart translatePart = collider.get(TranslatePart.class);
+						if (offset.x != 0) {
+							translatePart.setVelocityX(0);
+						}
+						if (offset.y != 0) {
+							translatePart.setVelocityY(0);
+						}
 					}
 				}
 			}
