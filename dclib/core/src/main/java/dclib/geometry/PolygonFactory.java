@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.EarClippingTriangulator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ShortArray;
@@ -43,7 +44,7 @@ public final class PolygonFactory {
 	}
 
 	public static final Polygon createDefault() {
-		float[] vertices = new float[] { 0, 0, 1, 0, 0, 1 };
+		float[] vertices = new float[] { 0, 0, MathUtils.FLOAT_ROUNDING_ERROR, 0, 0, MathUtils.FLOAT_ROUNDING_ERROR };
 		return new Polygon(vertices);
 	}
 

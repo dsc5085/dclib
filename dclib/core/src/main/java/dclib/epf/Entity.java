@@ -76,12 +76,14 @@ public class Entity {
 	 * Adds a part.
 	 * @param part The part.
 	 */
-	public final void attach(final Object part) {
-		if (has(part.getClass())) {
-			throw new IllegalArgumentException("Part of type " + part.getClass().getName()
-					+ " is already attached.");
+	public final void attach(final Object...parts) {
+		for (Object part : parts) {
+			if (has(part.getClass())) {
+				throw new IllegalArgumentException("Part of type " + part.getClass().getName()
+						+ " is already attached.");
+			}
+			this.parts.put(part.getClass(), part);
 		}
-		parts.put(part.getClass(), part);
 	}
 
 	/**

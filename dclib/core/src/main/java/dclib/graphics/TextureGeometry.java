@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.FloatArray;
 
 import dclib.geometry.PolygonFactory;
 import dclib.geometry.PolygonUtils;
+import dclib.geometry.VertexUtils;
 
 public final class TextureGeometry {
 
@@ -14,16 +15,19 @@ public final class TextureGeometry {
 	}
 
 	public static final float[] createConvexHull(final TextureRegion textureRegion) {
+		float[] hullVertices;
 		FloatArray points = getPixelPoints(textureRegion);
-		ConvexHull hull = new ConvexHull();
-		FloatArray hullPoints = hull.computePolygon(points, true);
+		FloatArray hullPoints = new ConvexHull().computePolygon(points, true);
 		removeExtraPointsFromCompute(hullPoints);
-		if (hullPoints.size < PolygonUtils.NUM_TRIANGLE_VERTICES * 2) {
+		if (hullPoints.size >= PolygonUtils.NUM_TRIANGLE_VERTICES * 2) {
+			// libgdx y-axis is flipped
+			hullVertices = VertexUtils.flipY(hullPoints.toArray());
+		} else {
 			int width = textureRegion.getRegionWidth();
 			int height = textureRegion.getRegionHeight();
-			hullPoints = new FloatArray(PolygonFactory.createRectangleVertices(width, height));
+			hullVertices = PolygonFactory.createRectangleVertices(width, height);
 		}
-		return hullPoints.toArray();
+		return hullVertices;
 	}
 
 	private static FloatArray getPixelPoints(final TextureRegion textureRegion) {
