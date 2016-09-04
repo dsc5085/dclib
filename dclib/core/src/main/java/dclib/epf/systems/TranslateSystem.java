@@ -19,8 +19,7 @@ public final class TranslateSystem extends EntitySystem {
 		if (translatePart != null) {
 			TransformPart transformPart = entity.get(TransformPart.class);
 			Vector2 offset = translatePart.getVelocity().scl(delta);
-			Vector2 newPosition = transformPart.getPosition().add(offset);
-			transformPart.setPosition(newPosition);
+			transformPart.translate(offset);
 		}
 	}
 

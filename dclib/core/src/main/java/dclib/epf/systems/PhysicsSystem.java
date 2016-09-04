@@ -12,6 +12,7 @@ import dclib.physics.BodyType;
 import dclib.physics.CollidedListener;
 
 public final class PhysicsSystem extends EntitySystem {
+
 	private final float gravity;
 
 	public PhysicsSystem(final float gravity, final EntityManager entityManager,
@@ -23,8 +24,10 @@ public final class PhysicsSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		if (entity.has(PhysicsPart.class)) {
+		PhysicsPart physicsPart = entity.tryGet(PhysicsPart.class);
+		if (physicsPart != null && physicsPart.getBodyType() == BodyType.DYNAMIC) {
 			applyGravity(entity, delta);
+			applyDrag(entity, delta);
 		}
 	}
 
@@ -60,12 +63,21 @@ public final class PhysicsSystem extends EntitySystem {
 	}
 
 	private void applyGravity(final Entity entity, final float delta) {
-		PhysicsPart physicsPart = entity.get(PhysicsPart.class);
-		if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
-			float gravityScale = entity.get(PhysicsPart.class).getGravityScale();
-			Vector2 velocity = new Vector2(0, gravity * gravityScale * delta);
-			entity.get(TranslatePart.class).addVelocity(velocity);
-		}
+		float gravityScale = entity.get(PhysicsPart.class).getGravityScale();
+		Vector2 velocity = new Vector2(0, gravity * gravityScale * delta);
+		entity.get(TranslatePart.class).addVelocity(velocity);
+	}
+
+	private void applyDrag(final Entity entity, final float delta) {
+		TranslatePart translatePart = entity.get(TranslatePart.class);
+		Vector2 velocity = translatePart.getVelocity();
+		translatePart.setVelocityX(getDragValue(velocity.x, delta));
+		translatePart.setVelocityY(getDragValue(velocity.y, delta));
+	}
+
+	private float getDragValue(final float value, final float delta) {
+		final float drag = 3;
+		return Math.max(Math.abs(value) - drag * delta, 0) * Math.signum(value);
 	}
 
 }

@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.badlogic.gdx.math.Vector2;
 
+// TODO: Merge with PhysicsPart
 @XmlRootElement
 public class TranslatePart {
 
