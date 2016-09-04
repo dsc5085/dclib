@@ -63,8 +63,8 @@ public final class PhysicsSystem extends EntitySystem {
 		PhysicsPart physicsPart = entity.get(PhysicsPart.class);
 		if (physicsPart.getBodyType() == BodyType.DYNAMIC) {
 			float gravityScale = entity.get(PhysicsPart.class).getGravityScale();
-			float velocityY = gravity * gravityScale * delta;
-			entity.get(TranslatePart.class).addVelocity(0, velocityY);
+			Vector2 velocity = new Vector2(0, gravity * gravityScale * delta);
+			entity.get(TranslatePart.class).addVelocity(velocity);
 		}
 	}
 

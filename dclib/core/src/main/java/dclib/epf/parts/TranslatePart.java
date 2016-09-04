@@ -13,7 +13,7 @@ public class TranslatePart {
 	}
 
 	public final Vector2 getVelocity() {
-		return new Vector2(velocity);
+		return velocity.cpy();
 	}
 
 	public final void setVelocity(final Vector2 velocity) {
@@ -28,8 +28,8 @@ public class TranslatePart {
 		velocity.y = velocityY;
 	}
 
-	public final void addVelocity(final float velocityX, final float velocityY) {
-		velocity.add(velocityX, velocityY);
+	public final void addVelocity(final Vector2 velocity) {
+		this.velocity.add(velocity);
 	}
 
 }
