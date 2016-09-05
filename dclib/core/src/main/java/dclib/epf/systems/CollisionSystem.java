@@ -19,6 +19,7 @@ import dclib.geometry.PolygonFactory;
 import dclib.geometry.RectangleUtils;
 import dclib.physics.CollidedListener;
 import dclib.physics.Collision;
+import dclib.physics.CollisionFilter;
 import dclib.system.Updater;
 
 public final class CollisionSystem implements Updater {
@@ -26,6 +27,7 @@ public final class CollisionSystem implements Updater {
 	private final EventDelegate<CollidedListener> collidedDelegate = new EventDelegate<CollidedListener>();
 
 	private final EntityManager entityManager;
+	private final List<CollisionFilter> filters = new ArrayList<CollisionFilter>();
 	private final List<Collision> collisions = new ArrayList<Collision>();
 
 	public CollisionSystem(final EntityManager entityManager) {
@@ -34,6 +36,10 @@ public final class CollisionSystem implements Updater {
 
 	public final void addCollidedListener(final CollidedListener listener) {
 		collidedDelegate.listen(listener);
+	}
+
+	public final void add(final CollisionFilter filter) {
+		filters.add(filter);
 	}
 
 	public final List<Collision> getCollisions(final Entity collider) {
@@ -54,8 +60,19 @@ public final class CollisionSystem implements Updater {
 
 	private void checkCollisions(final List<Entity> entities) {
 		for (int i = 0; i < entities.size() - 1; i++) {
+			Entity e1 = entities.get(i);
 			for (int j = i + 1; j < entities.size(); j++) {
-				checkCollision(entities.get(i), entities.get(j));
+				Entity e2 = entities.get(j);
+				boolean canCheck = true;
+				for (CollisionFilter filter : filters) {
+					if (filter.shouldFilter(e1, e2)) {
+						canCheck = false;
+						break;
+					}
+				}
+				if (canCheck) {
+					checkCollision(e1, e2);
+				}
 			}
 		}
 	}

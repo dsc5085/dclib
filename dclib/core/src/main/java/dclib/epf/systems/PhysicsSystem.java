@@ -10,6 +10,7 @@ import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
 import dclib.physics.BodyType;
 import dclib.physics.CollidedListener;
+import dclib.physics.CollisionFilter;
 
 public final class PhysicsSystem extends EntitySystem {
 
@@ -20,6 +21,7 @@ public final class PhysicsSystem extends EntitySystem {
 		super(entityManager);
 		this.gravity = gravity;
 		collisionSystem.addCollidedListener(collided());
+		collisionSystem.add(getFilter());
 	}
 
 	@Override
@@ -41,15 +43,21 @@ public final class PhysicsSystem extends EntitySystem {
 					if (colliderPhysicsPart.getBodyType() == BodyType.DYNAMIC
 							&& collideePhysicsPart.getBodyType() == BodyType.STATIC) {
 						translate(collider, offset);
-						TranslatePart translatePart = collider.get(TranslatePart.class);
-						if (offset.x != 0) {
-							translatePart.setVelocityX(0);
-						}
-						if (offset.y != 0) {
-							translatePart.setVelocityY(0);
-						}
+						bounce(collider, offset);
 					}
 				}
+			}
+		};
+	}
+
+	private CollisionFilter getFilter() {
+		return new CollisionFilter() {
+			@Override
+			public boolean shouldFilter(final Entity e1, final Entity e2) {
+				PhysicsPart physicsPart1 = e1.tryGet(PhysicsPart.class);
+				PhysicsPart physicsPart2 = e2.tryGet(PhysicsPart.class);
+				return physicsPart1 != null && physicsPart2 != null && physicsPart1.getBodyType() == BodyType.STATIC
+						&& physicsPart2.getBodyType() == BodyType.STATIC;
 			}
 		};
 	}
@@ -60,6 +68,17 @@ public final class PhysicsSystem extends EntitySystem {
 		if (limbsPart != null) {
 			limbsPart.update();
 		}
+	}
+
+	private void bounce(final Entity collider, final Vector2 offset) {
+		TranslatePart translatePart = collider.get(TranslatePart.class);
+		Vector2 newVelocity = translatePart.getVelocity();
+		if (offset.x != 0) {
+			newVelocity.x *= -0.1f;
+		} else if (offset.y != 0) {
+			newVelocity.y *= -0.1f;
+		}
+		translatePart.setVelocity(newVelocity);
 	}
 
 	private void applyGravity(final Entity entity, final float delta) {

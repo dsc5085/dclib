@@ -3,6 +3,7 @@ package dclib.epf.parts;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import dclib.geometry.PolygonUtils;
 import dclib.geometry.VectorUtils;
@@ -35,6 +36,10 @@ public final class TransformPart {
 
 	public final Vector2 getPosition() {
 		return new Vector2(polygon.getX(), polygon.getY());
+	}
+
+	public final Vector3 getPosition3() {
+		return new Vector3(polygon.getX(), polygon.getY(), z);
 	}
 
 	public final void setPosition(final Vector2 position) {
