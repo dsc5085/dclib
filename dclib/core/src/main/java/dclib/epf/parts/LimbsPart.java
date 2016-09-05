@@ -42,7 +42,6 @@ public final class LimbsPart {
 	}
 
 	public final Limb remove(final Polygon descendantPolygon) {
-		// TODO: Needs to take into account child limbs
 		collisionPolygons.remove(descendantPolygon);
 		return root.remove(descendantPolygon);
 	}
@@ -50,11 +49,11 @@ public final class LimbsPart {
 	public final void update() {
 		// TODO: Need to be able to handle both flipX and flipY at the same time
 		float flipAxisAngle = flipX ? 90 : 0;
-		flipDescendantPolygons(flipX, flipY);
+		flipDescendants(flipX, flipY);
 		root.update(flipX || flipY, flipAxisAngle);
 	}
 
-	private void flipDescendantPolygons(final boolean flipX, final boolean flipY) {
+	private void flipDescendants(final boolean flipX, final boolean flipY) {
 		for (Limb limb : root.getDescendants()) {
 			Polygon polygon = limb.getPolygon();
 			float scaleY = Math.abs(polygon.getScaleY());
