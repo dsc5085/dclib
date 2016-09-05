@@ -59,26 +59,18 @@ public final class CollisionSystem implements Updater {
 	}
 
 	private void checkCollisions(final List<Entity> entities) {
+		System.out.println(entities.size());
 		for (int i = 0; i < entities.size() - 1; i++) {
 			Entity e1 = entities.get(i);
 			for (int j = i + 1; j < entities.size(); j++) {
 				Entity e2 = entities.get(j);
-				boolean canCheck = true;
-				for (CollisionFilter filter : filters) {
-					if (filter.shouldFilter(e1, e2)) {
-						canCheck = false;
-						break;
-					}
-				}
-				if (canCheck) {
-					checkCollision(e1, e2);
-				}
+				checkCollision(e1, e2);
 			}
 		}
 	}
 
 	private void checkCollision(final Entity e1, final Entity e2) {
-		if (e1.has(CollisionPart.class) && e2.has(CollisionPart.class)) {
+		if (e1.has(CollisionPart.class) && e2.has(CollisionPart.class) && !shouldFilter(e1, e2)) {
 			// TODO: Cache these collision polygons
 			Polygon polygon1 = getCollisionPolygon(e1);
 			Polygon polygon2 = getCollisionPolygon(e2);
@@ -89,6 +81,15 @@ public final class CollisionSystem implements Updater {
 				notifyCollided(e2, e1, offset2);
 			}
 		}
+	}
+
+	private boolean shouldFilter(final Entity e1, final Entity e2) {
+		for (CollisionFilter filter : filters) {
+			if (filter.shouldFilter(e1, e2)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void notifyCollided(final Entity collider, final Entity collidee, final Vector2 offset) {
