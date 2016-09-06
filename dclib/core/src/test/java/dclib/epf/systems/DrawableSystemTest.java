@@ -21,6 +21,8 @@ import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
+import dclib.geometry.DefaultTransform;
+import dclib.geometry.Transform;
 import dclib.geometry.UnitConverter;
 import dclib.graphics.RegionFactory;
 
@@ -52,7 +54,8 @@ public class DrawableSystemTest {
 
 	private Entity createEntity() {
 		Entity entity = new Entity();
-		entity.attach(new TransformPart(TestPolygonFactory.createSimpleRectangle(), 1));
+		Transform transform = new DefaultTransform(1, TestPolygonFactory.createSimpleRectangle());
+		entity.attach(new TransformPart(transform));
 		PolygonRegion polygonRegion = createPolygonRegion(8, 8);
 		entity.attach(new DrawablePart(polygonRegion));
 		return entity;

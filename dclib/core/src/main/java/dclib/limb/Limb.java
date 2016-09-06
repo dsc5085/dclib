@@ -3,43 +3,42 @@ package dclib.limb;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.PolygonUtils;
+import dclib.geometry.Transform;
 
 public final class Limb {
 
-	private Polygon polygon;
+	private Transform transform;
 	private final List<Joint> joints = new ArrayList<Joint>();
 
 	public Limb() {
-		polygon = null;
+		transform = null;
 	}
 
-	public Limb(final Polygon polygon) {
-		this.polygon = polygon;
+	public Limb(final Transform transform) {
+		this.transform = transform;
 	}
 
-	public final Polygon getPolygon() {
-		return polygon;
+	public final Transform getTransform() {
+		return transform;
 	}
 
-	public final void setPolygon(final Polygon polygon) {
-		this.polygon = polygon;
+	public final void setTransform(final Transform transform) {
+		this.transform = transform;
 	}
 
-	public final Limb remove(final Polygon descendantPolygon) {
-		if (polygon == descendantPolygon) {
+	public final Limb remove(final Transform limbTransform) {
+		if (transform == limbTransform) {
 			return this;
 		}
 		for (Joint joint : joints) {
-			Polygon polygon = joint.getLimb().getPolygon();
-			if (polygon == descendantPolygon) {
+			Transform transform = joint.getLimb().getTransform();
+			if (transform == limbTransform) {
 				joints.remove(joint);
 				return joint.getLimb();
 			}
-			Limb foundLimb = joint.getLimb().remove(descendantPolygon);
+			Limb foundLimb = joint.getLimb().remove(limbTransform);
 			if (foundLimb != null)
 			{
 				return foundLimb;
@@ -55,10 +54,6 @@ public final class Limb {
 			descendants.addAll(joint.getLimb().getDescendants());
 		}
 		return descendants;
-	}
-
-	public final void translate(final float x, final float y) {
-		polygon.translate(x, y);
 	}
 
 	public final Limb addJoint(final Limb limb, final float parentLocalX, final float parentLocalY,
@@ -80,13 +75,14 @@ public final class Limb {
 
 	private void update(final Joint joint, final boolean flip, final float flipAxisAngle) {
 		Limb childLimb = joint.getLimb();
-		float childRotation = polygon.getRotation() + joint.getRotation();
+		float childRotation = transform.getRotation() + joint.getRotation();
 		if (flip) {
 			childRotation = flipAxisAngle * 2 - childRotation;
 		}
-		childLimb.polygon.setRotation(childRotation);
-		Vector2 parentJointGlobal = PolygonUtils.toGlobal(joint.getParentLocal(), polygon);
-		PolygonUtils.setGlobal(childLimb.polygon, joint.getChildLocal(), parentJointGlobal);
+		childLimb.transform.setRotation(childRotation);
+		// TODO: Move these polygonutil methods into the transform
+		Vector2 parentJointGlobal = transform.toGlobal(joint.getParentLocal());
+		transform.setGlobal(joint.getChildLocal(), parentJointGlobal);
 		childLimb.update(flip, childRotation);
 	}
 

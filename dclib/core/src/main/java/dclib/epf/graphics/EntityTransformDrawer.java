@@ -5,10 +5,11 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 
 import dclib.epf.Entity;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.VertexUtils;
+import dclib.geometry.DefaultTransform;
 
 public final class EntityTransformDrawer implements EntityDrawer {
 
@@ -24,17 +25,25 @@ public final class EntityTransformDrawer implements EntityDrawer {
 
 	@Override
 	public final void draw(final List<Entity> entities) {
+		Matrix4 renderMatrix = new Matrix4(camera.combined);
+		renderMatrix.scale(pixelsPerUnit, pixelsPerUnit, 1);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Line);
 		for (Entity entity : entities) {
-			TransformPart transformPart = entity.tryGet(TransformPart.class);
-			if (transformPart != null) {
-				float[] transformedVertices = transformPart.getTransformedVertices();
-				float[] vertices = VertexUtils.scale(transformedVertices, pixelsPerUnit);
-				shapeRenderer.polygon(vertices);
-			}
+			draw(entity);
 		}
 		shapeRenderer.end();
+	}
+
+	private void draw(Entity entity) {
+		TransformPart transformPart = entity.tryGet(TransformPart.class);
+		if (transformPart != null) {
+			if (transformPart.getTransform() instanceof DefaultTransform) {
+				DefaultTransform transform = (DefaultTransform)transformPart.getTransform();
+				float[] transformedVertices = transform.getTransformedVertices();
+				shapeRenderer.polygon(transformedVertices);
+			}
+		}
 	}
 
 }

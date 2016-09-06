@@ -7,11 +7,11 @@ public final class AutoRotatePart {
 	// TODO: move oldposition to a new part
 	private Vector2 oldPosition;
 
-	public final Vector2 getOldPosition() {
+	public final Vector2 getOldCenter() {
 		return oldPosition;
 	}
 
-	public final void setOldPosition(final Vector2 oldPosition) {
+	public final void setOldCenter(final Vector2 oldPosition) {
 		this.oldPosition = oldPosition;
 	}
 

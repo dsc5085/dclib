@@ -7,6 +7,7 @@ import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
+import dclib.geometry.Transform;
 import dclib.geometry.UnitConverter;
 
 public final class DrawableSystem extends EntitySystem {
@@ -22,15 +23,15 @@ public final class DrawableSystem extends EntitySystem {
 	protected final void update(final float delta, final Entity entity) {
 		DrawablePart drawablePart = entity.tryGet(DrawablePart.class);
 		if (drawablePart != null) {
-			TransformPart transformPart = entity.get(TransformPart.class);
+			Transform transform = entity.get(TransformPart.class).getTransform();
 			PolygonSprite sprite = drawablePart.getSprite();
-			Vector2 origin = unitConverter.toPixelUnits(transformPart.getOrigin());
+			Vector2 origin = unitConverter.toPixelUnits(transform.getOrigin());
 			sprite.setOrigin(origin.x, origin.y);
-			Vector2 size = unitConverter.toPixelUnits(transformPart.getSize());
+			Vector2 size = unitConverter.toPixelUnits(transform.getSize());
 			sprite.setSize(size.x, size.y);
-			Vector2 position = unitConverter.toPixelUnits(transformPart.getPosition());
+			Vector2 position = unitConverter.toPixelUnits(transform.getPosition());
 			sprite.setPosition(position.x, position.y);
-			sprite.setRotation(transformPart.getRotation());
+			sprite.setRotation(transform.getRotation());
 		}
 	}
 

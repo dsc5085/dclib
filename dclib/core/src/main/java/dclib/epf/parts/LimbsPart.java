@@ -3,21 +3,22 @@ package dclib.epf.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 
+import dclib.geometry.Transform;
 import dclib.limb.Limb;
 
 public final class LimbsPart {
 
 	private final Limb root;
-	private final List<Polygon> collisionPolygons = new ArrayList<Polygon>();
+	private final List<Transform> collisionTransforms = new ArrayList<Transform>();
 	private boolean flipX = false;
 	private boolean flipY = false;
 
 	public LimbsPart(final Limb root, final Limb... collisionLimbs) {
 		this.root = root;
 		for (Limb collisionLimb : collisionLimbs) {
-			collisionPolygons.add(collisionLimb.getPolygon());
+			collisionTransforms.add(collisionLimb.getTransform());
 		}
 	}
 
@@ -37,13 +38,13 @@ public final class LimbsPart {
 		this.flipY = flipY;
 	}
 
-	public final List<Polygon> getCollisionPolygons() {
-		return new ArrayList<Polygon>(collisionPolygons);
+	public final List<Transform> getCollisionTransforms() {
+		return new ArrayList<Transform>(collisionTransforms);
 	}
 
-	public final Limb remove(final Polygon descendantPolygon) {
-		collisionPolygons.remove(descendantPolygon);
-		return root.remove(descendantPolygon);
+	public final Limb remove(final Transform transform) {
+		collisionTransforms.remove(transform);
+		return root.remove(transform);
 	}
 
 	public final void update() {
@@ -55,16 +56,11 @@ public final class LimbsPart {
 
 	private void flipDescendants(final boolean flipX, final boolean flipY) {
 		for (Limb limb : root.getDescendants()) {
-			Polygon polygon = limb.getPolygon();
-			float scaleY = Math.abs(polygon.getScaleY());
-			if (flipX) {
-				scaleY *= -1;
-			}
-			float scaleX = Math.abs(polygon.getScaleX());
-			if (flipY) {
-				scaleX *= -1;
-			}
-			polygon.setScale(scaleX, scaleY);
+			Transform transform = limb.getTransform();
+			Vector2 scale = transform.getScale();
+			scale.x = flipY ? -scale.x : scale.x;
+			scale.y = flipX ? -scale.y : scale.y;
+			transform.setScale(scale);
 		}
 	}
 

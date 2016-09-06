@@ -6,6 +6,7 @@ import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.parts.AutoRotatePart;
 import dclib.epf.parts.TransformPart;
+import dclib.geometry.Transform;
 import dclib.geometry.VectorUtils;
 
 public final class AutoRotateSystem extends EntitySystem {
@@ -18,13 +19,14 @@ public final class AutoRotateSystem extends EntitySystem {
 	protected final void update(final float delta, final Entity entity) {
 		AutoRotatePart autoRotatePart = entity.tryGet(AutoRotatePart.class);
 		if (autoRotatePart != null) {
-			TransformPart transformPart = entity.get(TransformPart.class);
-			Vector2 oldPosition = autoRotatePart.getOldPosition();
-			if (oldPosition != null) {
-				Vector2 offset = VectorUtils.offset(oldPosition, transformPart.getPosition());
-				transformPart.setCenteredRotation(offset.angle());
+			Transform transform = entity.get(TransformPart.class).getTransform();
+			Vector2 center = transform.getCenter();
+			Vector2 oldCenter = autoRotatePart.getOldCenter();
+			if (oldCenter != null) {
+				Vector2 offset = VectorUtils.offset(oldCenter, center);
+				transform.setCenteredRotation(offset.angle());
 			}
-			autoRotatePart.setOldPosition(transformPart.getPosition());
+			autoRotatePart.setOldCenter(center);
 		}
 	}
 

@@ -66,7 +66,7 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 		private float getValue(final Entity entity) {
 			TransformPart transformPart = entity.tryGet(TransformPart.class);
 			if (transformPart != null) {
-				return transformPart.getZ();
+				return transformPart.getTransform().getZ();
 			} else {
 				return 0;
 			}

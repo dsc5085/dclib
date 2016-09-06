@@ -2,8 +2,6 @@ package dclib.epf.systems;
 
 import java.util.List;
 
-import com.badlogic.gdx.math.Polygon;
-
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntityRemovedListener;
@@ -11,6 +9,7 @@ import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
 import dclib.epf.util.LimbUtils;
+import dclib.geometry.Transform;
 import dclib.limb.Limb;
 
 public final class LimbsSystem extends EntitySystem {
@@ -42,12 +41,12 @@ public final class LimbsSystem extends EntitySystem {
 				TransformPart transformPart = removedEntity.tryGet(TransformPart.class);
 				if (transformPart != null) {
 					// TODO: Limb relationships are messy.  Cleanup
-					Polygon polygon = transformPart.getPolygon();
+					Transform transform = transformPart.getTransform();
 					List<Entity> entities = entityManager.getAll();
 					entities.add(removedEntity);
 					for (Entity entity : entities) {
 						if (entity.has(LimbsPart.class)) {
-							if (removeLimb(polygon, entities, entity)) {
+							if (removeLimb(transform, entities, entity)) {
 								break;
 							}
 						}
@@ -55,8 +54,8 @@ public final class LimbsSystem extends EntitySystem {
 				}
 			}
 
-			private boolean removeLimb(final Polygon limbPolygon, final List<Entity> entities, final Entity parent) {
-				Limb limb = parent.get(LimbsPart.class).remove(limbPolygon);
+			private boolean removeLimb(final Transform limbTransform, final List<Entity> entities, final Entity parent) {
+				Limb limb = parent.get(LimbsPart.class).remove(limbTransform);
 				boolean found = limb != null;
 				if (found) {
 					for (Limb descendantLimb : limb.getDescendants()) {
