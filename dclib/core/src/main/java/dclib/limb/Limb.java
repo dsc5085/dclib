@@ -80,9 +80,8 @@ public final class Limb {
 			childRotation = flipAxisAngle * 2 - childRotation;
 		}
 		childLimb.transform.setRotation(childRotation);
-		// TODO: Move these polygonutil methods into the transform
 		Vector2 parentJointGlobal = transform.toGlobal(joint.getParentLocal());
-		transform.setGlobal(joint.getChildLocal(), parentJointGlobal);
+		childLimb.transform.setGlobal(joint.getChildLocal(), parentJointGlobal);
 		childLimb.update(flip, childRotation);
 	}
 

@@ -46,7 +46,7 @@ public abstract class Transform {
 	 * @return global point
 	 */
 	public final Vector2 toGlobal(final Vector2 local) {
-		return new Vector2(local.x, local.y)
+		return local.cpy()
 		.sub(getOrigin())
 		.scl(getScale())
 		.rotate(getRotation())
