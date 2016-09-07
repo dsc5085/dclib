@@ -58,8 +58,8 @@ public final class LimbsPart {
 		for (Limb limb : root.getDescendants()) {
 			Transform transform = limb.getTransform();
 			Vector2 scale = transform.getScale();
-			scale.x = flipY ? -scale.x : scale.x;
-			scale.y = flipX ? -scale.y : scale.y;
+			scale.x = Math.abs(scale.x) * (flipY ? -1 : 1);
+			scale.y = Math.abs(scale.y) * (flipX ? -1 : 1);
 			transform.setScale(scale);
 		}
 	}
