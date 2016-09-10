@@ -1,5 +1,6 @@
 package dclib.geometry;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Transform {
@@ -24,9 +25,18 @@ public abstract class Transform {
 
 	public abstract Vector2 getPosition();
 
-	public abstract Vector2 getCenter();
+	public abstract void setPosition(final Vector2 position);
 
-	public abstract void translate(final Vector2 offset);
+	public final Vector2 getCenter() {
+		return getBounds().getCenter(new Vector2());
+	}
+
+	public final void translate(final Vector2 offset) {
+		Vector2 newPosition = getPosition().add(offset);
+		setPosition(newPosition);
+	}
+
+	public abstract Rectangle getBounds();
 
 	public abstract float getRotation();
 

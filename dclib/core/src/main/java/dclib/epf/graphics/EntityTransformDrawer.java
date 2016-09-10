@@ -27,7 +27,7 @@ public final class EntityTransformDrawer implements EntityDrawer {
 	public final void draw(final List<Entity> entities) {
 		Matrix4 renderMatrix = new Matrix4(camera.combined);
 		renderMatrix.scale(pixelsPerUnit, pixelsPerUnit, 1);
-		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(renderMatrix);
 		shapeRenderer.begin(ShapeType.Line);
 		for (Entity entity : entities) {
 			draw(entity);
@@ -35,7 +35,7 @@ public final class EntityTransformDrawer implements EntityDrawer {
 		shapeRenderer.end();
 	}
 
-	private void draw(Entity entity) {
+	private void draw(final Entity entity) {
 		TransformPart transformPart = entity.tryGet(TransformPart.class);
 		if (transformPart != null) {
 			if (transformPart.getTransform() instanceof DefaultTransform) {

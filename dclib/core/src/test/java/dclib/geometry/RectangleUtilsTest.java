@@ -30,14 +30,6 @@ public final class RectangleUtilsTest {
 		assertEquals(15.6f, rectangle.y, MathUtils.FLOAT_ROUNDING_ERROR);
 	}
 
-	@Test
-	public void translateY_ReturnsExpected() {
-		Rectangle rectangle = createRectangle();
-		RectangleUtils.translateY(rectangle, 0.3f);
-		assertEquals(2.2f, rectangle.height, MathUtils.FLOAT_ROUNDING_ERROR);
-		assertEquals(5.5f, rectangle.y, MathUtils.FLOAT_ROUNDING_ERROR);
-	}
-
 	private Rectangle createRectangle() {
 		return new Rectangle(3.3f, 5.2f, 2.5f, 2.5f);
 	}

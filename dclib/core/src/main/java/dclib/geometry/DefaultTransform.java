@@ -46,13 +46,13 @@ public final class DefaultTransform extends Transform {
 	}
 
 	@Override
-	public Vector2 getCenter() {
-		return polygon.getBoundingRectangle().getCenter(new Vector2());
+	public void setPosition(final Vector2 position) {
+		polygon.setPosition(position.x, position.y);
 	}
 
 	@Override
-	public void translate(final Vector2 offset) {
-		polygon.translate(offset.x, offset.y);
+	public final Rectangle getBounds() {
+		return new Rectangle(polygon.getBoundingRectangle());
 	}
 
 	@Override
