@@ -50,7 +50,7 @@ public abstract class Transform {
 	}
 
 	/**
-	 * Convert a point local to the polygon to a point in global space.
+	 * Convert a point local to the origin to a point in global space.
 	 * @param localX local X within the untransformed polygon
 	 * @param localY local Y within the untransformed polygon
 	 * @return global point
@@ -65,7 +65,7 @@ public abstract class Transform {
 	}
 
 	/**
-	 * Translates the polygon so that the local point of the polygon is at the global point.
+	 * Translate so that the local point of at the global point.
 	 * @param local local point
 	 * @param newGlobal new global point
 	 */

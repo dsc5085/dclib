@@ -12,7 +12,7 @@ public final class ScreenManager {
 	
 	public final Screen getCurrentScreen() {
 		if (screens.isEmpty()) {
-			throw new UnsupportedOperationException("Could not get current screen because there are no screens");
+			throw new UnsupportedOperationException("There are no screens");
 		}
 		return screens.get(0);
 	}
