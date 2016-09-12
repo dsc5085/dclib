@@ -53,19 +53,19 @@ public final class LimbsSystem extends EntitySystem {
 					}
 				}
 			}
-
-			private boolean removeLimb(final Transform limbTransform, final List<Entity> entities, final Entity parent) {
-				Limb limb = parent.get(LimbsPart.class).remove(limbTransform);
-				boolean found = limb != null;
-				if (found) {
-					for (Limb descendantLimb : limb.getDescendants()) {
-						Entity descendant = LimbUtils.findEntity(entities, descendantLimb);
-						entityManager.remove(descendant);
-					}
-				}
-				return found;
-			}
 		};
+	}
+
+	private boolean removeLimb(final Transform limbTransform, final List<Entity> entities, final Entity parent) {
+		Limb limb = parent.get(LimbsPart.class).remove(limbTransform);
+		boolean found = limb != null;
+		if (found) {
+			for (Limb descendantLimb : limb.getDescendants()) {
+				Entity descendant = LimbUtils.findEntity(entities, descendantLimb);
+				entityManager.remove(descendant);
+			}
+		}
+		return found;
 	}
 
 }

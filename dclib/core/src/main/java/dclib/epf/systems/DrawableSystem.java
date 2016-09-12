@@ -29,6 +29,8 @@ public final class DrawableSystem extends EntitySystem {
 			sprite.setOrigin(origin.x, origin.y);
 			Vector2 size = unitConverter.toPixelUnits(transform.getSize());
 			sprite.setSize(size.x, size.y);
+			Vector2 scale = transform.getScale();
+			sprite.setScale(scale.x, scale.y);
 			Vector2 position = unitConverter.toPixelUnits(transform.getPosition());
 			sprite.setPosition(position.x, position.y);
 			sprite.setRotation(transform.getRotation());

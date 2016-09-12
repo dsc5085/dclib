@@ -35,8 +35,6 @@ public final class DefaultTransform extends Transform {
 	@Override
 	public Vector2 getSize() {
 		Rectangle bounds = VertexUtils.bounds(polygon.getVertices());
-		bounds.width *= polygon.getScaleX();
-		bounds.height *= polygon.getScaleY();
 		return bounds.getSize(new Vector2());
 	}
 

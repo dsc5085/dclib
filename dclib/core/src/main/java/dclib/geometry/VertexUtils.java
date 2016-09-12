@@ -1,8 +1,6 @@
 package dclib.geometry;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,22 +11,22 @@ public final class VertexUtils {
 	private VertexUtils() {
 	}
 
-	public static final float[] toArray(final List<Vector2> vertices) {
-		float[] verticesArray = new float[vertices.size() * 2];
-		for (int i = 0; i < vertices.size(); i++) {
-			Vector2 vertex = vertices.get(i);
-			verticesArray[i * 2] = vertex.x;
-			verticesArray[i * 2 + 1] = vertex.y;
+	public static final float[] toFloats(final Vector2[] vertices) {
+		float[] vertexFloats = new float[vertices.length * 2];
+		for (int i = 0; i < vertices.length; i++) {
+			Vector2 vertex = vertices[i];
+			vertexFloats[i * 2] = vertex.x;
+			vertexFloats[i * 2 + 1] = vertex.y;
 		}
-		return verticesArray;
+		return vertexFloats;
 	}
 
-	public static final List<Vector2> toList(final float[] vertices) {
-		List<Vector2> verticesList = new ArrayList<Vector2>();
-		for (int i = 0; i < vertices.length / 2; i++) {
-			verticesList.add(new Vector2(vertices[i * 2], vertices[i * 2 + 1]));
+	public static final Vector2[] toVectors(final float[] vertices) {
+		Vector2[] vectors = new Vector2[vertices.length / 2];
+		for (int i = 0; i < vectors.length; i++) {
+			vectors[i] = new Vector2(vertices[i * 2], vertices[i * 2 + 1]);
 		}
-		return verticesList;
+		return vectors;
 	}
 
 	/**
@@ -99,22 +97,21 @@ public final class VertexUtils {
 
 	public static float[] setSize(final float[] vertices, final Vector2 size) {
 		Vector2 verticesSize = VertexUtils.bounds(vertices).getSize(new Vector2());
-		float scaleX = size.x / verticesSize.x;
-		float scaleY = size.y / verticesSize.y;
-		return scale(vertices, scaleX, scaleY);
+		Vector2 scale = new Vector2(size.x / verticesSize.x, size.y / verticesSize.y);
+		return scale(vertices, scale);
 	}
 
 	public static float[] scale(final float[] vertices, final float scale) {
-		return scale(vertices, scale, scale);
+		return scale(vertices, new Vector2(scale, scale));
 	}
 
-	public static float[] scale(final float[] vertices, final float scaleX, final float scaleY) {
+	public static float[] scale(final float[] vertices, final Vector2 scale) {
 		float[] scaledVertices = new float[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
 			if (i % 2 == 0) {
-				scaledVertices[i] = vertices[i] * scaleX;
+				scaledVertices[i] = vertices[i] * scale.x;
 			} else {
-				scaledVertices[i] = vertices[i] * scaleY;
+				scaledVertices[i] = vertices[i] * scale.y;
 			}
 		}
 		return scaledVertices;
