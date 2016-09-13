@@ -55,7 +55,7 @@ public final class Box2dTransform extends Transform {
 
 	@Override
 	public final Vector2 getPosition() {
-		return body.getPosition();
+		return body.getPosition().cpy();
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public final class Box2dTransform extends Transform {
 
 	@Override
 	public final Rectangle getBounds() {
-		return Box2DUtils.aabb(body);
+		return new Rectangle(Box2DUtils.aabb(body));
 	}
 
 	@Override

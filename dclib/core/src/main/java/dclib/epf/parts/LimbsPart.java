@@ -11,7 +11,7 @@ import dclib.limb.Limb;
 public final class LimbsPart {
 
 	private final Limb root;
-	private final List<Transform> collisionTransforms = new ArrayList<Transform>();
+	private final List<Transform> collisionTransforms = new ArrayList<>();
 	private boolean flipX = false;
 	private boolean flipY = false;
 
@@ -38,8 +38,9 @@ public final class LimbsPart {
 		this.flipY = flipY;
 	}
 
+	// TODO: Deprecated.  Collision transforms are no longer stored in Limbs
 	public final List<Transform> getCollisionTransforms() {
-		return new ArrayList<Transform>(collisionTransforms);
+		return new ArrayList<>(collisionTransforms);
 	}
 
 	public final Limb remove(final Transform transform) {
