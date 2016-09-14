@@ -20,6 +20,7 @@ public final class Box2dTransform extends Transform {
 	public Box2dTransform(final float z, final Body body) {
 		super(z);
 		this.body = body;
+		body.setUserData(this);
 	}
 
 	@Override
