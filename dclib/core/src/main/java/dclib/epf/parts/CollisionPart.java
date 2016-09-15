@@ -12,6 +12,16 @@ public final class CollisionPart {
 	public CollisionPart(final Enum<?>... collisionGroups) {
 		this.collisionGroups = Arrays.asList(collisionGroups);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public final <T extends Enum<T>> T getCollisionGroup(final Class<T> collisionGroupClass) {
+		for (Enum<?> collisionGroup : collisionGroups) {
+			if (collisionGroup.getClass() == collisionGroupClass) {
+				return (T)collisionGroup;
+			}
+		}
+		return null;
+	}
 
 	public final boolean containsAny(final Enum<?>... collisionGroups) {
 		return containsAny(Arrays.asList(collisionGroups));

@@ -33,35 +33,34 @@ public final class CollisionChecker implements Updater {
 
 	@Override
 	public final void update(final float delta) {
-		Map<Entity, Set<Entity>> colliderToCollidees = getColliderToCollidees();
-		for (Map.Entry<Entity, Set<Entity>> colliderToCollideesEntry : colliderToCollidees.entrySet()) {
-			Entity collider = colliderToCollideesEntry.getKey();
-			for (Entity collidee : colliderToCollideesEntry.getValue()) {
-				// TODO: Also, put the bodys in the CollidedEvent
+		Map<Contacter, Set<Contacter>> colliderToCollidees = getColliderToCollidees();
+		for (Map.Entry<Contacter, Set<Contacter>> colliderToCollideesEntry : colliderToCollidees.entrySet()) {
+			Contacter collider = colliderToCollideesEntry.getKey();
+			for (Contacter collidee : colliderToCollideesEntry.getValue()) {
 				collidedDelegate.notify(new CollidedEvent(collider, collidee));
 			}
 		}
 	}
 
-	private Map<Entity, Set<Entity>> getColliderToCollidees() {
-		Map<Entity, Set<Entity>> colliderToCollidees = new HashMap<Entity, Set<Entity>>();
+	private Map<Contacter, Set<Contacter>> getColliderToCollidees() {
+		Map<Contacter, Set<Contacter>> colliderToCollidees = new HashMap<Contacter, Set<Contacter>>();
 		for (Contact contact : world.getContactList()) {
 			if (contact.isTouching()) {
-				Entity e1 = getEntity(contact.getFixtureA());
-				Entity e2 = getEntity(contact.getFixtureB());
+				Contacter e1 = createContacter(contact.getFixtureA());
+				Contacter e2 = createContacter(contact.getFixtureB());
 				if (e1 != null && e2 != null) {
-					CollectionUtils.get(colliderToCollidees, e1, new HashSet<Entity>()).add(e2);
-					CollectionUtils.get(colliderToCollidees, e2, new HashSet<Entity>()).add(e1);
+					CollectionUtils.get(colliderToCollidees, e1, new HashSet<Contacter>()).add(e2);
+					CollectionUtils.get(colliderToCollidees, e2, new HashSet<Contacter>()).add(e1);
 				}
 			}
 		}
 		return colliderToCollidees;
 	}
 	
-	private Entity getEntity(final Fixture fixture) {
+	private Contacter createContacter(final Fixture fixture) {
 		for (Entity entity : entityManager.getAll()) {
 			if (fixture != null && fixture.getBody().getUserData() == entity) {
-				return entity;
+				return new Contacter(fixture.getBody(), entity);
 			}
 		}
 		return null;

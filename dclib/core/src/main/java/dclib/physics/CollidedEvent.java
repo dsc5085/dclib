@@ -1,14 +1,13 @@
 package dclib.physics;
 
-import dclib.epf.Entity;
 import dclib.eventing.Event;
 
 public class CollidedEvent implements Event<CollidedListener> {
 
-	private final Entity collider;
-	private final Entity collidee;
+	private final Contacter collider;
+	private final Contacter collidee;
 	
-	public CollidedEvent(final Entity collider, final Entity collidee) {
+	public CollidedEvent(final Contacter collider, final Contacter collidee) {
 		this.collider = collider;
 		this.collidee = collidee;
 	}
