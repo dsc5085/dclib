@@ -36,8 +36,12 @@ public final class CollisionChecker implements Updater {
 		Map<Contacter, Set<Contacter>> colliderToCollidees = getColliderToCollidees();
 		for (Map.Entry<Contacter, Set<Contacter>> colliderToCollideesEntry : colliderToCollidees.entrySet()) {
 			Contacter collider = colliderToCollideesEntry.getKey();
-			for (Contacter collidee : colliderToCollideesEntry.getValue()) {
-				collidedDelegate.notify(new CollidedEvent(collider, collidee));
+			if (collider.getEntity().isActive()) {
+				for (Contacter collidee : colliderToCollideesEntry.getValue()) {
+					if (collidee.getEntity().isActive()) {
+						collidedDelegate.notify(new CollidedEvent(collider, collidee));
+					}
+				}
 			}
 		}
 	}

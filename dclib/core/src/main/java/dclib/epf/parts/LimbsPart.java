@@ -20,6 +20,7 @@ public final class LimbsPart {
 		for (Limb collisionLimb : collisionLimbs) {
 			collisionTransforms.add(collisionLimb.getTransform());
 		}
+		update();
 	}
 
 	public final Limb getRoot() {
