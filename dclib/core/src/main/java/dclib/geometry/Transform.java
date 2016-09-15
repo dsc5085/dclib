@@ -2,6 +2,7 @@ package dclib.geometry;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public abstract class Transform {
 
@@ -25,6 +26,11 @@ public abstract class Transform {
 
 	public abstract Vector2 getPosition();
 
+	public final Vector3 getPosition3() {
+		Vector2 position = getPosition();
+		return new Vector3(position.x, position.y, z);
+	}
+	
 	public abstract void setPosition(final Vector2 position);
 
 	public final Vector2 getCenter() {
