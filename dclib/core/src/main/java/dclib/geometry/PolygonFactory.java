@@ -43,9 +43,8 @@ public final class PolygonFactory {
         return trianglesVertices;
 	}
 
-	public static final Polygon createDefault() {
-		float[] vertices = new float[] { 0, 0, MathUtils.FLOAT_ROUNDING_ERROR, 0, 0, MathUtils.FLOAT_ROUNDING_ERROR };
-		return new Polygon(vertices);
+	public static final float[] createDefault() {
+		return new float[] { 0, 0, MathUtils.FLOAT_ROUNDING_ERROR, 0, 0, MathUtils.FLOAT_ROUNDING_ERROR };
 	}
 
 	public static final float[] createRectangleVertices(final float width, final float height) {

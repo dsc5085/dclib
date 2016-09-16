@@ -3,6 +3,7 @@ package dclib.limb;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.DefaultTransform;
@@ -15,7 +16,8 @@ public final class Limb {
 	private final List<Joint> joints = new ArrayList<Joint>();
 
 	public Limb() {
-		transform = new DefaultTransform(0, PolygonFactory.createDefault());
+		Polygon polygon = new Polygon(PolygonFactory.createDefault());
+		transform = new DefaultTransform(0, polygon);
 	}
 
 	public Limb(final Transform transform) {

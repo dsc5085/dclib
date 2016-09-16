@@ -15,6 +15,8 @@ public abstract class Transform {
 	public final float getZ() {
 		return z;
 	}
+	
+	public abstract float[] getVertices();
 
 	public abstract Vector2 getOrigin();
 

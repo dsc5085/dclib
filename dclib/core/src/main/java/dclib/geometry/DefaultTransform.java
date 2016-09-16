@@ -12,39 +12,56 @@ public final class DefaultTransform extends Transform {
 		super(z);
 		this.polygon = polygon;
 	}
+	
+	public DefaultTransform(final Transform transform) {
+		super(transform.getZ());
+		polygon = new Polygon(transform.getVertices());
+		Vector2 origin = transform.getOrigin();
+		polygon.setOrigin(origin.x, origin.y);
+		Vector2 position = transform.getPosition();
+		polygon.setPosition(position.x, position.y);
+		polygon.setRotation(transform.getRotation());
+		Vector2 scale = transform.getScale();
+		polygon.setScale(scale.x, scale.y);
+	}
 
 	public final float[] getTransformedVertices() {
 		return polygon.getTransformedVertices();
 	}
 
 	@Override
-	public Vector2 getOrigin() {
+	public final float[] getVertices() {
+		return polygon.getVertices();
+	}
+
+	@Override
+	public final Vector2 getOrigin() {
 		return new Vector2(polygon.getOriginX(), polygon.getOriginY());
 	}
 
 	@Override
-	public Vector2 getScale() {
+	public final Vector2 getScale() {
 		return new Vector2(polygon.getScaleX(), polygon.getScaleY());
 	}
 
 	@Override
-	public void setScale(final Vector2 scale) {
+	public final void setScale(final Vector2 scale) {
 		polygon.setScale(scale.x, scale.y);
 	}
 
 	@Override
-	public Vector2 getSize() {
+	public final Vector2 getSize() {
 		Rectangle bounds = VertexUtils.bounds(polygon.getVertices());
 		return bounds.getSize(new Vector2());
 	}
 
 	@Override
-	public Vector2 getPosition() {
+	public final Vector2 getPosition() {
 		return new Vector2(polygon.getX(), polygon.getY());
 	}
 
 	@Override
-	public void setPosition(final Vector2 position) {
+	public final void setPosition(final Vector2 position) {
 		polygon.setPosition(position.x, position.y);
 	}
 
@@ -54,12 +71,12 @@ public final class DefaultTransform extends Transform {
 	}
 
 	@Override
-	public float getRotation() {
+	public final float getRotation() {
 		return polygon.getRotation();
 	}
 
 	@Override
-	public void setRotation(final float degrees) {
+	public final void setRotation(final float degrees) {
 		polygon.setRotation(degrees);
 	}
 
