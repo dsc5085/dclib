@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface EntityManager {
 
-	void addEntityAddedListener(final EntityAddedListener listener);
-	void addEntityRemovedListener(final EntityRemovedListener listener);
+	void listen(final EntityAddedListener listener);
+	void listen(final EntityRemovedListener listener);
 	boolean contains(final Entity entity);
 	List<Entity> getAll();
 	void add(final Entity entity);

@@ -26,14 +26,13 @@ public final class DefaultEntityManager implements EntityManager {
 		}
 	}
 
-	// TODO: Rename all these listener methods to listenBlabla...
 	@Override
-	public final void addEntityAddedListener(final EntityAddedListener listener) {
+	public final void listen(final EntityAddedListener listener) {
 		entityAddedDelegate.listen(listener);
 	}
 
 	@Override
-	public final void addEntityRemovedListener(final EntityRemovedListener listener) {
+	public final void listen(final EntityRemovedListener listener) {
 		entityRemovedDelegate.listen(listener);
 	}
 

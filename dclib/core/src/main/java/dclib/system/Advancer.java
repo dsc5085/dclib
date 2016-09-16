@@ -1,16 +1,15 @@
 package dclib.system;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class Advancer {
 
-	private final List<Updater> updaters = new ArrayList<Updater>();
+	private final List<Updater> updaters;
 	private float accumulatedDelta = 0;
-
-	public final Advancer add(final Updater updater) {
-		updaters.add(updater);
-		return this;
+	
+	public Advancer(final Updater...updaters) {
+		this.updaters = Arrays.asList(updaters);
 	}
 
 	public final void advance(final float delta) {

@@ -27,7 +27,7 @@ public final class CollisionChecker implements Updater {
 		this.world = world;
 	}
 
-	public final void addCollidedListener(final CollidedListener listener) {
+	public final void listen(final CollidedListener listener) {
 		collidedDelegate.listen(listener);
 	}
 

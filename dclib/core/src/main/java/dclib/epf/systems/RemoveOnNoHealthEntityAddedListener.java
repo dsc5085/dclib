@@ -19,7 +19,7 @@ public final class RemoveOnNoHealthEntityAddedListener implements EntityAddedLis
 	public final void added(final Entity entity) {
 		HealthPart healthPart = entity.tryGet(HealthPart.class);
 		if (healthPart != null) {
-			healthPart.addNoHealthListener(noHealth(entity));
+			healthPart.listen(noHealth(entity));
 		}
 	}
 

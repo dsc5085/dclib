@@ -33,7 +33,7 @@ public final class DefaultEntityManagerTest {
 	public void add_Entity_NotifiesEntityAdded() {
 		setupAddTest();
 		EntityAddedListener listener = mock(EntityAddedListener.class);
-		entityManager.addEntityAddedListener(listener);
+		entityManager.listen(listener);
 		entityManager.add(entity);
 		verify(listener).added(entity);
 	}
@@ -71,7 +71,7 @@ public final class DefaultEntityManagerTest {
 	public void remove_Entity_NotifiesEntityRemoved() {
 		setupRemoveTest();
 		EntityRemovedListener listener = mock(EntityRemovedListener.class);
-		entityManager.addEntityRemovedListener(listener);
+		entityManager.listen(listener);
 		entityManager.remove(entity);
 		verify(listener).removed(entity);
 	}

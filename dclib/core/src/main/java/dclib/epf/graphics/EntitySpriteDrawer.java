@@ -25,7 +25,7 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 			final EntityManager entityManager) {
 		this.spriteBatch = spriteBatch;
 		this.camera = camera;
-		entityManager.addEntityAddedListener(new EntityAddedListener() {
+		entityManager.listen(new EntityAddedListener() {
 			@Override
 			public void added(final Entity entity) {
 				newEntities.add(entity);

@@ -25,7 +25,7 @@ public final class HealthPart {
 		this.maxHealth = maxHealth;
 	}
 	
-	public final void addNoHealthListener(final DefaultListener listener) {
+	public final void listen(final DefaultListener listener) {
 		noHealthDelegate.listen(listener);
 	}
 	

@@ -19,7 +19,7 @@ public final class LimbsSystem extends EntitySystem {
 	public LimbsSystem(final EntityManager entityManager) {
 		super(entityManager);
 		this.entityManager = entityManager;
-		entityManager.addEntityRemovedListener(entityRemoved());
+		entityManager.listen(entityRemoved());
 	}
 
 	@Override
