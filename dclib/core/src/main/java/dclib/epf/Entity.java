@@ -46,6 +46,19 @@ public class Entity {
 		return CollectionUtils.containsAll(this.attributes, Arrays.asList(attributes));
 	}
 	
+	// TODO: Does this need overloaded operators?  Create a specialized class just for collection of Enum<?>?
+	/**
+	 * @param attributes unique descriptors
+	 * @return if the entity has any of the attributes
+	 */
+	public final boolean isAny(final List<Enum<?>> attributes) {
+		return CollectionUtils.containsAny(this.attributes, attributes);
+	}
+	
+	public final Set<Enum<?>> getAttributes() {
+		return new HashSet<Enum<?>>(attributes);
+	}
+	
 	/**
 	 * adds attributes to the entity
 	 * @param attributes unique descriptors
