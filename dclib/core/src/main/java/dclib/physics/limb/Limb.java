@@ -6,9 +6,9 @@ import java.util.List;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.DefaultTransform;
 import dclib.geometry.PolygonFactory;
-import dclib.geometry.Transform;
+import dclib.physics.DefaultTransform;
+import dclib.physics.Transform;
 
 public final class Limb {
 

@@ -9,7 +9,7 @@ import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.Transform;
+import dclib.physics.Transform;
 
 public final class LimbsSystem extends EntitySystem {
 

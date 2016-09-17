@@ -7,7 +7,7 @@ import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntitySystem;
 import dclib.epf.parts.ColorChangePart;
-import dclib.epf.parts.DrawablePart;
+import dclib.epf.parts.SpritePart;
 import dclib.util.Timer;
 
 public final class ColorChangeSystem extends EntitySystem {
@@ -26,7 +26,7 @@ public final class ColorChangeSystem extends EntitySystem {
 			changeTimer.tick(delta);
 			Color color = startColor.cpy().lerp(endColor.r, endColor.g, endColor.b, endColor.a,
 					changeTimer.getElapsedPercent());
-			PolygonSprite sprite = entity.get(DrawablePart.class).getSprite();
+			PolygonSprite sprite = entity.get(SpritePart.class).getSprite();
 			sprite.setColor(color);
 		}
 	}

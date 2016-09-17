@@ -1,18 +1,21 @@
-package dclib.geometry;
+package dclib.physics;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import dclib.geometry.VertexUtils;
+
 public final class DefaultTransform extends Transform {
 
 	private final Polygon polygon;
+	private Vector2 velocity = new Vector2();
 
 	public DefaultTransform(final float z, final Polygon polygon) {
 		super(z);
 		this.polygon = polygon;
 	}
-	
+
 	public DefaultTransform(final Transform transform) {
 		super(transform.getZ());
 		polygon = new Polygon(transform.getVertices());
@@ -78,6 +81,21 @@ public final class DefaultTransform extends Transform {
 	@Override
 	public final void setRotation(final float degrees) {
 		polygon.setRotation(degrees);
+	}
+
+	@Override
+	public final Vector2 getVelocity() {
+		return velocity.cpy();
+	}
+
+	@Override
+	public final void setVelocity(final Vector2 velocity) {
+		this.velocity = velocity;
+	}
+
+	@Override
+	public final void applyImpulse(final Vector2 impulse) {
+		velocity.add(impulse);
 	}
 
 }

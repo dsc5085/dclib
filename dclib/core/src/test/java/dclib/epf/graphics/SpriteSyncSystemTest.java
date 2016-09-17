@@ -16,32 +16,31 @@ import com.badlogic.gdx.math.MathUtils;
 
 import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
-import dclib.epf.graphics.DrawableSystem;
-import dclib.epf.parts.DrawablePart;
+import dclib.epf.parts.SpritePart;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.DefaultTransform;
-import dclib.geometry.Transform;
 import dclib.geometry.UnitConverter;
 import dclib.graphics.RegionFactory;
+import dclib.physics.DefaultTransform;
+import dclib.physics.Transform;
 import test.dclib.GdxTestRunner;
 import test.dclib.geometry.TestPolygonFactory;
 
 @RunWith(GdxTestRunner.class)
-public class DrawableSystemTest {
+public class SpriteSyncSystemTest {
 
-	private static DrawableSystem drawableSystem;
+	private static SpriteSyncSystem system;
 
 	@BeforeClass
 	public static final void oneTimeSetUp() {
 		UnitConverter unitConverter = new UnitConverter(2);
-		drawableSystem = new DrawableSystem(new DefaultEntityManager(), unitConverter);
+		system = new SpriteSyncSystem(new DefaultEntityManager(), unitConverter);
 	}
 
 	@Test
 	public void update_UpdatesSprite() {
 		Entity entity = createEntity();
-		PolygonSprite sprite = entity.get(DrawablePart.class).getSprite();
-		drawableSystem.update(1, entity);
+		PolygonSprite sprite = entity.get(SpritePart.class).getSprite();
+		system.update(1, entity);
 		assertEquals(20, sprite.getWidth(), MathUtils.FLOAT_ROUNDING_ERROR);
 		assertEquals(8, sprite.getHeight(), MathUtils.FLOAT_ROUNDING_ERROR);
 		assertEquals(2, sprite.getX(), MathUtils.FLOAT_ROUNDING_ERROR);
@@ -56,7 +55,7 @@ public class DrawableSystemTest {
 		Transform transform = new DefaultTransform(1, TestPolygonFactory.createSimpleRectangle());
 		entity.attach(new TransformPart(transform));
 		PolygonRegion polygonRegion = createPolygonRegion(8, 8);
-		entity.attach(new DrawablePart(polygonRegion));
+		entity.attach(new SpritePart(polygonRegion));
 		return entity;
 	}
 

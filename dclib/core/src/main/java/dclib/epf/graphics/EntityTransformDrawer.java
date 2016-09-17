@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 
 import dclib.epf.Entity;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.DefaultTransform;
+import dclib.physics.DefaultTransform;
 
 public final class EntityTransformDrawer implements EntityDrawer {
 

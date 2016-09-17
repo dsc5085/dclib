@@ -1,8 +1,10 @@
-package dclib.geometry;
+package dclib.physics;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import dclib.geometry.VectorUtils;
 
 public abstract class Transform {
 
@@ -15,7 +17,7 @@ public abstract class Transform {
 	public final float getZ() {
 		return z;
 	}
-	
+
 	public abstract float[] getVertices();
 
 	public abstract Vector2 getOrigin();
@@ -32,7 +34,7 @@ public abstract class Transform {
 		Vector2 position = getPosition();
 		return new Vector3(position.x, position.y, z);
 	}
-	
+
 	public abstract void setPosition(final Vector2 position);
 
 	public final Vector2 getCenter() {
@@ -82,5 +84,11 @@ public abstract class Transform {
 		Vector2 offset = VectorUtils.offset(currentGlobal, newGlobal);
 		translate(offset);
 	}
+
+	public abstract Vector2 getVelocity();
+
+	public abstract void setVelocity(final Vector2 velocity);
+
+	public abstract void applyImpulse(final Vector2 impulse);
 
 }

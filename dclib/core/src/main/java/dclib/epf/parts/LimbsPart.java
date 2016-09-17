@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.Transform;
+import dclib.physics.Transform;
 import dclib.physics.limb.Limb;
 
 public final class LimbsPart {

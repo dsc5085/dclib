@@ -1,6 +1,6 @@
 package dclib.epf.parts;
 
-import dclib.geometry.Transform;
+import dclib.physics.Transform;
 
 public final class TransformPart {
 

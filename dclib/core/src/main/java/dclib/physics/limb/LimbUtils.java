@@ -5,7 +5,7 @@ import java.util.List;
 import dclib.epf.Entity;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.Transform;
+import dclib.physics.Transform;
 
 public final class LimbUtils {
 

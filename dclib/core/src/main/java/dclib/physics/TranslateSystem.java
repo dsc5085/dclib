@@ -6,8 +6,6 @@ import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntitySystem;
 import dclib.epf.parts.TransformPart;
-import dclib.epf.parts.TranslatePart;
-import dclib.geometry.Transform;
 
 public final class TranslateSystem extends EntitySystem {
 
@@ -17,11 +15,14 @@ public final class TranslateSystem extends EntitySystem {
 
 	@Override
 	protected final void update(final float delta, final Entity entity) {
-		TranslatePart translatePart = entity.tryGet(TranslatePart.class);
-		if (translatePart != null) {
+		TransformPart transformPart = entity.tryGet(TransformPart.class);
+		if (transformPart != null) {
 			Transform transform = entity.get(TransformPart.class).getTransform();
-			Vector2 offset = translatePart.getVelocity().scl(delta);
-			transform.translate(offset);
+			// TODO: Figure out an alternative to reflection (instanceof)
+			if (transform instanceof DefaultTransform) {
+				Vector2 offset = transform.getVelocity().scl(delta);
+				transform.translate(offset);
+			}
 		}
 	}
 

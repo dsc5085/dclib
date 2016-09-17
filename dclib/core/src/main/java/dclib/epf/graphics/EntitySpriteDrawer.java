@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import dclib.epf.Entity;
 import dclib.epf.EntityAddedListener;
 import dclib.epf.EntityManager;
-import dclib.epf.parts.DrawablePart;
+import dclib.epf.parts.SpritePart;
 import dclib.epf.parts.TransformPart;
 
 public final class EntitySpriteDrawer implements EntityDrawer {
@@ -50,9 +50,9 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 	}
 
 	private void draw(final Entity entity) {
-		DrawablePart drawablePart = entity.tryGet(DrawablePart.class);
-		if (drawablePart != null) {
-			drawablePart.getSprite().draw(spriteBatch);
+		SpritePart spritePart = entity.tryGet(SpritePart.class);
+		if (spritePart != null) {
+			spritePart.getSprite().draw(spriteBatch);
 		}
 	}
 

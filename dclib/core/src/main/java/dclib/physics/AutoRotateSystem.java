@@ -7,7 +7,6 @@ import dclib.epf.EntityManager;
 import dclib.epf.EntitySystem;
 import dclib.epf.parts.AutoRotatePart;
 import dclib.epf.parts.TransformPart;
-import dclib.geometry.Transform;
 import dclib.geometry.VectorUtils;
 
 public final class AutoRotateSystem extends EntitySystem {

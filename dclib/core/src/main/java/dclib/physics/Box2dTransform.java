@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
-import dclib.geometry.Transform;
 import dclib.geometry.VertexUtils;
 import net.dermetfan.gdx.physics.box2d.Box2DUtils;
 
@@ -83,6 +82,21 @@ public final class Box2dTransform extends Transform {
 	@Override
 	public final void setRotation(final float degrees) {
 		body.setTransform(body.getPosition(), degrees * MathUtils.degreesToRadians);
+	}
+
+	@Override
+	public final Vector2 getVelocity() {
+		return body.getLinearVelocity().cpy();
+	}
+
+	@Override
+	public final void setVelocity(final Vector2 velocity) {
+		body.setLinearVelocity(velocity);
+	}
+
+	@Override
+	public final void applyImpulse(final Vector2 impulse) {
+		body.applyLinearImpulse(impulse, getPosition(), true);
 	}
 
 }

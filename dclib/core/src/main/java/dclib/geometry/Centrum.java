@@ -2,6 +2,8 @@ package dclib.geometry;
 
 import com.badlogic.gdx.math.Vector2;
 
+import dclib.physics.Transform;
+
 public final class Centrum {
 
 	private final Transform transform;
