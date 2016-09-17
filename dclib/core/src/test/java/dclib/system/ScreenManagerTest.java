@@ -14,9 +14,9 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 
 public final class ScreenManagerTest {
-	
+
 	private ScreenManager screenManager;
-	
+
 	@Before
 	public void setUp() {
 		screenManager = new ScreenManager();
@@ -33,14 +33,14 @@ public final class ScreenManagerTest {
 		addScreens(expected, mock(Screen.class));
 		assertEquals(expected, screenManager.getCurrentScreen());
 	}
-	
+
 	@Test
 	public void add_Screen_ShowsScreen() {
 		Screen screen = mock(Screen.class);
 		screenManager.add(screen);
 		verify(screen).show();
 	}
-	
+
 	@Test
 	public void remove_ExistingScreen_DoesNotContainScreen() {
 		Screen screen = mock(Screen.class);
@@ -48,7 +48,7 @@ public final class ScreenManagerTest {
 		removeScreens(screen);
 		assertFalse(screenManager.contains(screen));
 	}
-	
+
 	@Test
 	public void remove_ExistingScreen_HidesScreen() {
 		Screen screen = mock(Screen.class);
@@ -56,7 +56,7 @@ public final class ScreenManagerTest {
 		removeScreens(screen);
 		verify(screen).hide();
 	}
-	
+
 	@Test
 	public void update_RemovedScreen_DisposesScreen() {
 		Screen screen = mock(Screen.class);
@@ -75,7 +75,7 @@ public final class ScreenManagerTest {
 		screenManager.render();
 		verify(screen).render(deltaTime);
 	}
-	
+
 	@Test
 	public void resize_ExistingScreen_ResizesScreen() {
 		Screen screen = mock(Screen.class);
@@ -85,7 +85,7 @@ public final class ScreenManagerTest {
 		screenManager.resize(width, height);
 		verify(screen).resize(width, height);
 	}
-	
+
 	@Test
 	public void dispose_ContainsScreen_CallsDispose() {
 		Screen screen = mock(Screen.class);
@@ -93,18 +93,17 @@ public final class ScreenManagerTest {
 		screenManager.dispose();
 		verify(screen).dispose();
 	}
-	
-	// TODO: should these add/remove methods actually be in the screenmanager class
+
 	private void addScreens(final Screen... screens) {
 		for (Screen screen : screens) {
 			screenManager.add(screen);
 		}
 	}
-	
+
 	private void removeScreens(final Screen... screens) {
 		for (Screen screen : screens) {
 			screenManager.remove(screen);
 		}
 	}
-	
+
 }

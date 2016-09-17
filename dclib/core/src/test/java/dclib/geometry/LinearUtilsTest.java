@@ -11,9 +11,4 @@ public final class LinearUtilsTest {
 		assertEquals(15, LinearUtils.distance(3, 5), 0);
 	}
 
-	@Test
-	public void relativeMiddle_ReturnsExpected() {
-		assertEquals(0.5f, LinearUtils.relativeMiddle(4, 3), 0);
-	}
-
 }

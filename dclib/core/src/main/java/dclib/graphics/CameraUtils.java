@@ -20,7 +20,6 @@ public final class CameraUtils {
 		return RectangleUtils.scale(viewport, 1 / pixelsPerUnit);
 	}
 
-	// TODO: Combine functionality with UnitConverter?
 	public static final void setViewport(final Camera camera, final Rectangle worldViewport,
 			final float pixelsPerUnit) {
 		Rectangle viewport = RectangleUtils.scale(worldViewport, pixelsPerUnit);

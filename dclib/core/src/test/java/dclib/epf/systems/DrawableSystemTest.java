@@ -6,9 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import test.dclib.GdxTestRunner;
-import test.dclib.geometry.TestPolygonFactory;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,8 +22,9 @@ import dclib.geometry.DefaultTransform;
 import dclib.geometry.Transform;
 import dclib.geometry.UnitConverter;
 import dclib.graphics.RegionFactory;
+import test.dclib.GdxTestRunner;
+import test.dclib.geometry.TestPolygonFactory;
 
-// TODO:
 @RunWith(GdxTestRunner.class)
 public class DrawableSystemTest {
 

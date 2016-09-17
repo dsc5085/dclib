@@ -19,7 +19,6 @@ public final class ParticlesManager implements Updater {
 	private final Camera camera;
 	private final Batch spriteBatch;
 	private final UnitConverter unitConverter;
-	// TODO: split this into another class
 	private final List<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 
 	public ParticlesManager(final TextureCache textureCache, final Camera camera, final Batch spriteBatch,
@@ -41,6 +40,7 @@ public final class ParticlesManager implements Updater {
 		particleEffects.add(effect);
 	}
 
+	@Override
 	public final void update(final float delta) {
 		for (ParticleEffect particleEffect : new ArrayList<ParticleEffect>(particleEffects)) {
 			particleEffect.update(delta);
