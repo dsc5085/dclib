@@ -1,4 +1,4 @@
-package dclib.epf.systems;
+package dclib.epf.graphics;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
+import dclib.epf.graphics.DrawableSystem;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
 import dclib.geometry.DefaultTransform;

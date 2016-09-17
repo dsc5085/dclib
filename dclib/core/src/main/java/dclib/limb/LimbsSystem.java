@@ -1,16 +1,15 @@
-package dclib.epf.systems;
+package dclib.limb;
 
 import java.util.List;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.epf.EntityRemovedListener;
+import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
-import dclib.epf.util.LimbUtils;
 import dclib.geometry.Transform;
-import dclib.limb.Limb;
 
 public final class LimbsSystem extends EntitySystem {
 

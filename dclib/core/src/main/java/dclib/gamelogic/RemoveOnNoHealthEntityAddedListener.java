@@ -1,4 +1,4 @@
-package dclib.epf.systems;
+package dclib.gamelogic;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityAddedListener;
@@ -6,7 +6,6 @@ import dclib.epf.EntityManager;
 import dclib.epf.parts.HealthPart;
 import dclib.eventing.DefaultListener;
 
-// TODO: Put this in appropriate package
 public final class RemoveOnNoHealthEntityAddedListener implements EntityAddedListener {
 
 	private final EntityManager entityManager;

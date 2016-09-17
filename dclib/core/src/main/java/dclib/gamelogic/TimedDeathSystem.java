@@ -1,7 +1,8 @@
-package dclib.epf.systems;
+package dclib.gamelogic;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.EntitySystem;
 import dclib.epf.parts.TimedDeathPart;
 
 public final class TimedDeathSystem extends EntitySystem {

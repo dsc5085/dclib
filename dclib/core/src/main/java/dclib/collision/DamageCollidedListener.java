@@ -1,8 +1,7 @@
-package dclib.epf.systems;
+package dclib.collision;
 
 import dclib.epf.parts.CollisionDamagePart;
 import dclib.epf.parts.HealthPart;
-import dclib.physics.CollidedListener;
 import dclib.physics.Contacter;
 
 public final class DamageCollidedListener implements CollidedListener {

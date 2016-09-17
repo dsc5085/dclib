@@ -1,9 +1,10 @@
-package dclib.epf.systems;
+package dclib.mechanics;
 
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.EntitySystem;
 import dclib.epf.parts.TransformPart;
 import dclib.epf.parts.TranslatePart;
 import dclib.geometry.Transform;

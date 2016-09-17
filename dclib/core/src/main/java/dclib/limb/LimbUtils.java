@@ -1,4 +1,4 @@
-package dclib.epf.util;
+package dclib.limb;
 
 import java.util.List;
 
@@ -6,7 +6,6 @@ import dclib.epf.Entity;
 import dclib.epf.parts.LimbsPart;
 import dclib.epf.parts.TransformPart;
 import dclib.geometry.Transform;
-import dclib.limb.Limb;
 
 public final class LimbUtils {
 

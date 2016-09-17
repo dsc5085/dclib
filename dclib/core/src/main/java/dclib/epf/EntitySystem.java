@@ -1,7 +1,5 @@
-package dclib.epf.systems;
+package dclib.epf;
 
-import dclib.epf.Entity;
-import dclib.epf.EntityManager;
 import dclib.system.Updater;
 
 public abstract class EntitySystem implements Updater {

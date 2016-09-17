@@ -1,10 +1,11 @@
-package dclib.epf.systems;
+package dclib.epf.graphics;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.EntitySystem;
 import dclib.epf.parts.DrawablePart;
 import dclib.epf.parts.TransformPart;
 import dclib.geometry.Transform;
@@ -19,8 +20,9 @@ public final class DrawableSystem extends EntitySystem {
 		this.unitConverter = unitConverter;
 	}
 
+	// TODO: Need to be public for unit test.  Update unit test and make this protected
 	@Override
-	protected final void update(final float delta, final Entity entity) {
+	public final void update(final float delta, final Entity entity) {
 		DrawablePart drawablePart = entity.tryGet(DrawablePart.class);
 		if (drawablePart != null) {
 			Transform transform = entity.get(TransformPart.class).getTransform();

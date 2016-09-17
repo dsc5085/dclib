@@ -1,4 +1,4 @@
-package dclib.graphics;
+package dclib.physics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import dclib.geometry.UnitConverter;
+import dclib.graphics.TextureCache;
 import dclib.system.Updater;
 
 public final class ParticlesManager implements Updater {

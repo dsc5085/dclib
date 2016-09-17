@@ -1,10 +1,11 @@
-package dclib.epf.systems;
+package dclib.epf.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
+import dclib.epf.EntitySystem;
 import dclib.epf.parts.ColorChangePart;
 import dclib.epf.parts.DrawablePart;
 import dclib.util.Timer;

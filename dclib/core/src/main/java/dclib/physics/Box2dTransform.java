@@ -43,13 +43,14 @@ public final class Box2dTransform extends Transform {
 		this.scale.set(scale);
 		for (Fixture fixture : body.getFixtureList()) {
 			Shape shape = fixture.getShape();
-			// TODO: Scale other shape types?
 			if (shape.getType() == Shape.Type.Polygon) {
 				PolygonShape polygonShape = (PolygonShape)shape;
 				// This gets the cached vertices from when the shape was first created
 				float[] vertices = Box2DUtils.vertices(polygonShape);
 				float[] scaledVertices = VertexUtils.scale(vertices, scale);
 				polygonShape.set(scaledVertices);
+			} else {
+				throw new UnsupportedOperationException(shape.getType() + " is an invalid shape type to scale");
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package dclib.physics;
+package dclib.collision;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
 import dclib.eventing.EventDelegate;
+import dclib.physics.Contacter;
 import dclib.system.Updater;
 import dclib.util.CollectionUtils;
 

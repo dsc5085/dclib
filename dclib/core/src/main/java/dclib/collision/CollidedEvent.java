@@ -1,6 +1,7 @@
-package dclib.physics;
+package dclib.collision;
 
 import dclib.eventing.Event;
+import dclib.physics.Contacter;
 
 public class CollidedEvent implements Event<CollidedListener> {
 
