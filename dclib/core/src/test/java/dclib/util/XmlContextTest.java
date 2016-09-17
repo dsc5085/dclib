@@ -20,8 +20,8 @@ import test.dclib.io.ResourcePaths;
 import com.badlogic.gdx.files.FileHandle;
 
 import dclib.epf.Entity;
-import dclib.epf.EntityAdapted;
-import dclib.epf.EntityAdapter;
+import dclib.epf.factory.EntityAdapted;
+import dclib.epf.factory.EntityAdapter;
 
 public final class XmlContextTest {
 

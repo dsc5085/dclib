@@ -1,4 +1,7 @@
-package dclib.epf;
+package dclib.epf.factory;
+
+import dclib.epf.Entity;
+import dclib.epf.EntityManager;
 
 public final class EntitySpawner {
 

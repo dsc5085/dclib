@@ -1,6 +1,9 @@
-package dclib.epf;
+package dclib.epf.factory;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import dclib.epf.Entity;
+import dclib.util.Converter;
 
 /**
  * Used to marshal/unmarshal between the serializable {@link EntityAdapted} and {@link Entity}.

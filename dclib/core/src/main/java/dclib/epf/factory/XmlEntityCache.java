@@ -1,4 +1,4 @@
-package dclib.epf;
+package dclib.epf.factory;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.rits.cloning.Cloner;
 
+import dclib.epf.Entity;
+import dclib.util.Converter;
 import dclib.util.XmlContext;
 
 public final class XmlEntityCache implements EntityCache {

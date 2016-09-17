@@ -1,4 +1,6 @@
-package dclib.epf;
+package dclib.epf.factory;
+
+import dclib.epf.Entity;
 
 public interface EntityCache {
 

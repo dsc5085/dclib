@@ -1,4 +1,4 @@
-package dclib.epf;
+package dclib.epf.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import dclib.epf.Entity;
 
 /**
  * Serializable version of {@link Entity}.
