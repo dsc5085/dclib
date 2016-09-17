@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.VertexUtils;
+import dclib.geometry.PolygonUtils;
 
 public final class ConvexHullCache {
 
@@ -21,10 +21,10 @@ public final class ConvexHullCache {
 	public final Polygon create(final String regionName, final Vector2 size) {
 		if (!convexHulls.containsKey(regionName)) {
 			TextureRegion textureRegion = textureCache.getTextureRegion(regionName);
-			float[] convexHull = TextureGeometry.createConvexHull(textureRegion);
+			float[] convexHull = TextureUtils.createConvexHull(textureRegion);
 			convexHulls.put(regionName, convexHull);
 		}
-		float[] vertices = VertexUtils.setSize(convexHulls.get(regionName), size);
+		float[] vertices = PolygonUtils.setSize(convexHulls.get(regionName), size);
 		return new Polygon(vertices);
 	}
 

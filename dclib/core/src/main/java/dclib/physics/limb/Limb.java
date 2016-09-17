@@ -6,7 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.PolygonFactory;
+import dclib.geometry.PolygonUtils;
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
 
@@ -16,7 +16,7 @@ public final class Limb {
 	private final List<Joint> joints = new ArrayList<Joint>();
 
 	public Limb() {
-		Polygon polygon = new Polygon(PolygonFactory.createDefault());
+		Polygon polygon = new Polygon(PolygonUtils.createDefault());
 		transform = new DefaultTransform(0, polygon);
 	}
 

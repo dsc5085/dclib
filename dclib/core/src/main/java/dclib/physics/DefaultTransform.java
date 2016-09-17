@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.VertexUtils;
+import dclib.geometry.PolygonUtils;
 
 public final class DefaultTransform extends Transform {
 
@@ -54,7 +54,7 @@ public final class DefaultTransform extends Transform {
 
 	@Override
 	public final Vector2 getSize() {
-		Rectangle bounds = VertexUtils.bounds(polygon.getVertices());
+		Rectangle bounds = PolygonUtils.bounds(polygon.getVertices());
 		return bounds.getSize(new Vector2());
 	}
 

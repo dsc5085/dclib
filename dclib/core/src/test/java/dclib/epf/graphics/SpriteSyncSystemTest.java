@@ -19,7 +19,7 @@ import dclib.epf.Entity;
 import dclib.epf.parts.SpritePart;
 import dclib.epf.parts.TransformPart;
 import dclib.geometry.UnitConverter;
-import dclib.graphics.RegionFactory;
+import dclib.graphics.TextureUtils;
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
 import test.dclib.GdxTestRunner;
@@ -62,7 +62,7 @@ public class SpriteSyncSystemTest {
 	private PolygonRegion createPolygonRegion(final int width, final int height) {
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
 		TextureRegion textureRegion = new TextureRegion(new Texture(pixmap));
-		return RegionFactory.createPolygonRegion(textureRegion);
+		return TextureUtils.createPolygonRegion(textureRegion);
 	}
 
 }

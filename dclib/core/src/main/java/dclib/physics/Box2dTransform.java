@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
-import dclib.geometry.VertexUtils;
+import dclib.geometry.PolygonUtils;
 import net.dermetfan.gdx.physics.box2d.Box2DUtils;
 
 public final class Box2dTransform extends Transform {
@@ -46,7 +46,7 @@ public final class Box2dTransform extends Transform {
 				PolygonShape polygonShape = (PolygonShape)shape;
 				// This gets the cached vertices from when the shape was first created
 				float[] vertices = Box2DUtils.vertices(polygonShape);
-				float[] scaledVertices = VertexUtils.scale(vertices, scale);
+				float[] scaledVertices = PolygonUtils.scale(vertices, scale);
 				polygonShape.set(scaledVertices);
 			} else {
 				throw new UnsupportedOperationException(shape.getType() + " is an invalid shape type to scale");

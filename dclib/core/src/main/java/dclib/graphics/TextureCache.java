@@ -18,19 +18,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
-import dclib.geometry.PolygonFactory;
+import dclib.geometry.PolygonUtils;
 import dclib.util.PathUtils;
 
 public final class TextureCache {
-	
+
 	private final List<TextureRegion> textureRegions = new ArrayList<TextureRegion>();
 	private final Map<String, TextureRegion> nameToTextureRegions = new HashMap<String, TextureRegion>();
 	private final Map<String, TextureAtlas> namespaceToAtlas = new HashMap<String, TextureAtlas>();
-	
+
 	public final Collection<String> getRegionNames() {
 		return nameToTextureRegions.keySet();
 	}
-	
+
 	public final void addTexturesAsAtlas(final String texturesPath, final String namespace) {
 		final String tempPath = "temp/";
 		String inputDir = PathUtils.internalToAbsolutePath(texturesPath);
@@ -39,7 +39,7 @@ public final class TextureCache {
 		TexturePacker.process(inputDir, outputDir, name);
 		addAtlas(Gdx.files.local(tempPath + name + ".atlas"), namespace);
 	}
-	
+
 	public final void addTextures(final FileHandle fileHandle, final String namespace) {
 		final String[] textureExtensions = { "png", "jpg" };
 		if (fileHandle.isDirectory()) {
@@ -53,7 +53,7 @@ public final class TextureCache {
 			addRegion(namespace, fileHandle.nameWithoutExtension(), region);
 		}
 	}
-	
+
 	public final TextureAtlas getAtlas(final String namespace) {
 		if (!namespaceToAtlas.containsKey(namespace)) {
 			throw new IllegalArgumentException("Could not get texture atlas " + namespace
@@ -61,7 +61,7 @@ public final class TextureCache {
 		}
 		return namespaceToAtlas.get(namespace);
 	}
-	
+
 	public final void addAtlas(final FileHandle fileHandle, final String namespace) {
 		TextureAtlas atlas = new TextureAtlas(fileHandle);
 		namespaceToAtlas.put(namespace, atlas);
@@ -69,34 +69,34 @@ public final class TextureCache {
 			addRegion(namespace, atlasRegion.name, atlasRegion);
 		}
 	}
-	
+
 	public final PolygonRegion getPolygonRegion(final String name) {
 		TextureRegion textureRegion = getTextureRegion(name);
-		float[] vertices = PolygonFactory.createRectangleVertices(textureRegion.getRegionWidth(), 
+		float[] vertices = PolygonUtils.createRectangleVertices(textureRegion.getRegionWidth(),
 				textureRegion.getRegionHeight());
 		return getPolygonRegion(name, vertices);
 	}
-	
+
 	public final PolygonRegion getPolygonRegion(final String name, final float[] vertices) {
 		TextureRegion textureRegion = getTextureRegion(name);
-		return RegionFactory.createPolygonRegion(textureRegion, vertices);
+		return TextureUtils.createPolygonRegion(textureRegion, vertices);
 	}
-	
+
 	public final TextureRegion getTextureRegion(final String name) {
 		if (!nameToTextureRegions.containsKey(name)) {
 			throw new IllegalArgumentException("Could not get texture region " + name + " because it does not exist");
 		}
 		return nameToTextureRegions.get(name);
 	}
-	
+
 	public void addRegion(final TextureRegion region) {
 		textureRegions.add(region);
 	}
-	
+
 	public void addRegion(final String namespace, final String localName, final TextureRegion region) {
 		nameToTextureRegions.put(namespace + "/" + localName, region);
 	}
-	
+
 	public final void dispose() {
 		for (TextureAtlas atlas : namespaceToAtlas.values()) {
 			atlas.dispose();
@@ -104,11 +104,11 @@ public final class TextureCache {
 		dispose(textureRegions);
 		dispose(nameToTextureRegions.values());
 	}
-	
+
 	private final void dispose(final Collection<TextureRegion> textureRegions) {
 		for (TextureRegion region : textureRegions) {
 			region.getTexture().dispose();
 		}
 	}
-	
+
 }
