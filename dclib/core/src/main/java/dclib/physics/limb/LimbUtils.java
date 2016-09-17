@@ -1,4 +1,4 @@
-package dclib.limb;
+package dclib.physics.limb;
 
 import java.util.List;
 

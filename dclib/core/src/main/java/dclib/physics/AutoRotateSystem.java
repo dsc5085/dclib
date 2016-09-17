@@ -1,4 +1,4 @@
-package dclib.mechanics;
+package dclib.physics;
 
 import com.badlogic.gdx.math.Vector2;
 

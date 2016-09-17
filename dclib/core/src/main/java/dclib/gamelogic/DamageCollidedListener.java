@@ -1,8 +1,9 @@
-package dclib.collision;
+package dclib.gamelogic;
 
 import dclib.epf.parts.CollisionDamagePart;
 import dclib.epf.parts.HealthPart;
 import dclib.physics.Contacter;
+import dclib.physics.collision.CollidedListener;
 
 public final class DamageCollidedListener implements CollidedListener {
 

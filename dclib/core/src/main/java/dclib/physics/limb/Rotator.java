@@ -1,4 +1,4 @@
-package dclib.limb;
+package dclib.physics.limb;
 
 import dclib.util.FloatRange;
 

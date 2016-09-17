@@ -1,4 +1,4 @@
-package dclib.collision;
+package dclib.physics.collision;
 
 import dclib.physics.Contacter;
 

@@ -1,4 +1,4 @@
-package dclib.collision;
+package dclib.physics.collision;
 
 import java.util.HashMap;
 import java.util.HashSet;

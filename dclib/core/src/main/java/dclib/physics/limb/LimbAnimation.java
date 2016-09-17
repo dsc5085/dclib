@@ -1,4 +1,4 @@
-package dclib.limb;
+package dclib.physics.limb;
 
 public abstract class LimbAnimation {
 

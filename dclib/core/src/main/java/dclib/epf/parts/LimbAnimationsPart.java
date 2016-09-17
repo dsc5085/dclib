@@ -2,7 +2,7 @@ package dclib.epf.parts;
 
 import java.util.Map;
 
-import dclib.limb.LimbAnimation;
+import dclib.physics.limb.LimbAnimation;
 
 public final class LimbAnimationsPart {
 

@@ -1,4 +1,4 @@
-package dclib.limb;
+package dclib.physics.limb;
 
 import com.badlogic.gdx.math.Vector2;
 
