@@ -22,7 +22,7 @@ public final class CollisionChecker implements Updater {
 
 	private final EntityManager entityManager;
 	private final World world;
-	
+
 	public CollisionChecker(final EntityManager entityManager, final World world) {
 		this.entityManager = entityManager;
 		this.world = world;
@@ -61,7 +61,7 @@ public final class CollisionChecker implements Updater {
 		}
 		return colliderToCollidees;
 	}
-	
+
 	private Contacter createContacter(final Fixture fixture) {
 		for (Entity entity : entityManager.getAll()) {
 			if (fixture != null && fixture.getBody().getUserData() == entity) {
@@ -70,5 +70,5 @@ public final class CollisionChecker implements Updater {
 		}
 		return null;
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package dclib.util;
+package dclib.geometry;
 
 public final class Point {
 
