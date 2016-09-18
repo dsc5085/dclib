@@ -39,11 +39,6 @@ public final class LimbsPart {
 		this.flipY = flipY;
 	}
 
-	// TODO: Deprecated.  Collision transforms are no longer stored in Limbs
-	public final List<Transform> getCollisionTransforms() {
-		return new ArrayList<Transform>(collisionTransforms);
-	}
-
 	public final Limb remove(final Transform transform) {
 		collisionTransforms.remove(transform);
 		return root.remove(transform);
