@@ -26,7 +26,7 @@ public final class LimbUtils {
 		for (Entity entity : entities) {
 			LimbsPart limbsPart = entity.tryGet(LimbsPart.class);
 			if (limbsPart != null) {
-				for (Limb limb : limbsPart.getRoot().getDescendants()) {
+				for (Limb limb : limbsPart.getAll()) {
 					if (limb.getTransform() == transform) {
 						return entity;
 					}

@@ -27,6 +27,12 @@ public final class LimbsPart {
 		return root;
 	}
 
+	public final List<Limb> getAll() {
+		List<Limb> limbs = root.getDescendants();
+		limbs.add(root);
+		return limbs;
+	}
+
 	public final boolean getFlipX() {
 		return flipX;
 	}

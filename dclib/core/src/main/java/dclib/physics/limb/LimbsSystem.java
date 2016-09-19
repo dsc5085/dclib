@@ -8,8 +8,6 @@ import dclib.epf.EntityRemovedListener;
 import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
-import dclib.epf.parts.TransformPart;
-import dclib.physics.Transform;
 
 public final class LimbsSystem extends EntitySystem {
 
@@ -37,34 +35,16 @@ public final class LimbsSystem extends EntitySystem {
 		return new EntityRemovedListener() {
 			@Override
 			public void removed(final Entity removedEntity) {
-				TransformPart transformPart = removedEntity.tryGet(TransformPart.class);
-				if (transformPart != null) {
-					// TODO: Limb relationships are messy.  Cleanup
-					Transform transform = transformPart.getTransform();
+				LimbsPart limbsPart = removedEntity.tryGet(LimbsPart.class);
+				if (limbsPart != null) {
 					List<Entity> entities = entityManager.getAll();
-					entities.add(removedEntity);
-					for (Entity entity : entities) {
-						if (entity.has(LimbsPart.class)) {
-							if (removeLimb(transform, entities, entity)) {
-								break;
-							}
-						}
+					for (Limb limb : limbsPart.getAll()) {
+						Entity limbEntity = LimbUtils.findEntity(entities, limb);
+						entityManager.remove(limbEntity);
 					}
 				}
 			}
 		};
-	}
-
-	private boolean removeLimb(final Transform limbTransform, final List<Entity> entities, final Entity parent) {
-		Limb limb = parent.get(LimbsPart.class).remove(limbTransform);
-		boolean found = limb != null;
-		if (found) {
-			for (Limb descendantLimb : limb.getDescendants()) {
-				Entity descendant = LimbUtils.findEntity(entities, descendantLimb);
-				entityManager.remove(descendant);
-			}
-		}
-		return found;
 	}
 
 }
