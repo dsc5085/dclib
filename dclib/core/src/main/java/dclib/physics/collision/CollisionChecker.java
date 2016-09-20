@@ -65,7 +65,7 @@ public final class CollisionChecker implements Updater {
 	private Contacter createContacter(final Fixture fixture) {
 		for (Entity entity : entityManager.getAll()) {
 			if (fixture != null && fixture.getBody().getUserData() == entity) {
-				return new Contacter(fixture.getBody(), entity);
+				return new Contacter(fixture, entity);
 			}
 		}
 		return null;

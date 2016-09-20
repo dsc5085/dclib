@@ -18,7 +18,6 @@ public final class TranslateSystem extends EntitySystem {
 		TransformPart transformPart = entity.tryGet(TransformPart.class);
 		if (transformPart != null) {
 			Transform transform = entity.get(TransformPart.class).getTransform();
-			// TODO: Figure out an alternative to reflection (instanceof)
 			if (transform instanceof DefaultTransform) {
 				Vector2 offset = transform.getVelocity().scl(delta);
 				transform.translate(offset);
