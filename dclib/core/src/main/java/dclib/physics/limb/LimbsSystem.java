@@ -8,6 +8,7 @@ import dclib.epf.EntityRemovedListener;
 import dclib.epf.EntitySystem;
 import dclib.epf.parts.LimbAnimationsPart;
 import dclib.epf.parts.LimbsPart;
+import dclib.epf.parts.TransformPart;
 
 public final class LimbsSystem extends EntitySystem {
 
@@ -35,9 +36,21 @@ public final class LimbsSystem extends EntitySystem {
 		return new EntityRemovedListener() {
 			@Override
 			public void removed(final Entity removedEntity) {
+				List<Entity> entities = entityManager.getAll();
+				removeFromContainer(removedEntity, entities);
+				removeChildLimbs(removedEntity, entities);
+			}
+
+			private void removeFromContainer(final Entity removedEntity, final List<Entity> entities) {
+				Entity parent = LimbUtils.findContainer(entities, removedEntity);
+				if (parent != null) {
+					parent.get(LimbsPart.class).remove(removedEntity.get(TransformPart.class).getTransform());
+				}
+			}
+
+			private void removeChildLimbs(final Entity removedEntity, final List<Entity> entities) {
 				LimbsPart limbsPart = removedEntity.tryGet(LimbsPart.class);
 				if (limbsPart != null) {
-					List<Entity> entities = entityManager.getAll();
 					for (Limb limb : limbsPart.getAll()) {
 						Entity limbEntity = LimbUtils.findEntity(entities, limb);
 						entityManager.remove(limbEntity);

@@ -22,7 +22,8 @@ public final class LimbUtils {
 		return null;
 	}
 
-	public static final Entity findContainer(final List<Entity> entities, final Transform transform) {
+	public static final Entity findContainer(final List<Entity> entities, final Entity entityToFind) {
+		Transform transform = entityToFind.get(TransformPart.class).getTransform();
 		for (Entity entity : entities) {
 			LimbsPart limbsPart = entity.tryGet(LimbsPart.class);
 			if (limbsPart != null) {
