@@ -2,14 +2,16 @@ package dclib.util;
 
 public final class Timer {
 
-	private float maxTime = 0;
-	private float time = 0;
-
-	public Timer() {
-	}
+	private float maxTime;
+	private float time;
 
 	public Timer(final float maxTime) {
+		this(maxTime, 0);
+	}
+
+	public Timer(final float maxTime, final float time) {
 		this.maxTime = maxTime;
+		this.time = time;
 	}
 
 	public final float getMaxTime() {
@@ -32,12 +34,16 @@ public final class Timer {
 		return time / maxTime;
 	}
 
-	public final void elapse() {
-		time = maxTime;
-	}
-
 	public final void reset() {
 		time = 0;
+	}
+
+	public final boolean check() {
+		boolean isElapsed = isElapsed();
+		if (isElapsed) {
+			reset();
+		}
+		return isElapsed;
 	}
 
 	public final void tick(final float delta) {
