@@ -6,6 +6,11 @@ import com.badlogic.gdx.utils.Array;
 
 public final class Box2dUtils {
 
+	/**
+	 * Maximum rounding error for Box2D body positions.
+	 */
+	public static final float ROUNDING_ERROR = 0.01f;
+
 	private Box2dUtils() {
 	}
 
