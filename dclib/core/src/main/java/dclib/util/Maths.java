@@ -5,8 +5,8 @@ public final class Maths {
 	private Maths() {
 	}
 
-	public static final boolean between(final float value, final float x, final float y) {
-		return value >= Math.min(x, y) && value <= Math.max(x, y);
+	public static final boolean between(final float value, final float min, final float max) {
+		return value >= min && value <= max;
 	}
 
 	public static final float min(final float currentValue, final float newValue) {

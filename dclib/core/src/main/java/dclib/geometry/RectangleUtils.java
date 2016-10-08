@@ -2,9 +2,15 @@ package dclib.geometry;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import dclib.util.Maths;
+
 public final class RectangleUtils {
 
 	private RectangleUtils() {
+	}
+
+	public static final boolean containsX(final Rectangle rectangle, final float x) {
+		return Maths.between(x, rectangle.x, right(rectangle));
 	}
 
 	public static final float top(final Rectangle rectangle) {
