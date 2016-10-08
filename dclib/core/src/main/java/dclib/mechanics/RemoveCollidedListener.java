@@ -1,4 +1,4 @@
-package dclib.gamelogic;
+package dclib.mechanics;
 
 import java.util.List;
 

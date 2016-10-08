@@ -1,4 +1,4 @@
-package dclib.gamelogic;
+package dclib.mechanics;
 
 import dclib.epf.parts.CollisionDamagePart;
 import dclib.epf.parts.HealthPart;

@@ -1,4 +1,4 @@
-package dclib.gamelogic;
+package dclib.mechanics;
 
 import dclib.epf.Entity;
 import dclib.epf.EntityManager;
