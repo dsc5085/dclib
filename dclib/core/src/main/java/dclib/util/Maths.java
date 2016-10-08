@@ -5,15 +5,19 @@ public final class Maths {
 	private Maths() {
 	}
 
-	public static float min(final float currentValue, final float newValue) {
+	public static final boolean between(final float value, final float x, final float y) {
+		return value >= Math.min(x, y) && value <= Math.max(x, y);
+	}
+
+	public static final float min(final float currentValue, final float newValue) {
 		return Float.isNaN(currentValue) ? newValue : Math.min(currentValue, newValue);
 	}
 
-	public static float max(final float currentValue, final float newValue) {
+	public static final float max(final float currentValue, final float newValue) {
 		return Float.isNaN(currentValue) ? newValue : Math.max(currentValue, newValue);
 	}
 
-	public static float distance(final float value1, final float value2) {
+	public static final float distance(final float value1, final float value2) {
 		return Math.abs(value1 - value2);
 	}
 
@@ -23,7 +27,7 @@ public final class Maths {
 	 * @param intervalLength length between each interval
 	 * @return rounded down value
 	 */
-	public static int round(final int value, final int intervalLength) {
+	public static final int round(final int value, final int intervalLength) {
 		return value - value % intervalLength;
 	}
 
