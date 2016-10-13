@@ -5,17 +5,25 @@ import dclib.physics.Contacter;
 
 public class CollidedEvent implements Event<CollidedListener> {
 
-	private final Contacter collider;
-	private final Contacter collidee;
-	
-	public CollidedEvent(final Contacter collider, final Contacter collidee) {
-		this.collider = collider;
-		this.collidee = collidee;
+	private final Contacter source;
+	private final Contacter target;
+
+	public CollidedEvent(final Contacter source, final Contacter target) {
+		this.source = source;
+		this.target = target;
 	}
-	
+
+	public final Contacter getSource() {
+		return source;
+	}
+
+	public final Contacter getTarget() {
+		return target;
+	}
+
 	@Override
 	public final void notify(final CollidedListener listener) {
-		listener.collided(collider, collidee);
+		listener.collided(this);
 	}
 
 }

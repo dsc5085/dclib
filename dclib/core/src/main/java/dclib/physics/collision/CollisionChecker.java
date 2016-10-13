@@ -34,32 +34,32 @@ public final class CollisionChecker implements Updater {
 
 	@Override
 	public final void update(final float delta) {
-		Map<Contacter, Set<Contacter>> colliderToCollidees = getColliderToCollidees();
-		for (Map.Entry<Contacter, Set<Contacter>> colliderToCollideesEntry : colliderToCollidees.entrySet()) {
-			Contacter collider = colliderToCollideesEntry.getKey();
-			if (collider.getEntity().isActive()) {
-				for (Contacter collidee : colliderToCollideesEntry.getValue()) {
-					if (collidee.getEntity().isActive()) {
-						collidedDelegate.notify(new CollidedEvent(collider, collidee));
+		Map<Contacter, Set<Contacter>> sourceToTargets = getSourceToTargets();
+		for (Map.Entry<Contacter, Set<Contacter>> sourceToTargetsEntry : sourceToTargets.entrySet()) {
+			Contacter source = sourceToTargetsEntry.getKey();
+			if (source.getEntity().isActive()) {
+				for (Contacter target : sourceToTargetsEntry.getValue()) {
+					if (target.getEntity().isActive()) {
+						collidedDelegate.notify(new CollidedEvent(source, target));
 					}
 				}
 			}
 		}
 	}
 
-	private Map<Contacter, Set<Contacter>> getColliderToCollidees() {
-		Map<Contacter, Set<Contacter>> colliderToCollidees = new HashMap<Contacter, Set<Contacter>>();
+	private Map<Contacter, Set<Contacter>> getSourceToTargets() {
+		Map<Contacter, Set<Contacter>> sourceToTargets = new HashMap<Contacter, Set<Contacter>>();
 		for (Contact contact : world.getContactList()) {
 			if (contact.isTouching()) {
 				Contacter e1 = createContacter(contact.getFixtureA());
 				Contacter e2 = createContacter(contact.getFixtureB());
 				if (e1 != null && e2 != null) {
-					CollectionUtils.get(colliderToCollidees, e1, new HashSet<Contacter>()).add(e2);
-					CollectionUtils.get(colliderToCollidees, e2, new HashSet<Contacter>()).add(e1);
+					CollectionUtils.get(sourceToTargets, e1, new HashSet<Contacter>()).add(e2);
+					CollectionUtils.get(sourceToTargets, e2, new HashSet<Contacter>()).add(e1);
 				}
 			}
 		}
-		return colliderToCollidees;
+		return sourceToTargets;
 	}
 
 	private Contacter createContacter(final Fixture fixture) {

@@ -1,19 +1,27 @@
 package dclib.mechanics;
 
+import java.util.function.Predicate;
+
 import dclib.epf.parts.CollisionDamagePart;
 import dclib.epf.parts.HealthPart;
-import dclib.physics.Contacter;
+import dclib.physics.collision.CollidedEvent;
 import dclib.physics.collision.CollidedListener;
 
 public final class DamageCollidedListener implements CollidedListener {
 
+	private final Predicate<CollidedEvent> collisionPredicate;
+
+	public DamageCollidedListener(final Predicate<CollidedEvent> collisionPredicate) {
+		this.collisionPredicate = collisionPredicate;
+	}
+
 	@Override
-	public final void collided(final Contacter collider, final Contacter collidee) {
-		CollisionDamagePart collisionDamagePart = collider.getEntity().tryGet(CollisionDamagePart.class);
-		HealthPart collideeHealthPart = collidee.getEntity().tryGet(HealthPart.class);
-		if (collisionDamagePart != null && collideeHealthPart != null) {
-			if (collidee.getEntity().isAny(collisionDamagePart.getCollisionGroups())) {
-				collideeHealthPart.decrease(collisionDamagePart.getDamage());
+	public final void collided(final CollidedEvent event) {
+		CollisionDamagePart collisionDamagePart = event.getSource().getEntity().tryGet(CollisionDamagePart.class);
+		HealthPart targetHealthPart = event.getTarget().getEntity().tryGet(HealthPart.class);
+		if (collisionDamagePart != null && targetHealthPart != null) {
+			if (collisionPredicate.test(event)) {
+				targetHealthPart.decrease(collisionDamagePart.getDamage());
 			}
 		}
 	}
