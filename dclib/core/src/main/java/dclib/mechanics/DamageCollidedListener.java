@@ -1,6 +1,6 @@
 package dclib.mechanics;
 
-import java.util.function.Predicate;
+import com.google.common.base.Predicate;
 
 import dclib.epf.parts.CollisionDamagePart;
 import dclib.epf.parts.HealthPart;
@@ -9,10 +9,10 @@ import dclib.physics.collision.CollidedListener;
 
 public final class DamageCollidedListener implements CollidedListener {
 
-	private final Predicate<CollidedEvent> collisionPredicate;
+	private final Predicate<CollidedEvent> filter;
 
-	public DamageCollidedListener(final Predicate<CollidedEvent> collisionPredicate) {
-		this.collisionPredicate = collisionPredicate;
+	public DamageCollidedListener(final Predicate<CollidedEvent> filter) {
+		this.filter = filter;
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public final class DamageCollidedListener implements CollidedListener {
 		CollisionDamagePart collisionDamagePart = event.getSource().getEntity().tryGet(CollisionDamagePart.class);
 		HealthPart targetHealthPart = event.getTarget().getEntity().tryGet(HealthPart.class);
 		if (collisionDamagePart != null && targetHealthPart != null) {
-			if (collisionPredicate.test(event)) {
+			if (filter.apply(event)) {
 				targetHealthPart.decrease(collisionDamagePart.getDamage());
 			}
 		}
