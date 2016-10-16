@@ -8,15 +8,7 @@ public final class CollectionUtils {
 	private CollectionUtils() {
 	}
 
-	public static final <T> boolean containsAny(final Collection<T> list, final Collection<T> values) {
-		for (T value : values) {
-			if (list.contains(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+	// TODO: Replace containsAny, containsAll with google common utilities
 	public static final <T> boolean containsAll(final Collection<T> list, final Collection<T> values) {
 		for (T value : values) {
 			if (!list.contains(value)) {
@@ -25,7 +17,7 @@ public final class CollectionUtils {
 		}
 		return true;
 	}
-	
+
 	public static final <TKey, TValue> TValue get(final Map<TKey, TValue> map, final TKey key,
 			final TValue defaultValue) {
 		if (map.containsKey(key)) {

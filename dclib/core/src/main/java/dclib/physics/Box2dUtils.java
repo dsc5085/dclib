@@ -9,7 +9,7 @@ public final class Box2dUtils {
 	/**
 	 * Maximum rounding error for Box2D body positions.
 	 */
-	public static final float ROUNDING_ERROR = 0.01f;
+	public static final float ROUNDING_ERROR = 0.02f;
 
 	private Box2dUtils() {
 	}
