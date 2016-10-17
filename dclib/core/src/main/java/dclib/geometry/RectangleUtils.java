@@ -1,6 +1,7 @@
 package dclib.geometry;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import dclib.util.Maths;
 
@@ -27,6 +28,11 @@ public final class RectangleUtils {
 		rectangle.x *= scale;
 		rectangle.y *= scale;
 		return rectangle;
+	}
+
+	public static Vector2 base(final Rectangle bounds) {
+		Vector2 center = bounds.getCenter(new Vector2());
+		return new Vector2(center.x, bounds.y);
 	}
 
 }
