@@ -21,6 +21,11 @@ public final class Maths {
 		return Math.abs(value1 - value2);
 	}
 
+	public static final float degDistance(final float deg1, final float deg2) {
+        float phi = distance(deg1, deg2) % 360;
+        return phi > 180 ? 360 - phi : phi;
+    }
+
 	/**
 	 * Rounds down to the nearest integer that is divisible by the interval length.
 	 * @param value value to round down from
