@@ -22,6 +22,11 @@ public final class RectangleUtils {
 		return rectangle.x + rectangle.width;
 	}
 
+	public static Vector2 base(final Rectangle bounds) {
+		Vector2 center = bounds.getCenter(new Vector2());
+		return new Vector2(center.x, bounds.y);
+	}
+
 	public static final Rectangle scale(final Rectangle rectangle, final float scale) {
 		rectangle.width *= scale;
 		rectangle.height *= scale;
@@ -30,9 +35,8 @@ public final class RectangleUtils {
 		return rectangle;
 	}
 
-	public static Vector2 base(final Rectangle bounds) {
-		Vector2 center = bounds.getCenter(new Vector2());
-		return new Vector2(center.x, bounds.y);
+	public static final Rectangle grow(final Rectangle bounds, final float value) {
+		return new Rectangle(bounds.x - value, bounds.y - value, bounds.width + value * 2, bounds.height + value * 2);
 	}
 
 }

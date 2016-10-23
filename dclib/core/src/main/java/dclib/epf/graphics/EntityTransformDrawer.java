@@ -25,6 +25,7 @@ public final class EntityTransformDrawer implements EntityDrawer {
 
 	@Override
 	public final void draw(final List<Entity> entities) {
+		// TODO: commonize this boilerplate code
 		Matrix4 renderMatrix = new Matrix4(camera.combined);
 		renderMatrix.scale(pixelsPerUnit, pixelsPerUnit, 1);
 		shapeRenderer.setProjectionMatrix(renderMatrix);
