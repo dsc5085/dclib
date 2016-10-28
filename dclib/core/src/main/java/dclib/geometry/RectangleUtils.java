@@ -35,8 +35,8 @@ public final class RectangleUtils {
 		return rectangle;
 	}
 
-	public static final Rectangle grow(final Rectangle bounds, final float value) {
-		return new Rectangle(bounds.x - value, bounds.y - value, bounds.width + value * 2, bounds.height + value * 2);
+	public static final Rectangle grow(final Rectangle bounds, final float x, final float y) {
+		return new Rectangle(bounds.x - x, bounds.y - y, bounds.width + x * 2, bounds.height + y * 2);
 	}
 
 }
