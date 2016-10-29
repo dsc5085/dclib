@@ -1,10 +1,7 @@
 package dclib.physics.collision;
 
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
 import dclib.epf.Entity;
@@ -33,8 +30,8 @@ public final class CollisionChecker implements Updater {
 				Contacter c1 = createContacter(contact.getFixtureA());
 				Contacter c2 = createContacter(contact.getFixtureB());
 				if (c1 != null && c2 != null) {
-					collidedDelegate.notify(new CollidedEvent(contact, c1, c2));
-					collidedDelegate.notify(new CollidedEvent(contact, c2, c1));
+					collidedDelegate.notify(new CollidedEvent(c1, c2));
+					collidedDelegate.notify(new CollidedEvent(c2, c1));
 				}
 			}
 		}
@@ -42,7 +39,7 @@ public final class CollisionChecker implements Updater {
 
 	private Contacter createContacter(final Fixture fixture) {
 		Contacter contacter = null;
-		if (fixture != null) {
+		if (fixture != null && fixture.getBody() != null) {
 			Entity entity = (Entity)fixture.getBody().getUserData();
 			if (entity != null && entity.isActive()) {
 				contacter = new Contacter(fixture, entity);
