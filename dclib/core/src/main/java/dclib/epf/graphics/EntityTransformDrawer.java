@@ -2,33 +2,27 @@ package dclib.epf.graphics;
 
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
 
 import dclib.epf.Entity;
 import dclib.epf.parts.TransformPart;
+import dclib.graphics.ScreenHelper;
 import dclib.physics.DefaultTransform;
 
 public final class EntityTransformDrawer implements EntityDrawer {
 
 	private final ShapeRenderer shapeRenderer;
-	private final Camera camera;
-	private final float pixelsPerUnit;
+	private final ScreenHelper screenHelper;
 
-	public EntityTransformDrawer(final ShapeRenderer shapeRenderer, final Camera camera, final float pixelsPerUnit) {
+	public EntityTransformDrawer(final ShapeRenderer shapeRenderer, final ScreenHelper screenHelper) {
 		this.shapeRenderer = shapeRenderer;
-		this.camera = camera;
-		this.pixelsPerUnit = pixelsPerUnit;
+		this.screenHelper = screenHelper;
 	}
 
 	@Override
 	public final void draw(final List<Entity> entities) {
-		// TODO: commonize this boilerplate code
-		Matrix4 renderMatrix = new Matrix4(camera.combined);
-		renderMatrix.scale(pixelsPerUnit, pixelsPerUnit, 1);
-		shapeRenderer.setProjectionMatrix(renderMatrix);
+		screenHelper.setScaledProjectionMatrix(shapeRenderer);
 		shapeRenderer.begin(ShapeType.Line);
 		for (Entity entity : entities) {
 			draw(entity);

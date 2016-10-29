@@ -1,30 +1,48 @@
-package dclib.geometry;
+package dclib.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-// TODO: too many responsibilities
-public final class UnitConverter {
+public final class ScreenHelper {
 
 	private final float pixelsPerUnit;
 	private final Camera camera;
 	private final Rectangle viewport;
 
-	public UnitConverter(final float pixelsPerUnit) {
+	// TODO: Deprecated?  Usually use a camera
+	public ScreenHelper(final float pixelsPerUnit) {
 		this(pixelsPerUnit, null, null);
 	}
 
-	public UnitConverter(final float pixelsPerUnit, final Camera camera) {
+	public ScreenHelper(final float pixelsPerUnit, final Camera camera) {
 		this(pixelsPerUnit, camera, new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 	}
 
-	public UnitConverter(final float pixelsPerUnit, final Camera camera, final Rectangle viewport) {
+	public ScreenHelper(final float pixelsPerUnit, final Camera camera, final Rectangle viewport) {
 		this.pixelsPerUnit = pixelsPerUnit;
 		this.camera = camera;
 		this.viewport = viewport;
+	}
+
+	public final void setProjectionMatrix(final Batch batch) {
+		Matrix4 matrix = getScaledProjectionMatrix(1);
+		batch.setProjectionMatrix(matrix);
+	}
+
+	public final void setScaledProjectionMatrix(final Batch batch) {
+		Matrix4 matrix = getScaledProjectionMatrix(pixelsPerUnit);
+		batch.setProjectionMatrix(matrix);
+	}
+
+	public final void setScaledProjectionMatrix(final ShapeRenderer shapeRenderer) {
+		Matrix4 matrix = getScaledProjectionMatrix(pixelsPerUnit);
+		shapeRenderer.setProjectionMatrix(matrix);
 	}
 
 	public final float getPixelsPerUnit() {
@@ -44,6 +62,11 @@ public final class UnitConverter {
 		camera.unproject(worldCoords3, viewport.x, viewport.y, viewport.width, viewport.height);
 		worldCoords3.scl(1 / pixelsPerUnit);
 		return new Vector2(worldCoords3.x, worldCoords3.y);
+	}
+
+	private Matrix4 getScaledProjectionMatrix(final float scale) {
+		Matrix4 matrix = new Matrix4(camera.combined);
+		return matrix.scale(scale, scale, 1);
 	}
 
 }

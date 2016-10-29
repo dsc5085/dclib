@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import dclib.epf.Entity;
@@ -13,18 +12,19 @@ import dclib.epf.EntityAddedListener;
 import dclib.epf.EntityManager;
 import dclib.epf.parts.SpritePart;
 import dclib.epf.parts.TransformPart;
+import dclib.graphics.ScreenHelper;
 
 public final class EntitySpriteDrawer implements EntityDrawer {
 
 	private final PolygonSpriteBatch spriteBatch;
-	private final Camera camera;
+	private final ScreenHelper screenHelper;
 	// Don't draw new entities because their transforms might not have been initialized
 	private final List<Entity> newEntities = new ArrayList<Entity>();
 
-	public EntitySpriteDrawer(final PolygonSpriteBatch spriteBatch, final Camera camera,
+	public EntitySpriteDrawer(final PolygonSpriteBatch spriteBatch, final ScreenHelper screenHelper,
 			final EntityManager entityManager) {
 		this.spriteBatch = spriteBatch;
-		this.camera = camera;
+		this.screenHelper = screenHelper;
 		entityManager.listen(new EntityAddedListener() {
 			@Override
 			public void added(final Entity entity) {
@@ -37,7 +37,7 @@ public final class EntitySpriteDrawer implements EntityDrawer {
 	public final void draw(final List<Entity> entities) {
 		final EntityZComparator entityZComparator = new EntityZComparator();
 		Collections.sort(entities, entityZComparator);
-		spriteBatch.setProjectionMatrix(camera.combined);
+		screenHelper.setProjectionMatrix(spriteBatch);
 		spriteBatch.begin();
 		for (Entity entity : entities) {
 			if (newEntities.contains(entity)) {

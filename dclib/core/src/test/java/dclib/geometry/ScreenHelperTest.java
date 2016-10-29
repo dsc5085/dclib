@@ -7,19 +7,21 @@ import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
 
-public final class UnitConverterTest {
+import dclib.graphics.ScreenHelper;
 
-	private static UnitConverter unitConverter;
+public final class ScreenHelperTest {
+
+	private static ScreenHelper screenHelper;
 
 	@BeforeClass
 	public static final void oneTimeSetup() {
-		unitConverter = new UnitConverter(32);
+		screenHelper = new ScreenHelper(32);
 	}
 
 	@Test
 	public void toPixelUnits_ReturnsExpected() {
 		Vector2 worldCoords = new Vector2(5, 2.5f);
-		assertEquals(new Vector2(160, 80), unitConverter.toPixelUnits(worldCoords));
+		assertEquals(new Vector2(160, 80), screenHelper.toPixelUnits(worldCoords));
 	}
 
 }
