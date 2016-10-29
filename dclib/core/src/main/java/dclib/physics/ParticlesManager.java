@@ -45,7 +45,6 @@ public final class ParticlesManager implements Updater {
 			effect.getEmitters().add(box2dEmitter);
 			effect.getEmitters().removeValue(emitter, true);
 		}
-//		effect.scaleEffect(unitConverter.getPixelsPerUnit());
 		effect.setPosition(position.x, position.y);
 		effect.start();
 		particleEffects.add(effect);
@@ -55,7 +54,6 @@ public final class ParticlesManager implements Updater {
 	public final void update(final float delta) {
 		for (ParticleEffect particleEffect : new ArrayList<ParticleEffect>(particleEffects)) {
 			particleEffect.update(delta);
-			System.out.println(particleEffect.getEmitters().size);
 			if (particleEffect.isComplete()) {
 				particleEffects.remove(particleEffect);
 			}
