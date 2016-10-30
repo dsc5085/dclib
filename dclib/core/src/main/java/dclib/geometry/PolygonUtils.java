@@ -22,20 +22,21 @@ public final class PolygonUtils {
 	private PolygonUtils() {
 	}
 
-	public static final float[] toFloats(final Vector2[] vertices) {
-		float[] vertexFloats = new float[vertices.length * 2];
-		for (int i = 0; i < vertices.length; i++) {
-			Vector2 vertex = vertices[i];
+	public static final float[] toFloats(final List<Vector2> vertices) {
+		float[] vertexFloats = new float[vertices.size() * 2];
+		for (int i = 0; i < vertices.size(); i++) {
+			Vector2 vertex = vertices.get(i);
 			vertexFloats[i * 2] = vertex.x;
 			vertexFloats[i * 2 + 1] = vertex.y;
 		}
 		return vertexFloats;
 	}
 
-	public static final Vector2[] toVectors(final float[] vertices) {
-		Vector2[] vectors = new Vector2[vertices.length / 2];
-		for (int i = 0; i < vectors.length; i++) {
-			vectors[i] = new Vector2(vertices[i * 2], vertices[i * 2 + 1]);
+	public static final List<Vector2> toVectors(final float[] vertices) {
+		List<Vector2> vectors = new ArrayList<Vector2>();
+		for (int i = 0; i < vertices.length / 2; i++) {
+			Vector2 vector = new Vector2(vertices[i * 2], vertices[i * 2 + 1]);
+			vectors.add(vector);
 		}
 		return vectors;
 	}
