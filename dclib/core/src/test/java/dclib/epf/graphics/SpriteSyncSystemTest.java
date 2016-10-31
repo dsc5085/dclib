@@ -18,8 +18,8 @@ import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
 import dclib.epf.parts.SpritePart;
 import dclib.epf.parts.TransformPart;
-import dclib.graphics.TextureUtils;
 import dclib.graphics.ScreenHelper;
+import dclib.graphics.TextureUtils;
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
 import test.dclib.GdxTestRunner;
@@ -32,7 +32,7 @@ public class SpriteSyncSystemTest {
 
 	@BeforeClass
 	public static final void oneTimeSetUp() {
-		ScreenHelper screenHelper = new ScreenHelper(2);
+		ScreenHelper screenHelper = new ScreenHelper(2, null, null);
 		system = new SpriteSyncSystem(new DefaultEntityManager(), screenHelper);
 	}
 

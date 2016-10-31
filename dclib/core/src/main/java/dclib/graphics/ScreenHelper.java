@@ -15,11 +15,6 @@ public final class ScreenHelper {
 	private final Camera camera;
 	private final Rectangle viewport;
 
-	// TODO: Deprecated?  Usually use a camera
-	public ScreenHelper(final float pixelsPerUnit) {
-		this(pixelsPerUnit, null, null);
-	}
-
 	public ScreenHelper(final float pixelsPerUnit, final Camera camera) {
 		this(pixelsPerUnit, camera, new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 	}

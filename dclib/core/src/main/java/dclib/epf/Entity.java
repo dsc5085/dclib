@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import dclib.util.CollectionUtils;
-
 /**
  * Made up of parts that provide state for the entity.
  * There can only be one of each part type attached.
@@ -43,7 +41,7 @@ public class Entity {
 	 * @return if the entity has all the attributes
 	 */
 	public final boolean is(final Enum<?>...attributes) {
-		return CollectionUtils.containsAll(this.attributes, Arrays.asList(attributes));
+		return this.attributes.containsAll(Arrays.asList(attributes));
 	}
 
 	public final Set<Enum<?>> getAttributes() {
