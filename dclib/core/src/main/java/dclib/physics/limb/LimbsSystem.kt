@@ -27,11 +27,9 @@ class LimbsSystem(entityManager: EntityManager) : EntitySystem(entityManager) {
 				val parent = LimbUtils.findContainer(entities, removedEntity)
 				if (parent != null) {
 					val transform = removedEntity.get(TransformPart::class.java).transform
-					val limb = parent.get(LimbsPart::class.java).remove(transform)
-					for (childLimb in limb?.descendants.orEmpty()) {
-						val childEntity = LimbUtils.findEntity(entities, childLimb)
-						entityManager.remove(childEntity)
-					}
+					val removedLimb = parent.get(LimbsPart::class.java).remove(transform)
+					val descendantEntities = removedLimb?.descendants?.map { LimbUtils.findEntity(entities, it) }
+					entityManager.removeAll(descendantEntities)
 				}
 			}
 		}
