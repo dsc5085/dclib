@@ -24,6 +24,7 @@ public final class LimbUtils {
 
 	public static final Entity findContainer(final List<Entity> entities, final Entity entityToFind) {
 		Transform transform = entityToFind.get(TransformPart.class).getTransform();
+		// TODO: Merge entityToFind with entities
 		if (entityToFind.has(LimbsPart.class)) {
 			return entityToFind;
 		}
