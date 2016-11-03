@@ -1,6 +1,5 @@
 package dclib.epf.parts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
@@ -11,15 +10,11 @@ import dclib.physics.limb.Limb;
 public final class LimbsPart {
 
 	private final Limb root;
-	private final List<Transform> collisionTransforms = new ArrayList<Transform>();
 	private boolean flipX = false;
 	private boolean flipY = false;
 
-	public LimbsPart(final Limb root, final Limb... collisionLimbs) {
+	public LimbsPart(final Limb root) {
 		this.root = root;
-		for (Limb collisionLimb : collisionLimbs) {
-			collisionTransforms.add(collisionLimb.getTransform());
-		}
 		update();
 	}
 
@@ -46,7 +41,6 @@ public final class LimbsPart {
 	}
 
 	public final Limb remove(final Transform transform) {
-		collisionTransforms.remove(transform);
 		return root.remove(transform);
 	}
 
