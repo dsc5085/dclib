@@ -10,7 +10,7 @@ class LimbsPart(root: Limb) {
 	var flipY = false
 
 	val all: List<Limb>
-		get() = root.descendants.plus(root)
+		get() = root.descendants + root
 
 	init {
 		this.root = root

@@ -24,24 +24,13 @@ class LimbsSystem(entityManager: EntityManager) : EntitySystem(entityManager) {
 		return object : EntityRemovedListener {
 			override fun removed(removedEntity: Entity) {
 				val entities = entityManager.all
-				removeFromContainer(removedEntity, entities)
-				removeChildLimbs(removedEntity, entities)
-			}
-
-			private fun removeFromContainer(removedEntity: Entity, entities: List<Entity>) {
 				val parent = LimbUtils.findContainer(entities, removedEntity)
 				if (parent != null) {
 					val transform = removedEntity.get(TransformPart::class.java).transform
-					parent.get(LimbsPart::class.java).remove(transform)
-				}
-			}
-
-			private fun removeChildLimbs(removedEntity: Entity, entities: List<Entity>?) {
-				val limbsPart = removedEntity.tryGet(LimbsPart::class.java)
-				if (limbsPart != null) {
-					for (limb in limbsPart.all) {
-						val limbEntity = LimbUtils.findEntity(entities, limb)
-						entityManager.remove(limbEntity)
+					val limb = parent.get(LimbsPart::class.java).remove(transform)
+					for (childLimb in limb?.descendants.orEmpty()) {
+						val childEntity = LimbUtils.findEntity(entities, childLimb)
+						entityManager.remove(childEntity)
 					}
 				}
 			}
