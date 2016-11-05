@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -14,11 +15,22 @@ import net.dermetfan.gdx.physics.box2d.Box2DUtils;
 public final class Box2dTransform extends Transform {
 
 	private final Body body;
-	private final Vector2 scale = new Vector2(1, 1);
+	private final Vector2 scale;
+
+	public Box2dTransform(final Box2dTransform other) {
+		super(other.getZ());
+		BodyDef def = Box2DUtils.createDef(other.body);
+		body = other.body.getWorld().createBody(def);
+		for (Fixture fixture : other.body.getFixtureList()) {
+			Box2DUtils.clone(fixture, body, true);
+		}
+		scale = other.scale;
+	}
 
 	public Box2dTransform(final float z, final Body body) {
 		super(z);
 		this.body = body;
+		scale = new Vector2(1, 1);
 	}
 
 	public final Body getBody() {
