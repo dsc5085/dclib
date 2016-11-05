@@ -22,12 +22,11 @@ class LimbsSystem(entityManager: EntityManager) : EntitySystem(entityManager) {
 
 	private fun entityRemoved(): EntityRemovedListener {
 		return object : EntityRemovedListener {
-			override fun removed(removedEntity: Entity) {
+			override fun removed(entity: Entity) {
 				val entities = entityManager.all
-				val limbsPart = removedEntity.tryGet(LimbsPart::class.java)
-						 ?: LimbUtils.findContainer(entities, removedEntity)?.tryGet(LimbsPart::class.java)
+				val limbsPart = LimbUtils.findContainer(entities, entity)?.tryGet(LimbsPart::class.java)
 				if (limbsPart != null) {
-					val transform = removedEntity[TransformPart::class.java].transform
+					val transform = entity[TransformPart::class.java].transform
 					val removedLimb = limbsPart.remove(transform) ?: limbsPart.root
 					val descendantEntities = removedLimb.descendants.map { LimbUtils.findEntity(entities, it) }
 					entityManager.removeAll(descendantEntities)

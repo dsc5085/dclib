@@ -21,6 +21,10 @@ public final class Box2dTransform extends Transform {
 		this.body = body;
 	}
 
+	public final Body getBody() {
+		return body;
+	}
+
 	@Override
 	public final float[] getVertices() {
 		Fixture fixture = body.getFixtureList().get(0);

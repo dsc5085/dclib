@@ -16,9 +16,11 @@ object LimbUtils {
 
 	fun findContainer(entities: List<Entity>, entityToFind: Entity): Entity? {
 		val transform = entityToFind[TransformPart::class.java].transform
-		return entities.plus(entityToFind).firstOrNull {
-			val limbsPart = it.tryGet(LimbsPart::class.java)
-			limbsPart?.all.orEmpty().any { it.transform === transform }
-		}
+		return if(entityToFind.has(LimbsPart::class.java)) entityToFind
+			else entities.firstOrNull {
+				val limbsPart = it.tryGet(LimbsPart::class.java)
+				val limbs = limbsPart?.all.orEmpty()
+				limbs.any { it.transform === transform }
+			}
 	}
 }
