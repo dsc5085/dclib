@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import dclib.epf.Entity;
 import dclib.epf.parts.TransformPart;
-import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
 
 // TODO: Make generic, e.g. entity should be of a generic type
@@ -15,12 +14,6 @@ public final class Limb {
 
 	private final Entity entity;
 	private final List<Joint> joints = new ArrayList<Joint>();
-
-	public Limb() {
-		entity = new Entity();
-		Transform transform = new DefaultTransform();
-		entity.attach(new TransformPart(transform));
-	}
 
 	public Limb(final Entity entity) {
 		this.entity = entity;
