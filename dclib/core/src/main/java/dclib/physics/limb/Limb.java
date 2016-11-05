@@ -30,6 +30,10 @@ public final class Limb {
 		return entity;
 	}
 
+	public final List<Joint> getJoints() {
+		return new ArrayList<Joint>(joints);
+	}
+
 	public final Transform getTransform() {
 		return entity.tryGet(TransformPart.class).getTransform();
 	}

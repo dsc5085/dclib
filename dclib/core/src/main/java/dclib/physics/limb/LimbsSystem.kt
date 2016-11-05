@@ -17,6 +17,10 @@ class LimbsSystem(entityManager: EntityManager) : EntitySystem(entityManager) {
 		entityManager.listen(entityRemoved())
 	}
 
+	fun listen(listener: LimbRemovedListener) {
+		limbRemovedDelegate.listen(listener);
+	}
+
 	override fun update(delta: Float, entity: Entity) {
 		entity.tryGet(LimbsPart::class.java)?.update()
 		entity.tryGet(LimbAnimationsPart::class.java)?.update(delta)
