@@ -62,8 +62,9 @@ public final class Limb {
 
 	public final Limb addJoint(final Limb limb, final float parentLocalX, final float parentLocalY,
 			final float childLocalX, final float childLocalY, final float rotation) {
-		return addJoint(new Joint(limb, new Vector2(parentLocalX, parentLocalY), new Vector2(childLocalX, childLocalY),
-				rotation));
+		Vector2 parentLocal = new Vector2(parentLocalX, parentLocalY);
+		Vector2 childLocal = new Vector2(childLocalX, childLocalY);
+		return addJoint(new Joint(limb, parentLocal, childLocal, rotation));
 	}
 
 	public final Limb addJoint(final Joint joint) {

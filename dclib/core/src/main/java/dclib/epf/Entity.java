@@ -24,7 +24,7 @@ public class Entity {
 	public Entity(final Object...parts) {
 		attach(parts);
 	}
-	
+
 	/**
 	 * @return if the entity should be updated
 	 */
@@ -44,14 +44,8 @@ public class Entity {
 	 * @param attributes unique descriptors
 	 * @return if the entity has all the attributes
 	 */
-	@Deprecated
-	public final boolean is(final Enum<?>...attributes) {
-		return this.attributes.containsAll(Arrays.asList(attributes));
-	}
-
-	// TODO: needed to deconflict against Kotlin keyword 'is'.  remove Entity.is method
 	public final boolean of(final Enum<?>...attributes) {
-		return is(attributes);
+		return this.attributes.containsAll(Arrays.asList(attributes));
 	}
 
 	public final Set<Enum<?>> getAttributes() {
@@ -62,7 +56,7 @@ public class Entity {
 	 * adds attributes to the entity
 	 * @param attributes unique descriptors
 	 */
-	public final void attribute(final Enum<?>... attributes) {
+	public final void attribute(final Enum<?>...attributes) {
 		Collections.addAll(this.attributes, attributes);
 	}
 
