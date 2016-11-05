@@ -3,46 +3,48 @@ package dclib.physics.limb;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import dclib.geometry.PolygonUtils;
+import dclib.epf.Entity;
+import dclib.epf.parts.TransformPart;
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
 
+// TODO: Make generic, e.g. entity should be of a generic type
 public final class Limb {
 
-	private Transform transform;
+	private final Entity entity;
 	private final List<Joint> joints = new ArrayList<Joint>();
 
 	public Limb() {
-		Polygon polygon = new Polygon(PolygonUtils.createDefault());
-		transform = new DefaultTransform(0, polygon);
+		entity = new Entity();
+		Transform transform = new DefaultTransform();
+		entity.attach(new TransformPart(transform));
 	}
 
-	public Limb(final Transform transform) {
-		this.transform = transform;
+	public Limb(final Entity entity) {
+		this.entity = entity;
+	}
+
+	public final Entity getEntity() {
+		return entity;
 	}
 
 	public final Transform getTransform() {
-		return transform;
+		return entity.tryGet(TransformPart.class).getTransform();
 	}
 
-	public final void setTransform(final Transform transform) {
-		this.transform = transform;
-	}
-
-	public final Limb remove(final Transform limbTransform) {
-		if (transform == limbTransform) {
+	public final Limb remove(final Entity limbEntity) {
+		if (entity == limbEntity) {
 			return this;
 		}
 		for (Joint joint : joints) {
-			Transform transform = joint.getLimb().getTransform();
-			if (transform == limbTransform) {
+			Entity entity = joint.getLimb().entity;
+			if (entity == limbEntity) {
 				joints.remove(joint);
 				return joint.getLimb();
 			}
-			Limb foundLimb = joint.getLimb().remove(limbTransform);
+			Limb foundLimb = joint.getLimb().remove(limbEntity);
 			if (foundLimb != null)
 			{
 				return foundLimb;
@@ -80,13 +82,14 @@ public final class Limb {
 
 	private void update(final Joint joint, final boolean flip, final float flipAxisAngle) {
 		Limb childLimb = joint.getLimb();
-		float childRotation = transform.getRotation() + joint.getRotation();
+		float childRotation = getTransform().getRotation() + joint.getRotation();
 		if (flip) {
 			childRotation = flipAxisAngle * 2 - childRotation;
 		}
-		childLimb.transform.setRotation(childRotation);
-		Vector2 parentJointGlobal = transform.toGlobal(joint.getParentLocal());
-		childLimb.transform.setGlobal(joint.getChildLocal(), parentJointGlobal);
+		Transform childTransform = childLimb.getTransform();
+		childTransform.setRotation(childRotation);
+		Vector2 parentJointGlobal = getTransform().toGlobal(joint.getParentLocal());
+		childTransform.setGlobal(joint.getChildLocal(), parentJointGlobal);
 		childLimb.update(flip, childRotation);
 	}
 

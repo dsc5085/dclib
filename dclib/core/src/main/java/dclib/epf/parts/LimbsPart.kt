@@ -17,10 +17,6 @@ class LimbsPart(root: Limb) {
 		update()
 	}
 
-	fun remove(transform: Transform): Limb? {
-		return root.remove(transform)
-	}
-
 	fun update() {
 // TODO: Need to be able to handle both flipX and flipY at the same time
 		val flipAxisAngle = (if (flipX) 90 else 0).toFloat()
