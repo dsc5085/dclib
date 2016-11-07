@@ -20,7 +20,6 @@ public final class SpriteSyncSystem extends EntitySystem {
 		this.screenHelper = screenHelper;
 	}
 
-	// TODO: Need to be public for unit test.  Update unit test and make this protected
 	@Override
 	public final void update(final float delta, final Entity entity) {
 		SpritePart spritePart = entity.tryGet(SpritePart.class);

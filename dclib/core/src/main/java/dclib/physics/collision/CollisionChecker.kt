@@ -11,13 +11,10 @@ import dclib.system.Updater
 import dclib.physics.Box2dUtils
 
 class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
-	private val collidedDelegate = EventDelegate<CollidedListener>()
-	private val entityManager: EntityManager = entityManager
-	private val world: World = world
-
-	fun listen(listener: CollidedListener) {
-		collidedDelegate.listen(listener)
-	}
+	val collided = EventDelegate<CollidedEvent>()
+	
+	private val entityManager = entityManager
+	private val world = world
 
 	override fun update(delta: Float) {
 		val entities = entityManager.all
@@ -25,8 +22,8 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 			val c1 = createContacter(contact.fixtureA, entities)
 			val c2 = createContacter(contact.fixtureB, entities)
 			if (c1 != null && c2 != null) {
-				collidedDelegate.notify(CollidedEvent(c1, c2))
-				collidedDelegate.notify(CollidedEvent(c2, c1))
+				collided.notify(CollidedEvent(c1, c2))
+				collided.notify(CollidedEvent(c2, c1))
 			}
 		}
 	}
@@ -34,7 +31,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 	private fun createContacter(fixture: Fixture?, entities: List<Entity>): Contacter? {
 		var contacter: Contacter? = null
 		if (fixture != null && fixture.getBody() != null) {
-			val entity: Entity? = entities.firstOrNull { Box2dUtils.getBody(it) === fixture.body }
+			val entity = entities.firstOrNull { Box2dUtils.getBody(it) === fixture.body }
 			if (entity != null && entity.isActive()) {
 				contacter = Contacter(fixture, entity)
 			}

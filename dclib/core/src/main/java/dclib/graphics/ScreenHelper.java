@@ -31,13 +31,11 @@ public final class ScreenHelper {
 	}
 
 	public final void setScaledProjectionMatrix(final Batch batch) {
-		Matrix4 matrix = getScaledProjectionMatrix(pixelsPerUnit);
-		batch.setProjectionMatrix(matrix);
+		batch.setProjectionMatrix(getScaledProjectionMatrix());
 	}
 
 	public final void setScaledProjectionMatrix(final ShapeRenderer shapeRenderer) {
-		Matrix4 matrix = getScaledProjectionMatrix(pixelsPerUnit);
-		shapeRenderer.setProjectionMatrix(matrix);
+		shapeRenderer.setProjectionMatrix(getScaledProjectionMatrix());
 	}
 
 	public final float getPixelsPerUnit() {
@@ -57,6 +55,10 @@ public final class ScreenHelper {
 		camera.unproject(worldCoords3, viewport.x, viewport.y, viewport.width, viewport.height);
 		worldCoords3.scl(1 / pixelsPerUnit);
 		return new Vector2(worldCoords3.x, worldCoords3.y);
+	}
+
+	public final Matrix4 getScaledProjectionMatrix() {
+		return getScaledProjectionMatrix(pixelsPerUnit);
 	}
 
 	private Matrix4 getScaledProjectionMatrix(final float scale) {

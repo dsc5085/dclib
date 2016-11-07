@@ -5,7 +5,7 @@ import dclib.physics.Transform
 import dclib.physics.limb.Limb
 
 class LimbsPart(root: Limb) {
-	val root: Limb
+	val root = root
 	var flipX = false
 	var flipY = false
 
@@ -13,7 +13,6 @@ class LimbsPart(root: Limb) {
 		get() = root.descendants + root
 
 	init {
-		this.root = root
 		update()
 	}
 

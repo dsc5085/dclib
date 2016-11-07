@@ -1,9 +1,8 @@
 package dclib.physics.collision;
 
-import dclib.eventing.Event;
 import dclib.physics.Contacter;
 
-public class CollidedEvent implements Event<CollidedListener> {
+public final class CollidedEvent {
 
 	private final Contacter source;
 	private final Contacter target;
@@ -19,11 +18,6 @@ public class CollidedEvent implements Event<CollidedListener> {
 
 	public final Contacter getTarget() {
 		return target;
-	}
-
-	@Override
-	public final void notify(final CollidedListener listener) {
-		listener.collided(this);
 	}
 
 }
