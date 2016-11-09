@@ -1,3 +1,5 @@
 package dclib.physics.limb
 
-data class LimbRemovedEvent(val limb: Limb)
+import dclib.epf.Entity
+
+data class LimbRemovedEvent(val limb: Limb, val container: Entity)
