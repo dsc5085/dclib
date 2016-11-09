@@ -35,4 +35,8 @@ public final class VectorUtils {
 		return p1.y + (lineX - p1.x) * slope;
 	}
 
+    public static final Vector2 toVector2(final float degrees, final float length) {
+        return new Vector2(length, 0).rotate(degrees);
+    }
+
 }
