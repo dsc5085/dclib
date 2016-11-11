@@ -1,14 +1,13 @@
 package dclib.physics.collision
 
-import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
 import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
+import dclib.physics.Box2dUtils
 import dclib.physics.Contacter
 import dclib.system.Updater
-import dclib.physics.Box2dUtils
 
 class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 	val collided = EventDelegate<CollidedEvent>()
@@ -30,9 +29,9 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 
 	private fun createContacter(fixture: Fixture?, entities: List<Entity>): Contacter? {
 		var contacter: Contacter? = null
-		if (fixture != null && fixture.getBody() != null) {
+		if (fixture != null && fixture.body != null) {
 			val entity = entities.firstOrNull { Box2dUtils.getBody(it) === fixture.body }
-			if (entity != null && entity.isActive()) {
+			if (entity != null && entity.isActive) {
 				contacter = Contacter(fixture, entity)
 			}
 		}

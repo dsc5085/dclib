@@ -13,9 +13,10 @@ public final class Advancer {
 	}
 
 	public final void advance(final float delta) {
-		accumulatedDelta += delta;
-		final float maxUpdateDelta = 0.01f;
-		while (accumulatedDelta >= maxUpdateDelta) {
+        final float maxFrameDelta = 0.25f;
+        final float maxUpdateDelta = 0.01f;
+        accumulatedDelta += Math.min(delta, maxFrameDelta);
+        while (accumulatedDelta >= maxUpdateDelta) {
 			update(maxUpdateDelta);
 			accumulatedDelta -= maxUpdateDelta;
 		}
