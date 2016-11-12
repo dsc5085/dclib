@@ -36,7 +36,7 @@ public final class VectorUtils {
 	}
 
     public static final Vector2 toVector2(final float degrees, final float length) {
-        return new Vector2(length, 0).rotate(degrees);
+        return new Vector2(length, 0).setAngle(degrees);
     }
 
 }

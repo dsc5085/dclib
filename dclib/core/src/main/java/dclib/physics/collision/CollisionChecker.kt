@@ -16,6 +16,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 	private val world = world
 
 	override fun update(delta: Float) {
+		// TODO: Optimize
 		val entities = entityManager.all
 		for (contact in world.contactList.filter { it.isTouching }) {
 			val c1 = createContacter(contact.fixtureA, entities)
