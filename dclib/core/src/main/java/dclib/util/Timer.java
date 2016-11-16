@@ -31,8 +31,8 @@ public final class Timer {
 	}
 
 	public final float getElapsedPercent() {
-		return time / maxTime;
-	}
+        return Math.min(time / maxTime, 1);
+    }
 
 	public final void reset() {
 		time = 0;
