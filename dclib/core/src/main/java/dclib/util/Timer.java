@@ -26,6 +26,10 @@ public final class Timer {
 		return maxTime - time;
 	}
 
+    public final boolean isStarted() {
+        return time > 0;
+    }
+
 	public final boolean isElapsed() {
 		return time >= maxTime;
 	}
