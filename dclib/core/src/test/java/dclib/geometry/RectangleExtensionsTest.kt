@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class RectangleUtilsTest {
+class RectangleExtensionsTest {
     @Test
     fun top_ReturnsExpected() {
         val rectangle = createRectangle()
