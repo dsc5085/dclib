@@ -3,12 +3,7 @@ package dclib.physics;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
-
+import com.badlogic.gdx.physics.box2d.*;
 import dclib.geometry.PolygonUtils;
 import net.dermetfan.gdx.physics.box2d.Box2DUtils;
 
@@ -25,6 +20,10 @@ public final class Box2dTransform extends Transform {
 			Box2DUtils.clone(fixture, body, true);
 		}
 		scale = other.scale;
+	}
+
+	public Box2dTransform(final Body body) {
+		this(0, body);
 	}
 
 	public Box2dTransform(final float z, final Body body) {

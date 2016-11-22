@@ -9,6 +9,8 @@ object Box2dUtils {
 	 * Maximum rounding error for Box2D body positions.
 	 */
 	val ROUNDING_ERROR = 0.02f
+    val POSITION_ITERATIONS = 3
+    val VELOCITY_ITERATIONS = 8
 
     fun getImpulseToReachVelocity(currentVelocity: Float, targetVelocity: Float, mass: Float): Float {
         return mass * (targetVelocity - currentVelocity)
