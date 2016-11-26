@@ -11,6 +11,9 @@ val Rectangle.top: Float
 val Rectangle.right: Float
     get() = x + width
 
+val Rectangle.size: Vector2
+    get() = getSize(Vector2())
+
 val Rectangle.center: Vector2
     get() = getCenter(Vector2())
 
