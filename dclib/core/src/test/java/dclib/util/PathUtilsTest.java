@@ -1,10 +1,10 @@
 package dclib.util;
 
-import static org.junit.Assert.assertNotNull;
-
+import dclib.system.io.PathUtils;
 import org.junit.Test;
-
 import test.dclib.io.ResourcePaths;
+
+import static org.junit.Assert.assertNotNull;
 
 public final class PathUtilsTest {
 

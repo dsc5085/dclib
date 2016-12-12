@@ -3,13 +3,16 @@ package dclib.physics;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
 import dclib.geometry.PolygonUtils;
 
 public final class DefaultTransform extends Transform {
 
 	private final Polygon polygon;
 	private Vector2 velocity = new Vector2();
+
+    public DefaultTransform() {
+        this(0, new Polygon(PolygonUtils.createDefault()));
+    }
 
 	public DefaultTransform(final float z, final Polygon polygon) {
 		super(z);

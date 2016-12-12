@@ -1,27 +1,23 @@
 package dclib.util;
 
+import com.badlogic.gdx.files.FileHandle;
+import dclib.epf.Entity;
+import dclib.epf.factory.EntityAdapted;
+import dclib.epf.factory.EntityAdapter;
+import dclib.system.io.FileUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import test.dclib.io.ResourcePaths;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import test.dclib.io.FileUtils;
-import test.dclib.io.ResourcePaths;
-
-import com.badlogic.gdx.files.FileHandle;
-
-import dclib.epf.Entity;
-import dclib.epf.factory.EntityAdapted;
-import dclib.epf.factory.EntityAdapter;
 
 public final class XmlContextTest {
 
