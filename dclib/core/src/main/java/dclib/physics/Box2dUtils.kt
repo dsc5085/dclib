@@ -21,6 +21,10 @@ object Box2dUtils {
 		return if (transform is Box2dTransform) transform.body else null
 	}
 
+    fun toGroup(value: Enum<*>): Short {
+        return (value.ordinal + 1).toShort()
+    }
+
     fun setFilter(body: Body, category: Short? = null, mask: Short? = null, group: Short? = null) {
 		for (fixture in body.fixtureList) {
             var filter = fixture.filterData
