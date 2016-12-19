@@ -12,7 +12,7 @@ class RemoveOnCollided(entityManager: EntityManager, filter: Predicate<CollidedE
 
 	override fun invoke(event: CollidedEvent) {
 		val sourceEntity = event.source.entity
-		val collisionRemovePart = sourceEntity.tryGet(CollisionRemovePart::class.java)
+		val collisionRemovePart = sourceEntity.tryGet(CollisionRemovePart::class)
 		if (collisionRemovePart != null) {
 			val isTargetStatic = event.target.body.type === BodyType.StaticBody
 			if (isTargetStatic || filter.apply(event)) {

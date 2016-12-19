@@ -23,7 +23,7 @@ object CameraUtils {
 
     fun follow(entity: Entity, screenHelper: ScreenHelper, camera: Camera) {
         val worldViewportSize = screenHelper.toWorldUnits(camera.viewportWidth, camera.viewportHeight)
-        val center = entity.get(TransformPart::class.java).transform.center
+        val center = entity[TransformPart::class].transform.center
         val newCameraX = center.x - worldViewportSize.x / 2
         val newCameraY = center.y - worldViewportSize.y / 2
         val viewport = Rectangle(newCameraX, newCameraY, worldViewportSize.x, worldViewportSize.y)

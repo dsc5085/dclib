@@ -9,8 +9,8 @@ class DamageOnCollided(filter: Predicate<CollidedEvent>) : (CollidedEvent) -> Un
 	private val filter = filter
 
 	override fun invoke(event: CollidedEvent) {
-		val collisionDamagePart = event.source.entity.tryGet(CollisionDamagePart::class.java)
-		val targetHealthPart = event.target.entity.tryGet(HealthPart::class.java)
+		val collisionDamagePart = event.source.entity.tryGet(CollisionDamagePart::class)
+		val targetHealthPart = event.target.entity.tryGet(HealthPart::class)
 		if (collisionDamagePart != null && targetHealthPart != null && filter.apply(event)) {
 			targetHealthPart.decrease(collisionDamagePart.damage)
 		}

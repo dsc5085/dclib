@@ -6,9 +6,7 @@ import dclib.epf.EntityManager
 import dclib.epf.parts.SpritePart
 import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
+import java.util.*
 
 class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHelper, entityManager: EntityManager)
  : EntityDrawer {
@@ -36,7 +34,7 @@ class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHe
 	}
 
 	private fun draw(entity: Entity) {
-		val spritePart = entity.tryGet(SpritePart::class.java)
+		val spritePart = entity.tryGet(SpritePart::class)
 		if (spritePart != null) {
 			spritePart.sprite.draw(spriteBatch)
 		}
@@ -48,7 +46,7 @@ class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHe
 		}
 
 		private fun getValue(entity: Entity): Float {
-			val transformPart = entity.tryGet(TransformPart::class.java)
+			val transformPart = entity.tryGet(TransformPart::class)
 			return if (transformPart != null) transformPart.transform.z else 0f
 		}
 	}

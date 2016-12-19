@@ -3,6 +3,7 @@ package test.dclib
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.GL30
+import org.mockito.Mockito.mock
 
 object GdxMock {
     fun mockGl() {

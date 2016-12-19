@@ -8,7 +8,7 @@ class RemoveOnNoHealthEntityAdded(entityManager: EntityManager) : (EntityAddedEv
 	private val entityManager = entityManager
 
 	override fun invoke(event: EntityAddedEvent) {
-		val healthPart = event.entity.tryGet(HealthPart::class.java)
+        val healthPart = event.entity.tryGet(HealthPart::class)
 		if (healthPart != null) {
 			healthPart.healthGone.on { entityManager.remove(event.entity) }
 		}

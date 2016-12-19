@@ -17,7 +17,7 @@ object Box2dUtils {
     }
 
 	fun getBody(entity: Entity): Body? {
-		val transform = entity.tryGet(TransformPart::class.java).transform
+        val transform = entity[TransformPart::class].transform
 		return if (transform is Box2dTransform) transform.body else null
 	}
 
