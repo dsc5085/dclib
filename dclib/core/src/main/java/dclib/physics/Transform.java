@@ -3,7 +3,6 @@ package dclib.physics;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
 import dclib.geometry.VectorUtils;
 
 public abstract class Transform {
@@ -27,6 +26,10 @@ public abstract class Transform {
 	public abstract void setScale(final Vector2 scale);
 
 	public abstract Vector2 getSize();
+
+    public final Vector2 getWorldSize() {
+        return getSize().scl(getScale());
+    }
 
 	public abstract Vector2 getPosition();
 

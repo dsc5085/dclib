@@ -7,6 +7,14 @@ public final class VectorUtils {
 	private VectorUtils() {
 	}
 
+    public static final Vector2 abs(final Vector2 vector) {
+        return new Vector2(Math.abs(vector.x), Math.abs(vector.y));
+    }
+
+    public static final Vector2 sign(final Vector2 vector) {
+        return new Vector2(Math.signum(vector.x), Math.signum(vector.y));
+    }
+
 	public static final Vector2 unit(final Vector2 vector) {
 		float length = vector.len();
 		return vector.cpy().scl(1 / length);
