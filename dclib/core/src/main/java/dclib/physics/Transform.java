@@ -63,13 +63,12 @@ public abstract class Transform {
 	}
 
 	/**
-	 * Convert a point local to the origin to a point in global space.
-	 * @param localX local X within the untransformed polygon
-	 * @param localY local Y within the untransformed polygon
-	 * @return global point
-	 */
-	public final Vector2 toGlobal(final Vector2 local) {
-		return local.cpy()
+     * Convert a point local to the origin to a point in world space.
+     * @param local local point within the untransformed polygon
+     * @return world point
+     */
+    public final Vector2 toWorld(final Vector2 local) {
+        return local.cpy()
 		.sub(getOrigin())
 		.scl(getScale())
 		.rotate(getRotation())
@@ -78,14 +77,14 @@ public abstract class Transform {
 	}
 
 	/**
-	 * Translate so that the local point of at the global point.
-	 * @param local local point
-	 * @param newGlobal new global point
-	 */
-	public final void setGlobal(final Vector2 local, final Vector2 newGlobal) {
-		Vector2 currentGlobal = toGlobal(local);
-		Vector2 offset = VectorUtils.offset(currentGlobal, newGlobal);
-		translate(offset);
+     * Translate so that the local point of at the world point.
+     * @param local local point
+     * @param newWorld new world point
+     */
+    public final void setWorld(final Vector2 local, final Vector2 newWorld) {
+        Vector2 currentWorld = toWorld(local);
+        Vector2 offset = VectorUtils.offset(currentWorld, newWorld);
+        translate(offset);
 	}
 
 	public abstract Vector2 getVelocity();

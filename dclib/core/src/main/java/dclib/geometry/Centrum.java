@@ -1,7 +1,6 @@
 package dclib.geometry;
 
 import com.badlogic.gdx.math.Vector2;
-
 import dclib.physics.Transform;
 
 public final class Centrum {
@@ -15,8 +14,8 @@ public final class Centrum {
 	}
 
 	public final Vector2 getPosition() {
-		return transform.toGlobal(local);
-	}
+        return transform.toWorld(local);
+    }
 
 	public final float getRotation() {
 		return transform.getRotation();

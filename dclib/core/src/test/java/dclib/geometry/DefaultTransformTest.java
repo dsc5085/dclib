@@ -1,15 +1,13 @@
 package dclib.geometry;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
+import org.junit.Test;
 import test.dclib.geometry.TestPolygonFactory;
+
+import static org.junit.Assert.assertEquals;
 
 public final class DefaultTransformTest {
 
@@ -29,10 +27,10 @@ public final class DefaultTransformTest {
 	}
 
 	@Test
-	public void toGlobal_LocalVectorAndPolygon_ReturnsExpected() {
-		Vector2 local = new Vector2(0, 1);
+    public void toWorld_LocalVectorAndPolygon_ReturnsExpected() {
+        Vector2 local = new Vector2(0, 1);
 		Transform transform = new DefaultTransform(0, TestPolygonFactory.createSimpleRectangle());
-		assertEquals(new Vector2(2, 1), transform.toGlobal(local));
-	}
+        assertEquals(new Vector2(2, 1), transform.toWorld(local));
+    }
 
 }
