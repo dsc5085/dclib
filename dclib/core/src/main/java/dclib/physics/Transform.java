@@ -62,6 +62,16 @@ public abstract class Transform {
 		translate(offset);
 	}
 
+	public final Vector2 toLocal(final Vector2 world) {
+		Vector2 scale = getScale();
+		return world.cpy()
+				.sub(getOrigin())
+				.sub(getPosition())
+				.rotate(-getRotation())
+				.scl(VectorUtils.inv(scale))
+				.add(getOrigin());
+	}
+
 	/**
      * Convert a point local to the origin to a point in world space.
      * @param local local point within the untransformed polygon

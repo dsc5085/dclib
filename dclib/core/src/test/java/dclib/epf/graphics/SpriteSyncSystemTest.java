@@ -1,11 +1,5 @@
 package dclib.epf.graphics;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-
 import dclib.epf.DefaultEntityManager;
 import dclib.epf.Entity;
 import dclib.epf.parts.SpritePart;
@@ -22,8 +15,13 @@ import dclib.graphics.ScreenHelper;
 import dclib.graphics.TextureUtils;
 import dclib.physics.DefaultTransform;
 import dclib.physics.Transform;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import test.dclib.GdxTestRunner;
 import test.dclib.geometry.TestPolygonFactory;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(GdxTestRunner.class)
 public class SpriteSyncSystemTest {

@@ -1,8 +1,13 @@
 package dclib.physics
 
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.Shape
 import dclib.epf.Entity
 import dclib.epf.parts.TransformPart
+import dclib.geometry.PolygonUtils
+import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 object Box2dUtils {
 	/**
@@ -11,6 +16,13 @@ object Box2dUtils {
 	val ROUNDING_ERROR = 0.02f
     val POSITION_ITERATIONS = 3
     val VELOCITY_ITERATIONS = 8
+
+    fun scale(body: Body, scale: Vector2) {
+        for (fixture in body.fixtureList) {
+            val shape = fixture.shape
+            scale(scale, shape)
+        }
+    }
 
     fun getImpulseToReachVelocity(currentVelocity: Float, targetVelocity: Float, mass: Float): Float {
         return mass * (targetVelocity - currentVelocity)
@@ -40,4 +52,16 @@ object Box2dUtils {
 			fixture.filterData = filter
 		}
 	}
+
+    private fun scale(scale: Vector2, shape: Shape) {
+        if (shape.type == Shape.Type.Polygon) {
+            val polygonShape = shape as PolygonShape
+            // Get the cached vertices from when the shape was first created
+            val vertices = Box2DUtils.vertices(polygonShape)
+            val scaledVertices = PolygonUtils.scale(vertices, scale)
+            polygonShape.set(scaledVertices)
+        } else {
+            throw UnsupportedOperationException("${shape.type} is an invalid shape type to scale")
+        }
+    }
 }

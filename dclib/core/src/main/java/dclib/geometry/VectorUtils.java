@@ -7,8 +7,8 @@ public final class VectorUtils {
 	private VectorUtils() {
 	}
 
-    public static final Vector2 abs(final Vector2 vector) {
-        return new Vector2(Math.abs(vector.x), Math.abs(vector.y));
+    public static final Vector2 inv(final Vector2 vector) {
+        return new Vector2(1 / vector.x, 1 / vector.y);
     }
 
     public static final Vector2 sign(final Vector2 vector) {

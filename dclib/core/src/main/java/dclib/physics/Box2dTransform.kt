@@ -5,21 +5,23 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
-import com.badlogic.gdx.physics.box2d.Shape
-import dclib.geometry.PolygonUtils
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 class Box2dTransform : Transform {
     val body: Body
-    private val scale: Vector2
+    private val scale: Vector2 = Vector2(1f, 1f)
 
     constructor(other: Box2dTransform) : super(other.z) {
         val def = Box2DUtils.createDef(other.body)
         body = other.body.world.createBody(def)
         for (fixture in other.body.fixtureList) {
-            Box2DUtils.clone(fixture, body, true)
+            val clonedFixture = Box2DUtils.clone(fixture, body, true)
+            val shape = clonedFixture.shape
+            if (shape is PolygonShape) {
+                shape.set(Box2DUtils.vertices(fixture))
+            }
         }
-        scale = other.scale
+        setScale(other.scale)
     }
 
     constructor(body: Body) : this(0f, body) {
@@ -27,7 +29,6 @@ class Box2dTransform : Transform {
 
     constructor(z: Float, body: Body) : super(z) {
         this.body = body
-        scale = Vector2(1f, 1f)
     }
 
     override fun getVertices(): FloatArray {
@@ -45,11 +46,8 @@ class Box2dTransform : Transform {
 
     override fun setScale(scale: Vector2) {
         if (!this.scale.epsilonEquals(scale, MathUtils.FLOAT_ROUNDING_ERROR)) {
+            Box2dUtils.scale(body, scale)
             this.scale.set(scale)
-            for (fixture in body.fixtureList) {
-                val shape = fixture.shape
-                scale(scale, shape)
-            }
         }
     }
 
@@ -87,17 +85,5 @@ class Box2dTransform : Transform {
 
     override fun applyImpulse(impulse: Vector2) {
         body.applyLinearImpulse(impulse, position, true)
-    }
-
-    private fun scale(scale: Vector2, shape: Shape) {
-        if (shape.type == Shape.Type.Polygon) {
-            val polygonShape = shape as PolygonShape
-            // Get the cached vertices from when the shape was first created
-            val vertices = Box2DUtils.vertices(polygonShape)
-            val scaledVertices = PolygonUtils.scale(vertices, scale)
-            polygonShape.set(scaledVertices)
-        } else {
-            throw UnsupportedOperationException(shape.type.toString() + " is an invalid shape type to scale")
-        }
     }
 }

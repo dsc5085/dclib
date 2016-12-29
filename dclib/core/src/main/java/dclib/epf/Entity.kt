@@ -50,12 +50,36 @@ class Entity(vararg parts: Any) {
      * *
      * @return if the entity contains a part corresponding to all the part classes
      */
+    fun has(vararg partClasses: Class<*>): Boolean {
+        return has(*partClasses.map { it.kotlin }.toTypedArray())
+    }
+
+    /**
+     * @param partClass the classes of the parts to check
+     * *
+     * @return if the entity contains a part corresponding to all the part classes
+     */
     fun has(vararg partClasses: KClass<*>): Boolean {
         return partClasses.all { parts.containsKey(it) }
     }
 
+    fun <T : Any> tryGet(partClass: Class<T>): T? {
+        return tryGet(partClass.kotlin)
+    }
+
     fun <T : Any> tryGet(partClass: KClass<T>): T? {
         return if (has(partClass)) get(partClass) else null
+    }
+
+    /**
+     * @param partClass the class of the part to get
+     * *
+     * @return the part attached to the entity of type T
+     * *
+     * @throws IllegalArgumentException if there is no part of type T attached to the entity
+     */
+    operator fun <T : Any> get(partClass: Class<T>): T {
+        return get(partClass.kotlin)
     }
 
     /**
@@ -90,6 +114,14 @@ class Entity(vararg parts: Any) {
             }
             this.parts.put(part.javaClass.kotlin, part)
         }
+    }
+
+    /**
+     * Removes a part of type T if it exists.
+     * @param partClass the class of the part to remove
+     */
+    fun detach(partClass: Class<*>) {
+        parts.remove(partClass.kotlin)
     }
 
     /**
