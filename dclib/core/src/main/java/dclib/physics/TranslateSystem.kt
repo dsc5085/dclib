@@ -11,7 +11,7 @@ class TranslateSystem(entityManager: EntityManager) : EntitySystem(entityManager
         if (transformPart != null) {
             val transform = transformPart.transform
             if (transform is DefaultTransform) {
-                val offset = transform.getVelocity().scl(delta)
+                val offset = transform.velocity.scl(delta)
                 transform.translate(offset)
             }
         }

@@ -1,17 +1,16 @@
 package dclib.geometry;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.badlogic.gdx.math.EarClippingTriangulator;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ShortArray;
-
+import dclib.physics.Box2dUtils;
 import dclib.util.Maths;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public final class PolygonUtils {
 
@@ -170,8 +169,9 @@ public final class PolygonUtils {
 	}
 
 	public static final float[] createDefault() {
-		return new float[] { 0, 0, MathUtils.FLOAT_ROUNDING_ERROR, 0, 0, MathUtils.FLOAT_ROUNDING_ERROR };
-	}
+        // TODO: Shouldn't reference box2dutils (circular reference)
+        return new float[]{0, 0, Box2dUtils.INSTANCE.getROUNDING_ERROR(), 0, 0, Box2dUtils.INSTANCE.getROUNDING_ERROR()};
+    }
 
 	public static final float[] createRectangleVertices(final float width, final float height) {
 		return createRectangleVertices(new Rectangle(0, 0, width, height));

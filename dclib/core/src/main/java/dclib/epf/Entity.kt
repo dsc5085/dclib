@@ -89,6 +89,7 @@ class Entity(vararg parts: Any) {
      * *
      * @throws IllegalArgumentException if there is no part of type T attached to the entity
      */
+    @Suppress("UNCHECKED_CAST")
     operator fun <T : Any> get(partClass: KClass<T>): T {
         if (!has(partClass)) {
             throw IllegalArgumentException("Part of type ${partClass.simpleName} could not be found.")

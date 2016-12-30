@@ -1,12 +1,11 @@
 package dclib.physics
 
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.PolygonShape
-import com.badlogic.gdx.physics.box2d.Shape
+import com.badlogic.gdx.physics.box2d.*
 import dclib.epf.Entity
 import dclib.epf.parts.TransformPart
 import dclib.geometry.PolygonUtils
+import net.dermetfan.gdx.math.BayazitDecomposer
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 object Box2dUtils {
@@ -16,6 +15,33 @@ object Box2dUtils {
 	val ROUNDING_ERROR = 0.02f
     val POSITION_ITERATIONS = 3
     val VELOCITY_ITERATIONS = 8
+
+    fun createStaticBody(world: World, vertices: FloatArray): Body {
+        val bodyDef = BodyDef()
+        bodyDef.type = BodyDef.BodyType.StaticBody
+        val body = world.createBody(bodyDef)
+        val shape = ChainShape()
+        shape.createLoop(vertices)
+        body.createFixture(shape, 1f)
+        shape.dispose()
+        return body
+    }
+
+    fun createDynamicBody(world: World, vertices: FloatArray, sensor: Boolean = false): Body {
+        val bodyDef = BodyDef()
+        bodyDef.type = BodyDef.BodyType.DynamicBody
+        val body = world.createBody(bodyDef)
+        val vectors = PolygonUtils.toVectors(vertices).toTypedArray()
+        val vertexVectors = com.badlogic.gdx.utils.Array<Vector2>(vectors)
+        for (partition in BayazitDecomposer.convexPartition(vertexVectors)) {
+            val shape = PolygonShape()
+            shape.set(PolygonUtils.toFloats(partition.toList()))
+            val fixture = body.createFixture(shape, 1f)
+            fixture.isSensor = sensor
+            shape.dispose()
+        }
+        return body
+    }
 
     fun scale(body: Body, scale: Vector2) {
         for (fixture in body.fixtureList) {

@@ -9,7 +9,41 @@ import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 class Box2dTransform : Transform {
     val body: Body
-    private val scale: Vector2 = Vector2(1f, 1f)
+
+    override val origin: Vector2
+        get() = Vector2()
+
+    private var _scale: Vector2 = Vector2(1f, 1f)
+    override var scale: Vector2
+        get() = _scale
+        set(value) {
+            val signEquals = Math.signum(_scale.x) == Math.signum(value.x)
+                    && Math.signum(_scale.y) == Math.signum(value.y)
+            if (!signEquals || !_scale.epsilonEquals(value, MathUtils.FLOAT_ROUNDING_ERROR)) {
+                Box2dUtils.scale(body, value)
+                _scale.set(value)
+            }
+        }
+
+    override val size: Vector2
+        get() = Box2DUtils.size(body).cpy()
+
+    override var position: Vector2
+        get() = body.position.cpy()
+        set(value) = body.setTransform(value, body.angle)
+
+    override var rotation: Float
+        get() = body.angle * MathUtils.radiansToDegrees
+        set(value) = body.setTransform(body.position, value * MathUtils.degreesToRadians)
+
+    override val bounds: Rectangle
+        get() = Rectangle(Box2DUtils.aabb(body))
+
+    override var velocity: Vector2
+        get() = body.linearVelocity.cpy()
+        set(value) {
+            body.linearVelocity = value
+        }
 
     constructor(other: Box2dTransform) : super(other.z) {
         val def = Box2DUtils.createDef(other.body)
@@ -21,11 +55,10 @@ class Box2dTransform : Transform {
                 shape.set(Box2DUtils.vertices(fixture))
             }
         }
-        setScale(other.scale)
+        scale = other.scale
     }
 
-    constructor(body: Body) : this(0f, body) {
-    }
+    constructor(body: Body) : this(0f, body)
 
     constructor(z: Float, body: Body) : super(z) {
         this.body = body
@@ -34,53 +67,6 @@ class Box2dTransform : Transform {
     override fun getVertices(): FloatArray {
         val fixture = body.fixtureList.get(0)
         return Box2DUtils.vertices(fixture)
-    }
-
-    override fun getOrigin(): Vector2 {
-        return Vector2()
-    }
-
-    override fun getScale(): Vector2 {
-        return scale.cpy()
-    }
-
-    override fun setScale(scale: Vector2) {
-        if (!this.scale.epsilonEquals(scale, MathUtils.FLOAT_ROUNDING_ERROR)) {
-            Box2dUtils.scale(body, scale)
-            this.scale.set(scale)
-        }
-    }
-
-    override fun getSize(): Vector2 {
-        return Box2DUtils.size(body).cpy()
-    }
-
-    override fun getPosition(): Vector2 {
-        return body.position.cpy()
-    }
-
-    override fun setPosition(position: Vector2) {
-        body.setTransform(position, body.angle)
-    }
-
-    override fun getBounds(): Rectangle {
-        return Rectangle(Box2DUtils.aabb(body))
-    }
-
-    override fun getRotation(): Float {
-        return body.angle * MathUtils.radiansToDegrees
-    }
-
-    override fun setRotation(degrees: Float) {
-        body.setTransform(body.position, degrees * MathUtils.degreesToRadians)
-    }
-
-    override fun getVelocity(): Vector2 {
-        return body.linearVelocity.cpy()
-    }
-
-    override fun setVelocity(velocity: Vector2) {
-        body.linearVelocity = velocity
     }
 
     override fun applyImpulse(impulse: Vector2) {
