@@ -27,7 +27,6 @@ object CameraUtils {
         val newCameraX = center.x - worldViewportSize.x / 2
         val newCameraY = center.y - worldViewportSize.y / 2
         val viewport = Rectangle(newCameraX, newCameraY, worldViewportSize.x, worldViewportSize.y)
-        CameraUtils.setViewport(camera, viewport, screenHelper.pixelsPerUnit)
-        camera.update()
+        setViewport(camera, viewport, screenHelper.pixelsPerUnit)
     }
 }
