@@ -11,7 +11,7 @@ public final class DefaultTransform extends Transform {
 	private Vector2 velocity = new Vector2();
 
     public DefaultTransform() {
-        this(0, new Polygon(PolygonUtils.createDefault()));
+        this(0, new Polygon(PolygonUtils.INSTANCE.createDefault()));
     }
 
 	public DefaultTransform(final float z, final Polygon polygon) {
@@ -57,9 +57,9 @@ public final class DefaultTransform extends Transform {
 
 	@Override
 	public final Vector2 getSize() {
-		Rectangle bounds = PolygonUtils.bounds(polygon.getVertices());
-		return bounds.getSize(new Vector2());
-	}
+        Rectangle bounds = PolygonUtils.INSTANCE.bounds(polygon.getVertices());
+        return bounds.getSize(new Vector2());
+    }
 
 	@Override
 	public final Vector2 getPosition() {

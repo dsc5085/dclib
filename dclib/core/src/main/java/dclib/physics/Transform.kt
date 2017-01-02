@@ -4,7 +4,9 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import dclib.geometry.VectorUtils
+import dclib.geometry.abs
 import dclib.geometry.center
+import dclib.geometry.div
 
 abstract class Transform(val z: Float) {
     abstract val origin: Vector2
@@ -33,6 +35,11 @@ abstract class Transform(val z: Float) {
 
     fun translate(offset: Vector2) {
         position = position.add(offset)
+    }
+
+    fun setWorldSize(worldSize: Vector2) {
+        val scaleMultiplier = worldSize.div(this.worldSize)
+        this.scale = this.scale.scl(scaleMultiplier.abs())
     }
 
     /**

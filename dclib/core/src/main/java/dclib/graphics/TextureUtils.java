@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import dclib.geometry.PolygonUtils;
 
 public class TextureUtils {
@@ -50,27 +49,27 @@ public class TextureUtils {
 		FloatArray points = getPixelPoints(textureRegion);
 		FloatArray hullPoints = new ConvexHull().computePolygon(points, true);
 		removeExtraPointsFromCompute(hullPoints);
-		if (hullPoints.size >= PolygonUtils.NUM_TRIANGLE_VERTICES * 2) {
-			hullVertices = hullPoints.toArray();
-		} else {
+        if (hullPoints.size >= PolygonUtils.INSTANCE.getNUM_TRIANGLE_VERTICES() * 2) {
+            hullVertices = hullPoints.toArray();
+        } else {
 			int width = textureRegion.getRegionWidth();
 			int height = textureRegion.getRegionHeight();
-			hullVertices = PolygonUtils.createRectangleVertices(width, height);
-		}
-		return hullVertices;
+            hullVertices = PolygonUtils.INSTANCE.createRectangleVertices(width, height);
+        }
+        return hullVertices;
 	}
 
 	public static final PolygonRegion createPolygonRegion(final TextureRegion textureRegion) {
-		float[] vertices = PolygonUtils.createRectangleVertices(textureRegion.getRegionWidth(),
-				textureRegion.getRegionHeight());
-		return createPolygonRegion(textureRegion, vertices);
+        float[] vertices = PolygonUtils.INSTANCE.createRectangleVertices(textureRegion.getRegionWidth(),
+                textureRegion.getRegionHeight());
+        return createPolygonRegion(textureRegion, vertices);
 	}
 
 	public static final PolygonRegion createPolygonRegion(final TextureRegion textureRegion, final float[] vertices) {
-		Rectangle bounds = PolygonUtils.bounds(vertices);
-		float[] shiftedVertices = PolygonUtils.shift(vertices, -bounds.x, -bounds.y);
-		// libgdx y-axis is flipped
-		int regionY = (int)(textureRegion.getRegionHeight() - bounds.y - bounds.height);
+        Rectangle bounds = PolygonUtils.INSTANCE.bounds(vertices);
+        float[] shiftedVertices = PolygonUtils.INSTANCE.shift(vertices, -bounds.x, -bounds.y);
+        // libgdx y-axis is flipped
+        int regionY = (int)(textureRegion.getRegionHeight() - bounds.y - bounds.height);
 		TextureRegion croppedRegion = new TextureRegion(textureRegion, (int)bounds.x, regionY,
 				(int)bounds.width, (int)bounds.height);
 		short[] triangles = triangulator.computeTriangles(shiftedVertices).toArray();

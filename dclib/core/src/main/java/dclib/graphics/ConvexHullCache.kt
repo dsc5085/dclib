@@ -12,7 +12,7 @@ class ConvexHullCache(private val textureCache: TextureCache) {
             val convexHull = TextureUtils.createConvexHull(region.region)
             convexHulls.put(regionName, convexHull)
         }
-        val vertices = PolygonUtils.setSize(convexHulls[regionName], size)
+        val vertices = PolygonUtils.setSize(convexHulls[regionName]!!, size)
         return HullData(vertices, region)
     }
 }

@@ -2,6 +2,8 @@ package dclib.util;
 
 public final class Maths {
 
+    public static final float DEGREES_MAX = 360;
+
 	private Maths() {
 	}
 
@@ -22,8 +24,8 @@ public final class Maths {
 	}
 
 	public static final float degDistance(final float deg1, final float deg2) {
-        float phi = distance(deg1, deg2) % 360;
-        return phi > 180 ? 360 - phi : phi;
+        float phi = distance(deg1, deg2) % DEGREES_MAX;
+        return phi > DEGREES_MAX / 2 ? DEGREES_MAX - phi : phi;
     }
 
 	/**

@@ -15,7 +15,7 @@ class Box2dTransform : Transform {
 
     private var _scale: Vector2 = Vector2(1f, 1f)
     override var scale: Vector2
-        get() = _scale
+        get() = _scale.cpy()
         set(value) {
             val signEquals = Math.signum(_scale.x) == Math.signum(value.x)
                     && Math.signum(_scale.y) == Math.signum(value.y)

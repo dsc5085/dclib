@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.*
 import dclib.epf.Entity
 import dclib.epf.parts.TransformPart
 import dclib.geometry.PolygonUtils
-import net.dermetfan.gdx.math.BayazitDecomposer
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 object Box2dUtils {
@@ -31,11 +30,9 @@ object Box2dUtils {
         val bodyDef = BodyDef()
         bodyDef.type = BodyDef.BodyType.DynamicBody
         val body = world.createBody(bodyDef)
-        val vectors = PolygonUtils.toVectors(vertices).toTypedArray()
-        val vertexVectors = com.badlogic.gdx.utils.Array<Vector2>(vectors)
-        for (partition in BayazitDecomposer.convexPartition(vertexVectors)) {
+        for (partitionVertices in PolygonUtils.partition(vertices)) {
             val shape = PolygonShape()
-            shape.set(PolygonUtils.toFloats(partition.toList()))
+            shape.set(partitionVertices)
             val fixture = body.createFixture(shape, 1f)
             fixture.isSensor = sensor
             shape.dispose()
@@ -80,14 +77,17 @@ object Box2dUtils {
 	}
 
     private fun scale(scale: Vector2, shape: Shape) {
-        if (shape.type == Shape.Type.Polygon) {
-            val polygonShape = shape as PolygonShape
-            // Get the cached vertices from when the shape was first created
-            val vertices = Box2DUtils.vertices(polygonShape)
-            val scaledVertices = PolygonUtils.scale(vertices, scale)
-            polygonShape.set(scaledVertices)
-        } else {
-            throw UnsupportedOperationException("${shape.type} is an invalid shape type to scale")
+        when (shape.type) {
+            Shape.Type.Polygon -> {
+                val polygonShape = shape as PolygonShape
+                // Get the cached vertices from when the shape was first created
+                val vertices = Box2DUtils.vertices(polygonShape)
+                val scaledVertices = PolygonUtils.scale(vertices, scale)
+                polygonShape.set(scaledVertices)
+            }
+            else -> {
+                throw UnsupportedOperationException("${shape.type} is an invalid shape type to scale")
+            }
         }
     }
 }
