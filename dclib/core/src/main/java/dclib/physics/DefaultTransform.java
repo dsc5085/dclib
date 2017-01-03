@@ -56,8 +56,8 @@ public final class DefaultTransform extends Transform {
 	}
 
 	@Override
-	public final Vector2 getSize() {
-        Rectangle bounds = PolygonUtils.INSTANCE.bounds(polygon.getVertices());
+	public final Vector2 getLocalSize() {
+		Rectangle bounds = PolygonUtils.INSTANCE.bounds(polygon.getVertices());
         return bounds.getSize(new Vector2());
     }
 

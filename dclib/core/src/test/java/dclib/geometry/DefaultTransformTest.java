@@ -16,7 +16,7 @@ public final class DefaultTransformTest {
 		float[] vertices = new float[] { 0, 0, 2, 1, 1, 3 };
 		Transform transform = new DefaultTransform(0, new Polygon(vertices));
 		transform.setRotation(45);
-		assertEquals(new Vector2(2, 3), transform.getSize());
+		assertEquals(new Vector2(2, 3), transform.getLocalSize());
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
+import dclib.geometry.center
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
 class Box2dTransform : Transform {
@@ -25,7 +26,7 @@ class Box2dTransform : Transform {
             }
         }
 
-    override val size: Vector2
+    override val localSize: Vector2
         get() = Box2DUtils.size(body).cpy()
 
     override var position: Vector2
@@ -37,7 +38,11 @@ class Box2dTransform : Transform {
         set(value) = body.setTransform(body.position, value * MathUtils.degreesToRadians)
 
     override val bounds: Rectangle
-        get() = Rectangle(Box2DUtils.aabb(body))
+        get() {
+            val center = Box2DUtils.aabb(body).center
+            val size = size
+            return Rectangle(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y)
+        }
 
     override var velocity: Vector2
         get() = body.linearVelocity.cpy()

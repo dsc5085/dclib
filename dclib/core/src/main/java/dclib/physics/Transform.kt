@@ -10,15 +10,16 @@ import dclib.geometry.div
 
 abstract class Transform(val z: Float) {
     abstract val origin: Vector2
+    // TODO: set scale should not be a property because it is expensive
     abstract var scale: Vector2
-    abstract val size: Vector2
+    abstract val localSize: Vector2
     abstract var position: Vector2
     abstract var rotation: Float
     abstract val bounds: Rectangle
     abstract var velocity: Vector2
 
-    val worldSize: Vector2
-        get() = size.scl(scale)
+    val size: Vector2
+        get() = localSize.scl(scale.abs())
 
     val position3: Vector3
         get() {
@@ -37,8 +38,8 @@ abstract class Transform(val z: Float) {
         position = position.add(offset)
     }
 
-    fun setWorldSize(worldSize: Vector2) {
-        val scaleMultiplier = worldSize.div(this.worldSize)
+    fun setSize(size: Vector2) {
+        val scaleMultiplier = size.div(this.size)
         this.scale = this.scale.scl(scaleMultiplier.abs())
     }
 
