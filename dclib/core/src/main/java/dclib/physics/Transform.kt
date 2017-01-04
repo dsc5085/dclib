@@ -3,10 +3,7 @@ package dclib.physics
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import dclib.geometry.VectorUtils
-import dclib.geometry.abs
-import dclib.geometry.center
-import dclib.geometry.div
+import dclib.geometry.*
 
 abstract class Transform(val z: Float) {
     abstract val origin: Vector2
@@ -23,8 +20,7 @@ abstract class Transform(val z: Float) {
 
     val position3: Vector3
         get() {
-            val position = position
-            return Vector3(position.x, position.y, z)
+            return position.toVector3(z)
         }
 
     val center: Vector2
@@ -64,8 +60,12 @@ abstract class Transform(val z: Float) {
      * *
      * @param newWorld new world point
      */
-    fun setWorld(local: Vector2, newWorld: Vector2) {
+    fun setLocalToWorld(local: Vector2, newWorld: Vector2) {
         val currentWorld = toWorld(local)
+        setWorld(currentWorld, newWorld)
+    }
+
+    fun setWorld(currentWorld: Vector2, newWorld: Vector2) {
         val offset = VectorUtils.offset(currentWorld, newWorld)
         translate(offset)
     }

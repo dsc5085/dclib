@@ -168,6 +168,16 @@ object PolygonUtils {
         return trianglesVertices
     }
 
+    fun getEdges(vertices: FloatArray): List<Segment2> {
+        val edges = mutableListOf<Segment2>()
+        val vertexVectors = toVectors(vertices)
+        for (i in 0..vertexVectors.size - 2) {
+            val edge = Segment2(vertexVectors[i], vertexVectors[i + 1])
+            edges.add(edge)
+        }
+        return edges
+    }
+
     fun createDefault(): FloatArray {
         // TODO: Shouldn't reference box2dutils (circular reference)
         return floatArrayOf(0f, 0f, Box2dUtils.ROUNDING_ERROR, 0f, 0f, Box2dUtils.ROUNDING_ERROR)

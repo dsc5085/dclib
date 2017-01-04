@@ -3,7 +3,6 @@ package dclib.physics.collision
 import com.badlogic.gdx.physics.box2d.Fixture
 import dclib.epf.Entity
 import dclib.eventing.EventDelegate
-import dclib.physics.Contacter
 
 class EntityCollisionChecker(contactChecker: ContactChecker) {
     val collided = EventDelegate<CollidedEvent>()

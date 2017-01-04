@@ -1,7 +1,5 @@
 package dclib.physics.collision;
 
-import dclib.physics.Contacter;
-
 public final class CollidedEvent {
 
 	private final Contacter source;
