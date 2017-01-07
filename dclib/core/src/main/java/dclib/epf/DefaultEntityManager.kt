@@ -1,7 +1,6 @@
 package dclib.epf
 
 import dclib.eventing.EventDelegate
-import java.util.ArrayList
 
 /**
  * Manages a group of entities. Provides accessing, removing, and adding entities.

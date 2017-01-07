@@ -12,7 +12,7 @@ public final class FileUtils {
     private FileUtils() {
     }
 
-    public static final InputStream internalPathToInputStream(final String internalPath) {
+    public static final InputStream toInputStream(final String internalPath) {
         String path = PathUtils.internalToAbsolutePath(internalPath);
         try {
             return new FileInputStream(path);
@@ -21,7 +21,7 @@ public final class FileUtils {
         }
     }
 
-    public static final FileOutputStream internalPathToOutputStream(final String internalPath) {
+    public static final FileOutputStream toOutputStream(final String internalPath) {
         String path = PathUtils.internalToAbsolutePath(internalPath);
         try {
             return new FileOutputStream(path);
@@ -30,7 +30,7 @@ public final class FileUtils {
         }
     }
 
-    public static final FileHandle internalPathToFileHandle(final String internalPath) {
+    public static final FileHandle toFileHandle(final String internalPath) {
         String path = PathUtils.internalToAbsolutePath(internalPath);
         return new FileHandle(path);
     }
