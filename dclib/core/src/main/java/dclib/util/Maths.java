@@ -1,8 +1,11 @@
 package dclib.util;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public final class Maths {
 
     public static final float DEGREES_MAX = 360;
+	public static final float RADIANS_MAX = MathUtils.PI2;
 
 	private Maths() {
 	}
@@ -34,7 +37,7 @@ public final class Maths {
 	 * @param intervalLength length between each interval
 	 * @return rounded down value
 	 */
-	public static final int round(final int value, final int intervalLength) {
+	public static final float round(final float value, final float intervalLength) {
 		return value - value % intervalLength;
 	}
 

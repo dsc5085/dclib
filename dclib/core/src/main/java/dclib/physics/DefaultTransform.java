@@ -11,10 +11,10 @@ public final class DefaultTransform extends Transform {
 	private Vector2 velocity = new Vector2();
 
     public DefaultTransform() {
-        this(0, new Polygon(PolygonUtils.INSTANCE.createDefault()));
+        this(new Polygon(PolygonUtils.INSTANCE.createDefault()), 0);
     }
 
-	public DefaultTransform(final float z, final Polygon polygon) {
+	public DefaultTransform(final Polygon polygon, final float z) {
 		super(z);
 		this.polygon = polygon;
 	}

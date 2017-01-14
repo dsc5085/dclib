@@ -8,13 +8,9 @@ public final class FloatRange {
 	private final float min;
 	private final float max;
 
-	public FloatRange(final float min, final float max) {
-		if (min > max) {
-			throw new IllegalArgumentException("Min argument of " + min
-					+ " cannot be greater than max argument of " + max);
-		}
-		this.min = min;
-		this.max = max;
+	public FloatRange(final float a, final float b) {
+		this.min = Math.min(a, b);
+		this.max = Math.max(a, b);
 	}
 
 	public final float min() {

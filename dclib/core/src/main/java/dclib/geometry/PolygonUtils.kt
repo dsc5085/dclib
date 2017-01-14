@@ -1,10 +1,6 @@
 package dclib.geometry
 
-import com.badlogic.gdx.math.EarClippingTriangulator
-import com.badlogic.gdx.math.Polygon
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
-import dclib.physics.Box2dUtils
+import com.badlogic.gdx.math.*
 import dclib.util.Maths
 import net.dermetfan.gdx.math.BayazitDecomposer
 import java.util.*
@@ -179,8 +175,7 @@ object PolygonUtils {
     }
 
     fun createDefault(): FloatArray {
-        // TODO: Shouldn't reference box2dutils (circular reference)
-        return floatArrayOf(0f, 0f, Box2dUtils.ROUNDING_ERROR, 0f, 0f, Box2dUtils.ROUNDING_ERROR)
+        return floatArrayOf(0f, 0f, MathUtils.FLOAT_ROUNDING_ERROR, 0f, 0f, MathUtils.FLOAT_ROUNDING_ERROR)
     }
 
     fun createRectangleVertices(width: Float, height: Float): FloatArray {
