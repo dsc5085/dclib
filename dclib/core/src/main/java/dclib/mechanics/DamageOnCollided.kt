@@ -12,7 +12,7 @@ class DamageOnCollided(filter: Predicate<CollidedEvent>) : (CollidedEvent) -> Un
 		val collisionDamagePart = event.source.entity.tryGet(CollisionDamagePart::class)
 		val targetHealthPart = event.target.entity.tryGet(HealthPart::class)
 		if (collisionDamagePart != null && targetHealthPart != null && filter.apply(event)) {
-			targetHealthPart.decrease(collisionDamagePart.damage)
+			targetHealthPart.change(-collisionDamagePart.damage)
 		}
 	}
 }
