@@ -4,14 +4,15 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
 import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.epf.parts.SpritePart
-import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
 import java.util.*
 
-class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHelper, entityManager: EntityManager)
- : EntityDrawer {
-	private val spriteBatch = spriteBatch
-	private val screenHelper = screenHelper
+class EntitySpriteDrawer(
+		private val spriteBatch: PolygonSpriteBatch,
+		private val screenHelper: ScreenHelper,
+		private val getEntities: () -> List<Entity>,
+		entityManager: EntityManager
+) : EntityDrawer {
 	// Ensures new entities aren't drawn because their transforms might not have been initialized
 	private val newEntities = ArrayList<Entity>()
 
@@ -20,10 +21,9 @@ class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHe
 	}
 
 	override fun draw(entities: List<Entity>) {
-		Collections.sort(entities, EntityZComparator())
 		screenHelper.setProjectionMatrix(spriteBatch)
 		spriteBatch.begin()
-		for (entity in entities) {
+		for (entity in getEntities()) {
 			if (newEntities.contains(entity)) {
 				newEntities.remove(entity)
 			} else {
@@ -37,17 +37,6 @@ class EntitySpriteDrawer(spriteBatch: PolygonSpriteBatch, screenHelper: ScreenHe
 		val spritePart = entity.tryGet(SpritePart::class)
 		if (spritePart != null) {
 			spritePart.sprite.draw(spriteBatch)
-		}
-	}
-
-	private class EntityZComparator : Comparator<Entity> {
-		override fun compare(e1: Entity, e2: Entity): Int {
-			return getValue(e1).compareTo(getValue(e2))
-		}
-
-		private fun getValue(entity: Entity): Float {
-			val transformPart = entity.tryGet(TransformPart::class)
-			return if (transformPart != null) transformPart.transform.z else 0f
 		}
 	}
 }
