@@ -12,10 +12,11 @@ class EntityCollisionChecker(contactChecker: ContactChecker) {
     }
 
     private fun handleContacted(event: ContactedEvent) {
-        val c1 = createContacter(event.fixtureA)
-        val c2 = createContacter(event.fixtureB)
+        val c1 = createContacter(event.contact.fixtureA)
+        val c2 = createContacter(event.contact.fixtureB)
         if (c1 != null && c2 != null) {
             collided.notify(CollidedEvent(c1, c2))
+            collided.notify(CollidedEvent(c2, c1))
         }
     }
 

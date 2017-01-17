@@ -12,8 +12,7 @@ class ContactChecker(private val world: World) : Updater {
         // TODO: Optimize
         for (contact in world.contactList.filter { it.isTouching }) {
             if (isValid(contact.fixtureA) && isValid(contact.fixtureB)) {
-                contacted.notify(ContactedEvent(contact.fixtureA, contact.fixtureB))
-                contacted.notify(ContactedEvent(contact.fixtureB, contact.fixtureA))
+                contacted.notify(ContactedEvent(contact))
             }
         }
     }
