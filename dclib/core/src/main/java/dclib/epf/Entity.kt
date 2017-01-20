@@ -33,6 +33,10 @@ class Entity(vararg parts: Any) {
         return this.attributes.containsAll(listOf(*attributes))
     }
 
+    fun <T : Any> getAttribute(attributeClass: KClass<T>): T? {
+        return attributes.filterIsInstance(attributeClass.java).firstOrNull()
+    }
+
     fun getAttributes(): Set<Enum<*>> {
         return attributes.toSet()
     }
@@ -41,7 +45,7 @@ class Entity(vararg parts: Any) {
      * adds attributes to the entity
      * @param attributes unique descriptors
      */
-    fun attribute(vararg attributes: Enum<*>) {
+    fun addAttributes(vararg attributes: Enum<*>) {
         this.attributes.addAll(listOf(*attributes))
     }
 

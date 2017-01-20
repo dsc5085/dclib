@@ -22,6 +22,10 @@ public class TextureUtils {
 	public static final Pixmap toPixmap(final TextureRegion textureRegion) {
 		int width = textureRegion.getRegionWidth();
 		int height = textureRegion.getRegionHeight();
+		return toPixmap(textureRegion, width, height);
+	}
+
+	public static final Pixmap toPixmap(final TextureRegion textureRegion, final int width, final int height) {
 		Matrix4 projection = new Matrix4();
 		projection.setToOrtho2D(0, -height, width, height).scale(1, -1, 1);
 		SpriteBatch spriteBatch = new SpriteBatch();
@@ -77,13 +81,17 @@ public class TextureUtils {
 	}
 
 	private static FloatArray getPixelPoints(final TextureRegion textureRegion) {
+	    // The actual pixmap size is reduced by 1 pixel lengthwise and widthwise,
+        // so need to add size to account for missing pixels
+        int missingPixelsSize = 1;
 		FloatArray points = new FloatArray();
-		Pixmap pixmap = toPixmap(textureRegion);
+		Pixmap pixmap = toPixmap(textureRegion, textureRegion.getRegionWidth() + missingPixelsSize,
+                textureRegion.getRegionHeight() + missingPixelsSize);
 		for (int x = 0; x < pixmap.getWidth(); x++) {
 			for (int y = 0; y < pixmap.getHeight(); y++) {
 				if (!isAlpha(pixmap.getPixel(x, y))) {
 					// libgdx y-axis is flipped
-					points.addAll(x, pixmap.getHeight() - y);
+					points.addAll(x, pixmap.getHeight() - y - 1);
 				}
 			}
 		}
