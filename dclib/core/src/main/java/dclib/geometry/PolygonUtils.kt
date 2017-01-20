@@ -117,6 +117,15 @@ object PolygonUtils {
         return scaledVertices
     }
 
+    fun flipX(vertices: FloatArray): FloatArray {
+        val flippedVertices = Arrays.copyOf(vertices, vertices.size)
+        val maxX = maxX(vertices)
+        for (i in 0..vertices.size / 2 - 1) {
+            flippedVertices[i * 2] = maxX - vertices[i * 2]
+        }
+        return flippedVertices
+    }
+
     fun flipY(vertices: FloatArray): FloatArray {
         val flippedVertices = Arrays.copyOf(vertices, vertices.size)
         val maxY = maxY(vertices)
