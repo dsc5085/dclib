@@ -6,13 +6,18 @@ import dclib.geometry.PolygonUtils
 class ConvexHullCache(private val textureCache: TextureCache) {
     private val convexHulls = mutableMapOf<String, FloatArray>()
 
-    fun create(regionName: String, size: Vector2): HullData {
+    fun create(regionName: String): HullData {
         val region = textureCache.getPolygonRegion(regionName)
         if (!convexHulls.containsKey(regionName)) {
             val convexHull = TextureUtils.createConvexHull(region.region)
             convexHulls.put(regionName, convexHull)
         }
-        val vertices = PolygonUtils.setSize(convexHulls[regionName]!!, size)
-        return HullData(vertices, region)
+        return HullData(convexHulls[regionName]!!, region)
+    }
+
+    fun create(regionName: String, size: Vector2): HullData {
+        val hullData = create(regionName)
+        PolygonUtils.setSize(hullData.hull, size)
+        return hullData
     }
 }

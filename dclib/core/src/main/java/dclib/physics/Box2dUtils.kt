@@ -62,7 +62,7 @@ object Box2dUtils {
 
     fun setFilter(body: Body, category: Short? = null, mask: Short? = null, group: Short? = null) {
 		for (fixture in body.fixtureList) {
-            var filter = fixture.filterData
+            val filter = fixture.filterData
             if (category != null) {
                 filter.categoryBits = category
             }
@@ -81,9 +81,9 @@ object Box2dUtils {
             Shape.Type.Polygon -> {
                 val polygonShape = shape as PolygonShape
                 // Get the cached vertices from when the shape was first created
-                val vertices = Box2DUtils.vertices(polygonShape)
-                val scaledVertices = PolygonUtils.scale(vertices, scale)
-                polygonShape.set(scaledVertices)
+                val vertices = Box2DUtils.vertices(polygonShape).clone()
+                PolygonUtils.scale(vertices, scale)
+                polygonShape.set(vertices)
             }
             else -> {
                 throw UnsupportedOperationException("${shape.type} is an invalid shape type to scale")

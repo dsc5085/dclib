@@ -95,26 +95,24 @@ object PolygonUtils {
         return shiftedVertices
     }
 
-    fun setSize(vertices: FloatArray, size: Vector2): FloatArray {
+    fun setSize(vertices: FloatArray, size: Vector2) {
         val verticesSize = bounds(vertices).getSize(Vector2())
         val scale = Vector2(size.x / verticesSize.x, size.y / verticesSize.y)
-        return scale(vertices, scale)
+        scale(vertices, scale)
     }
 
-    fun scale(vertices: FloatArray, scale: Float): FloatArray {
-        return scale(vertices, Vector2(scale, scale))
+    fun scale(vertices: FloatArray, scale: Float) {
+        scale(vertices, Vector2(scale, scale))
     }
 
-    fun scale(vertices: FloatArray, scale: Vector2): FloatArray {
-        val scaledVertices = FloatArray(vertices.size)
+    fun scale(vertices: FloatArray, scale: Vector2) {
         for (i in vertices.indices) {
             if (i % 2 == 0) {
-                scaledVertices[i] = vertices[i] * scale.x
+                vertices[i] *= scale.x
             } else {
-                scaledVertices[i] = vertices[i] * scale.y
+                vertices[i] *= scale.y
             }
         }
-        return scaledVertices
     }
 
     fun flipX(vertices: FloatArray): FloatArray {
