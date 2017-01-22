@@ -3,6 +3,7 @@ package dclib.graphics
 import com.badlogic.gdx.math.Vector2
 import dclib.geometry.PolygonUtils
 
+// TODO: Combine with textureCache?
 class ConvexHullCache(private val textureCache: TextureCache) {
     private val convexHulls = mutableMapOf<String, FloatArray>()
 

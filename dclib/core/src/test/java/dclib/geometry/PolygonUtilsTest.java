@@ -3,7 +3,7 @@ package dclib.geometry;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import test.dclib.geometry.TestPolygonFactory;
 
@@ -18,8 +18,8 @@ public final class PolygonUtilsTest {
 	private static Polygon polygon;
 	private static Polygon polygonCopy;
 
-	@BeforeClass
-	public static void oneTimeSetUp() {
+	@Before
+	public void setUp() {
 		vertices = new float[] { 2.1f, 3.3f, 5.2f, 1.4f, 4, 5 };
 		polygon = TestPolygonFactory.createTriangle();
         polygonCopy = PolygonUtils.INSTANCE.copy(polygon);
@@ -62,7 +62,8 @@ public final class PolygonUtilsTest {
 	public void setSize_ReturnsExpected() {
 		float[] expected = new float[] { 2.032258f, 1.8333334f, 5.032258f, 0.7777778f, 3.8709679f, 2.777778f };
 		Vector2 size = new Vector2(3, 2);
-        assertTrue(Arrays.equals(expected, PolygonUtils.INSTANCE.setSize(vertices, size)));
+		PolygonUtils.INSTANCE.setSize(vertices, size);
+        assertTrue(Arrays.equals(expected, vertices));
     }
 
 	@Test

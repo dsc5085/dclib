@@ -14,9 +14,4 @@ public final class PathUtilsTest {
 		assertNotNull(path);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void internalToAbsolutePath_NonexistentFile_ThrowsException() {
-		PathUtils.internalToAbsolutePath(ResourcePaths.NONEXISTENT_XML);
-	}
-	
 }
