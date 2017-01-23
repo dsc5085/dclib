@@ -5,9 +5,7 @@ import dclib.epf.parts.CollisionDamagePart
 import dclib.epf.parts.HealthPart
 import dclib.physics.collision.CollidedEvent
 
-class DamageOnCollided(filter: Predicate<CollidedEvent>) : (CollidedEvent) -> Unit {
-	private val filter = filter
-
+class DamageOnCollided(private val filter: Predicate<CollidedEvent>) : (CollidedEvent) -> Unit {
 	override fun invoke(event: CollidedEvent) {
 		val collisionDamagePart = event.source.entity.tryGet(CollisionDamagePart::class)
 		val targetHealthPart = event.target.entity.tryGet(HealthPart::class)
