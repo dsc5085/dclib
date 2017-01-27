@@ -63,9 +63,9 @@ class Box2dTransform : Transform {
         scale = other.scale
     }
 
-    constructor(body: Body) : this(0f, body)
+    constructor(body: Body) : this(body, 0f)
 
-    constructor(z: Float, body: Body) : super(z) {
+    constructor(body: Body, z: Float) : super(z) {
         this.body = body
     }
 

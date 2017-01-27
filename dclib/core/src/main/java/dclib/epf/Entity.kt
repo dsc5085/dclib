@@ -33,20 +33,32 @@ class Entity(vararg parts: Any) {
         return this.attributes.containsAll(listOf(*attributes))
     }
 
-    fun <T : Any> getAttribute(attributeClass: KClass<T>): T? {
-        return attributes.filterIsInstance(attributeClass.java).firstOrNull()
+    fun <T : Enum<*>> getAttribute(attributeClass: KClass<T>): T? {
+        return getAttributes(attributeClass).firstOrNull()
     }
 
     fun getAttributes(): Set<Enum<*>> {
         return attributes.toSet()
     }
 
+    fun <T : Enum<*>> getAttributes(attributeClass: KClass<T>): List<T> {
+        return attributes.filterIsInstance(attributeClass.java)
+    }
+
     /**
-     * adds attributes to the entity
+     * Adds attributes to the entity
      * @param attributes unique descriptors
      */
     fun addAttributes(vararg attributes: Enum<*>) {
         this.attributes.addAll(listOf(*attributes))
+    }
+
+    /**
+     * Removes attributes from the entity
+     * @param attributes unique descriptors
+     */
+    fun <T : Enum<*>> removeAttributes(attributeClass: KClass<T>) {
+        attributes.removeAll(getAttributes(attributeClass))
     }
 
     /**

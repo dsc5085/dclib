@@ -7,7 +7,7 @@ import dclib.eventing.EventDelegate
  * @author David Chen
  *
  */
-class DefaultEntityManager() : EntityManager {
+class DefaultEntityManager : EntityManager {
 	override val entityAdded = EventDelegate<EntityAddedEvent>()
 	override val entityRemoved = EventDelegate<EntityRemovedEvent>()
 	
@@ -30,7 +30,7 @@ class DefaultEntityManager() : EntityManager {
 	override fun add(entity: Entity) {
 		entity.isActive = true
 		if (entities.contains(entity)) {
-			throw IllegalArgumentException("Could not add entity ${entity}. It already exists")
+			throw IllegalArgumentException("Could not add entity $entity. It already exists")
 		}
 		entities.add(entity)
 		entityAdded.notify(EntityAddedEvent(entity))
