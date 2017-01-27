@@ -3,10 +3,13 @@ package dclib.physics.collision
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import dclib.epf.Entity
+import dclib.epf.EntityManager
+import dclib.epf.parts.TransformPart
 import dclib.eventing.EventDelegate
+import dclib.physics.Box2dTransform
 import dclib.system.Updater
 
-class CollisionChecker(contactChecker: ContactChecker) : Updater {
+class CollisionChecker(private val entityManager: EntityManager, contactChecker: ContactChecker) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
     private val currentCollidedEvents = mutableListOf<CollidedEvent>()
@@ -42,10 +45,17 @@ class CollisionChecker(contactChecker: ContactChecker) : Updater {
     }
 
     private fun createContacter(fixture: Fixture): Contacter? {
-        val entity = fixture.body.userData as? Entity
+        val entity = findEntity(fixture)
         if (entity != null && entity.isActive) {
             return Contacter(fixture, entity)
         }
         return null
+    }
+
+    private fun findEntity(fixture: Fixture): Entity? {
+        return entityManager.all.firstOrNull {
+            val transform = it.tryGet(TransformPart::class)?.transform
+            transform is Box2dTransform && transform.body.fixtureList.contains(fixture)
+        }
     }
 }
