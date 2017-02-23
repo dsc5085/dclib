@@ -49,12 +49,9 @@ public class SpriteSyncSystemTest {
 	}
 
 	private Entity createEntity() {
-		Entity entity = new Entity();
 		Transform transform = new DefaultTransform(TestPolygonFactory.createSimpleRectangle(), 1);
-		entity.attach(new TransformPart(transform));
 		PolygonRegion polygonRegion = createPolygonRegion(8, 8);
-		entity.attach(new SpritePart(polygonRegion));
-		return entity;
+		return new Entity(new TransformPart(transform), new SpritePart(polygonRegion));
 	}
 
 	private PolygonRegion createPolygonRegion(final int width, final int height) {

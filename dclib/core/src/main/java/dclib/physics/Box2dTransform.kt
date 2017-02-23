@@ -14,6 +14,7 @@ class Box2dTransform : Transform {
     override val origin: Vector2
         get() = Vector2()
 
+    // TODO: Remove property and add set/getScale methods since this has so much logic.
     private var _scale: Vector2 = Vector2(1f, 1f)
     override var scale: Vector2
         get() = _scale.cpy()
