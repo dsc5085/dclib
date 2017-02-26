@@ -14,18 +14,9 @@ class Box2dTransform : Transform {
     override val origin: Vector2
         get() = Vector2()
 
-    // TODO: Remove property and add set/getScale methods since this has so much logic.
     private var _scale: Vector2 = Vector2(1f, 1f)
-    override var scale: Vector2
+    override val scale: Vector2
         get() = _scale.cpy()
-        set(value) {
-            val signEquals = Math.signum(_scale.x) == Math.signum(value.x)
-                    && Math.signum(_scale.y) == Math.signum(value.y)
-            if (!signEquals || !_scale.epsilonEquals(value, MathUtils.FLOAT_ROUNDING_ERROR)) {
-                Box2dUtils.scale(body, value)
-                _scale.set(value)
-            }
-        }
 
     override val localSize: Vector2
         get() = Box2DUtils.size(body).cpy()
@@ -61,7 +52,7 @@ class Box2dTransform : Transform {
                 shape.set(Box2DUtils.vertices(fixture))
             }
         }
-        scale = other.scale
+        setScale(other.scale)
     }
 
     constructor(body: Body) : this(body, 0f)
@@ -73,6 +64,15 @@ class Box2dTransform : Transform {
     override fun getVertices(): FloatArray {
         val fixture = body.fixtureList.get(0)
         return Box2DUtils.vertices(fixture)
+    }
+
+    override fun setScale(scale: Vector2) {
+        val signEquals = Math.signum(_scale.x) == Math.signum(scale.x)
+                && Math.signum(_scale.y) == Math.signum(scale.y)
+        if (!signEquals || !_scale.epsilonEquals(scale, MathUtils.FLOAT_ROUNDING_ERROR)) {
+            Box2dUtils.scale(body, scale)
+            _scale.set(scale)
+        }
     }
 
     override fun applyImpulse(impulse: Vector2) {
