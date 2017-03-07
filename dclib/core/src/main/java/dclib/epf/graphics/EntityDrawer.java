@@ -1,11 +1,11 @@
 package dclib.epf.graphics;
 
-import java.util.List;
-
 import dclib.epf.Entity;
+
+import java.util.Collection;
 
 public interface EntityDrawer {
 
-	void draw(final List<Entity> entities);
+	void draw(final Collection<Entity> entities);
 	
 }

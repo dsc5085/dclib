@@ -10,17 +10,18 @@ import dclib.eventing.EventDelegate
 class DefaultEntityManager : EntityManager {
 	override val entityAdded = EventDelegate<EntityAddedEvent>()
 	override val entityRemoved = EventDelegate<EntityRemovedEvent>()
-	
+
 	private val entities = mutableSetOf<Entity>()
+
+	override fun contains(entity: Entity): Boolean {
+		return entities.contains(entity)
+	}
 
 	/**
 	 * @return all managed entities
 	 */
-	override val all: List<Entity>
-		get() = entities.toList()
-
-	override fun contains(entity: Entity): Boolean {
-		return entities.contains(entity)
+	override fun getAll(): Collection<Entity> {
+		return entities.toSet()
 	}
 
 	/**

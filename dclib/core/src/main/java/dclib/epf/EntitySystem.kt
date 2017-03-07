@@ -4,7 +4,7 @@ import dclib.system.Updater
 
 abstract class EntitySystem(private val entityManager: EntityManager) : Updater {
     override fun update(delta: Float) {
-        for (entity in entityManager.all) {
+        for (entity in entityManager.getAll()) {
             if (entity.isActive) {
                 update(delta, entity)
             }

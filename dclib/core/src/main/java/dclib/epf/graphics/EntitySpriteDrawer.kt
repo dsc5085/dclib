@@ -20,7 +20,7 @@ class EntitySpriteDrawer(
 		entityManager.entityAdded.on { newEntities.add(it.entity) }
 	}
 
-	override fun draw(entities: List<Entity>) {
+	override fun draw(entities: Collection<Entity>) {
 		screenHelper.setProjectionMatrix(spriteBatch)
 		spriteBatch.begin()
 		for (entity in getEntities()) {

@@ -11,7 +11,7 @@ class EntityTransformDrawer(
         private val shapeRenderer: ShapeRenderer,
         private val screenHelper: ScreenHelper)
     : EntityDrawer {
-    override fun draw(entities: List<Entity>) {
+    override fun draw(entities: Collection<Entity>) {
         screenHelper.setScaledProjectionMatrix(shapeRenderer)
         shapeRenderer.begin(ShapeType.Line)
         for (entity in entities) {

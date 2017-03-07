@@ -7,7 +7,9 @@ import dclib.mechanics.HealthChangedEvent
 class HealthPart(private val maxHealth: Float) {
 	val healthChanged = EventDelegate<HealthChangedEvent>()
 	val healthGone = EventDelegate<DefaultEvent>()
-	private var health = maxHealth
+
+	var health: Float = maxHealth
+		private set
 
 	fun reset() {
 		health = maxHealth

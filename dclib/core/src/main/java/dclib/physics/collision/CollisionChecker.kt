@@ -2,6 +2,7 @@ package dclib.physics.collision
 
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
+import com.badlogic.gdx.physics.box2d.World
 import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.epf.parts.TransformPart
@@ -9,13 +10,15 @@ import dclib.eventing.EventDelegate
 import dclib.physics.Box2dTransform
 import dclib.system.Updater
 
-class CollisionChecker(private val entityManager: EntityManager, contactChecker: ContactChecker) : Updater {
+class CollisionChecker(private val entityManager: EntityManager, world: World) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
     private val currentCollidedEvents = mutableListOf<CollidedEvent>()
 
     init {
-        contactChecker.contacted.on { handleContacted(it) }
+        val contactListener = DefaultContactListener()
+        contactListener.contacted.on { handleContacted(it) }
+        world.setContactListener(contactListener)
     }
 
     fun getTargets(source: Entity): List<Contacter> {
@@ -24,23 +27,27 @@ class CollisionChecker(private val entityManager: EntityManager, contactChecker:
     }
 
     override fun update(delta: Float) {
+        for (collidedEvent in currentCollidedEvents) {
+            collided.notify(collidedEvent)
+        }
         currentCollidedEvents.clear()
     }
 
     private fun handleContacted(event: ContactedEvent) {
         val contact = event.contact
-        val c1 = createContacter(contact.fixtureA)
-        val c2 = createContacter(contact.fixtureB)
         val isSensorCollision = contact.fixtureA.isSensor || contact.fixtureB.isSensor
-        if (c1 != null && c2 != null && (isSensorCollision || contact.worldManifold.numberOfContactPoints > 0)) {
-            collide(c1, c2, contact)
-            collide(c2, c1, contact)
+        if (isSensorCollision || contact.worldManifold.numberOfContactPoints > 0) {
+            val c1 = createContacter(contact.fixtureA)
+            val c2 = createContacter(contact.fixtureB)
+            if (c1 != null && c2 != null) {
+                collide(c1, c2, contact)
+                collide(c2, c1, contact)
+            }
         }
     }
 
     private fun collide(source: Contacter, target: Contacter, contact: Contact) {
         val collidedEvent = CollidedEvent(source, target, contact)
-        collided.notify(collidedEvent)
         currentCollidedEvents.add(collidedEvent)
     }
 
@@ -53,7 +60,7 @@ class CollisionChecker(private val entityManager: EntityManager, contactChecker:
     }
 
     private fun findEntity(fixture: Fixture): Entity? {
-        return entityManager.all.firstOrNull {
+        return entityManager.getAll().firstOrNull {
             val transform = it.tryGet(TransformPart::class)?.transform
             transform is Box2dTransform && transform.body.fixtureList.contains(fixture)
         }
