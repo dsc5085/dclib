@@ -5,15 +5,14 @@ import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
 import dclib.epf.Entity
 import dclib.epf.EntityManager
-import dclib.epf.parts.TransformPart
 import dclib.eventing.EventDelegate
-import dclib.physics.Box2dTransform
 import dclib.system.Updater
 
 class CollisionChecker(private val entityManager: EntityManager, world: World) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
-    private val currentCollidedEvents = mutableListOf<CollidedEvent>()
+    private val fixtureToEntityMap = FixtureToEntityMap(entityManager)
+    private val currentCollidedEvents = mutableSetOf<CollidedEvent>()
 
     init {
         val contactListener = DefaultContactListener()
@@ -52,17 +51,10 @@ class CollisionChecker(private val entityManager: EntityManager, world: World) :
     }
 
     private fun createContacter(fixture: Fixture): Contacter? {
-        val entity = findEntity(fixture)
+        val entity = fixtureToEntityMap.get(fixture)
         if (entity != null && entity.isActive) {
             return Contacter(fixture, entity)
         }
         return null
-    }
-
-    private fun findEntity(fixture: Fixture): Entity? {
-        return entityManager.getAll().firstOrNull {
-            val transform = it.tryGet(TransformPart::class)?.transform
-            transform is Box2dTransform && transform.body.fixtureList.contains(fixture)
-        }
     }
 }
