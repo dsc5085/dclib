@@ -3,7 +3,6 @@ package dclib.physics.collision
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
-import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
 import dclib.system.Updater
@@ -20,14 +19,11 @@ class CollisionChecker(private val entityManager: EntityManager, world: World) :
         world.setContactListener(contactListener)
     }
 
-    fun getTargets(source: Entity): List<Contacter> {
-        val events = currentCollidedEvents.filter { it.source.entity == source && it.target.entity.isActive }
-        return events.map { it.target }
-    }
-
     override fun update(delta: Float) {
         for (collidedEvent in currentCollidedEvents) {
-            collided.notify(collidedEvent)
+            if (collidedEvent.source.entity.isActive && collidedEvent.target.entity.isActive) {
+                collided.notify(collidedEvent)
+            }
         }
         currentCollidedEvents.clear()
     }
