@@ -16,6 +16,10 @@ class FixtureToEntityMap(entityManager: EntityManager) {
         entityManager.entityRemoved.on { handleEntityRemoved(it) }
     }
 
+    fun has(fixture: Fixture): Boolean {
+        return get(fixture) != null
+    }
+
     fun get(fixture: Fixture): Entity? {
         return map.getOrElse(fixture, { null })
     }

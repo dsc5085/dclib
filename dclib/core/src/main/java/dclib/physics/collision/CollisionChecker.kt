@@ -16,16 +16,16 @@ class CollisionChecker(private val entityManager: EntityManager, world: World) :
     init {
         val contactListener = DefaultContactListener()
         contactListener.contacted.on { handleContacted(it) }
+        contactListener.contactEnded.on { handleContactEnded(it) }
         world.setContactListener(contactListener)
     }
 
     override fun update(delta: Float) {
+        currentCollidedEvents.removeAll { !fixtureToEntityMap.has(it.source.fixture)
+                || !fixtureToEntityMap.has(it.target.fixture) }
         for (collidedEvent in currentCollidedEvents) {
-            if (collidedEvent.source.entity.isActive && collidedEvent.target.entity.isActive) {
-                collided.notify(collidedEvent)
-            }
+            collided.notify(collidedEvent)
         }
-        currentCollidedEvents.clear()
     }
 
     private fun handleContacted(event: ContactedEvent) {
@@ -41,9 +41,18 @@ class CollisionChecker(private val entityManager: EntityManager, world: World) :
         }
     }
 
+    private fun handleContactEnded(event: ContactedEvent) {
+        val entityA = fixtureToEntityMap.get(event.contact.fixtureA)
+        val entityB = fixtureToEntityMap.get(event.contact.fixtureB)
+        currentCollidedEvents.removeAll { it.source.entity === entityA && it.target.entity === entityB }
+        currentCollidedEvents.removeAll { it.source.entity === entityB && it.target.entity === entityA }
+    }
+
     private fun collide(source: Contacter, target: Contacter, contact: Contact) {
         val collidedEvent = CollidedEvent(source, target, contact)
-        currentCollidedEvents.add(collidedEvent)
+        if (currentCollidedEvents.none { it.source.entity === source.entity && it.target.entity === target.entity }) {
+            currentCollidedEvents.add(collidedEvent)
+        }
     }
 
     private fun createContacter(fixture: Fixture): Contacter? {

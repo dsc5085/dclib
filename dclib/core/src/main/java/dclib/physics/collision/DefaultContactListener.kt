@@ -5,26 +5,33 @@ import dclib.eventing.EventDelegate
 
 class DefaultContactListener : ContactListener {
     val contacted = EventDelegate<ContactedEvent>()
+    val contactEnded = EventDelegate<ContactedEvent>()
 
     override fun endContact(contact: Contact?) {
-        process(contact)
+        tryNotifyContactEnded(contact)
     }
 
     override fun beginContact(contact: Contact?) {
-        process(contact)
+        tryNotifyContacted(contact)
     }
 
     override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
-        process(contact)
+        tryNotifyContacted(contact)
     }
 
     override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {
-        process(contact)
+        tryNotifyContacted(contact)
     }
 
-    private fun process(contact: Contact?) {
+    private fun tryNotifyContacted(contact: Contact?) {
         if (isValid(contact!!.fixtureA) && isValid(contact.fixtureB)) {
             contacted.notify(ContactedEvent(contact))
+        }
+    }
+
+    private fun tryNotifyContactEnded(contact: Contact?) {
+        if (isValid(contact!!.fixtureA) && isValid(contact.fixtureB)) {
+            contactEnded.notify(ContactedEvent(contact))
         }
     }
 
