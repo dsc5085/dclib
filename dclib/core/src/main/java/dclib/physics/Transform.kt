@@ -2,7 +2,6 @@ package dclib.physics
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import dclib.geometry.*
 
 abstract class Transform(val z: Float) {
@@ -14,16 +13,9 @@ abstract class Transform(val z: Float) {
     abstract val bounds: Rectangle
     abstract var velocity: Vector2
 
-    val size: Vector2
-        get() = localSize.scl(scale.abs())
-
-    val position3: Vector3
-        get() {
-            return position.toVector3(z)
-        }
-
-    val center: Vector2
-        get() = bounds.center
+    val size get() = localSize.scl(scale.abs())
+    val position3 get() = position.toVector3(z)
+    val center get() = bounds.center
 
     abstract fun getVertices(): FloatArray
     abstract fun setScale(scale: Vector2)

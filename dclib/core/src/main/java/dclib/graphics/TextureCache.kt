@@ -20,8 +20,7 @@ class TextureCache {
     private val nameToAtlas = HashMap<String, TextureAtlas>()
     private val convexHulls = HashMap<String, FloatArray>()
 
-    val regionNames: Collection<String>
-        get() = nameToTextureRegions.keys
+    val regionNames get() = nameToTextureRegions.keys
 
     fun loadTexturesIntoAtlas(texturesPath: String, atlasName: String) {
         val tempPath = "temp/"

@@ -11,21 +11,18 @@ import net.dermetfan.gdx.physics.box2d.Box2DUtils
 class Box2dTransform : Transform {
     val body: Body
 
-    override val origin: Vector2
-        get() = Vector2()
+    override val origin get() = Vector2()
 
     private var _scale: Vector2 = Vector2(1f, 1f)
-    override val scale: Vector2
-        get() = _scale.cpy()
+    override val scale get() = _scale.cpy()
 
-    override val localSize: Vector2
-        get() = Box2DUtils.size(body).cpy()
+    override val localSize get() = Box2DUtils.size(body).cpy()
 
-    override var position: Vector2
+    override var position
         get() = body.position.cpy()
         set(value) = body.setTransform(value, body.angle)
 
-    override var rotation: Float
+    override var rotation
         get() = body.angle * MathUtils.radiansToDegrees
         set(value) = body.setTransform(body.position, value * MathUtils.degreesToRadians)
 
