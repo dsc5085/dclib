@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.World
 import dclib.geometry.center
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
 
@@ -56,6 +57,12 @@ class Box2dTransform : Transform {
 
     constructor(body: Body, z: Float) : super(z) {
         this.body = body
+    }
+
+    constructor(other: Transform, world: World)
+            : this(Box2dTransform(Box2dUtils.createDynamicBody(world, other.getVertices()))) {
+        position = other.position
+        rotation = other.rotation
     }
 
     override fun getVertices(): FloatArray {

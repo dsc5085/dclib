@@ -23,8 +23,9 @@ class EntityTransformDrawer(
     private fun draw(entity: Entity) {
         val transformPart = entity.tryGet(TransformPart::class)
         if (transformPart != null) {
-            if (transformPart.transform is DefaultTransform) {
-                shapeRenderer.polygon(transformPart.transform.transformedVertices)
+            val transform = transformPart.transform
+            if (transform is DefaultTransform) {
+                shapeRenderer.polygon(transform.transformedVertices)
             }
         }
     }

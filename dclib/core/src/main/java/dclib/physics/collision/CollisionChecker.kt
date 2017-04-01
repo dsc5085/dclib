@@ -7,7 +7,7 @@ import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
 import dclib.system.Updater
 
-class CollisionChecker(private val entityManager: EntityManager, world: World) : Updater {
+class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
     private val fixtureToEntityMap = FixtureToEntityMap(entityManager)
@@ -23,7 +23,7 @@ class CollisionChecker(private val entityManager: EntityManager, world: World) :
     override fun update(delta: Float) {
         currentCollidedEvents.removeAll { !fixtureToEntityMap.has(it.source.fixture)
                 || !fixtureToEntityMap.has(it.target.fixture) }
-        for (collidedEvent in currentCollidedEvents) {
+        for (collidedEvent in currentCollidedEvents.toSet()) {
             collided.notify(collidedEvent)
         }
     }
