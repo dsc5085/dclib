@@ -26,7 +26,15 @@ class FixtureToEntityMap(entityManager: EntityManager) {
 
     private fun handleEntityAdded(event: EntityAddedEvent) {
         val entity = event.entity
-        val transform = entity.tryGet(TransformPart::class)?.transform
+        val transformPart = entity.tryGet(TransformPart::class)
+        if (transformPart != null) {
+            tryPut(entity)
+            transformPart.transformChanged.on { tryPut(entity) }
+        }
+    }
+
+    private fun tryPut(entity: Entity) {
+        val transform = entity[TransformPart::class].transform
         if (transform is Box2dTransform) {
             for (fixture in transform.body.fixtureList) {
                 map.put(fixture, entity)

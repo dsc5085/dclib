@@ -45,6 +45,7 @@ class Box2dTransform : Transform {
         body = other.body.world.createBody(def)
         for (fixture in other.body.fixtureList) {
             val clonedFixture = Box2DUtils.clone(fixture, body, true)
+            clonedFixture.filterData = fixture.filterData
             val shape = clonedFixture.shape
             if (shape is PolygonShape) {
                 shape.set(Box2DUtils.vertices(fixture))
