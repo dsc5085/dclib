@@ -40,6 +40,12 @@ object Box2dUtils {
         return body
     }
 
+    fun tryDestroyBody(transform: Transform) {
+        if (transform is Box2dTransform) {
+            transform.body.world.destroyBody(transform.body)
+        }
+    }
+
     fun scale(body: Body, scale: Vector2) {
         for (fixture in body.fixtureList) {
             val shape = fixture.shape

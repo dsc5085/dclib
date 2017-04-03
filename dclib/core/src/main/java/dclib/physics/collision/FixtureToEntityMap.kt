@@ -6,7 +6,7 @@ import dclib.epf.EntityAddedEvent
 import dclib.epf.EntityManager
 import dclib.epf.EntityRemovedEvent
 import dclib.epf.parts.TransformPart
-import dclib.physics.Box2dTransform
+import dclib.physics.Box2dUtils
 
 class FixtureToEntityMap(entityManager: EntityManager) {
     private val map = mutableMapOf<Fixture, Entity>()
@@ -34,9 +34,9 @@ class FixtureToEntityMap(entityManager: EntityManager) {
     }
 
     private fun tryPut(entity: Entity) {
-        val transform = entity[TransformPart::class].transform
-        if (transform is Box2dTransform) {
-            for (fixture in transform.body.fixtureList) {
+        val body = Box2dUtils.getBody(entity)
+        if (body != null) {
+            for (fixture in body.fixtureList) {
                 map.put(fixture, entity)
             }
         }
