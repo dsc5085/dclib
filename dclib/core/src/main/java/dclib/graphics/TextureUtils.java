@@ -73,11 +73,8 @@ public class TextureUtils {
         Rectangle bounds = PolygonUtils.INSTANCE.bounds(vertices);
         float[] shiftedVertices = PolygonUtils.INSTANCE.shift(vertices, -bounds.x, -bounds.y);
         // libgdx y-axis is flipped
-        int regionY = (int)(textureRegion.getRegionHeight() - bounds.y - bounds.height);
-		TextureRegion croppedRegion = new TextureRegion(textureRegion, (int)bounds.x, regionY,
-				(int)bounds.width, (int)bounds.height);
 		short[] triangles = triangulator.computeTriangles(shiftedVertices).toArray();
-		return new PolygonRegion(croppedRegion, shiftedVertices, triangles);
+		return new PolygonRegion(textureRegion, shiftedVertices, triangles);
 	}
 
 	private static FloatArray getPixelPoints(final TextureRegion textureRegion) {

@@ -15,6 +15,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
 
     init {
         val contactListener = DefaultContactListener()
+        // TODO: Use function reference style, e.g. ::handleContacted
         contactListener.contacted.on { handleContacted(it) }
         contactListener.contactEnded.on { handleContactEnded(it) }
         world.setContactListener(contactListener)
