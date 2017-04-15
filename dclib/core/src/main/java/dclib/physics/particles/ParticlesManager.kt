@@ -37,7 +37,9 @@ class ParticlesManager(
         for (particleEffectData in ArrayList(particleEffectDatas)) {
             val particleEffect = particleEffectData.effect
             val position = particleEffectData.positionGetter.get()
-            particleEffect.setPosition(position.x, position.y)
+            if (position != null) {
+                particleEffect.setPosition(position.x, position.y)
+            }
             particleEffect.update(delta)
             if (particleEffect.isComplete) {
                 particleEffectDatas.remove(particleEffectData)
