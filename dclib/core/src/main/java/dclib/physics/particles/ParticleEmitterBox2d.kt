@@ -1,4 +1,4 @@
-package dclib.physics
+package dclib.physics.particles
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter
 import com.badlogic.gdx.graphics.g2d.Sprite
@@ -53,12 +53,12 @@ class ParticleEmitterBox2d
         }
     }
 
-    override fun newParticle(sprite: Sprite): ParticleEmitter.Particle {
+    override fun newParticle(sprite: Sprite): Particle {
         return ParticleBox2d(sprite)
     }
 
     /** Particle that can collide to box2d fixtures  */
-    private inner class ParticleBox2d(sprite: Sprite) : ParticleEmitter.Particle(sprite) {
+    private inner class ParticleBox2d(sprite: Sprite) : Particle(sprite) {
 
         /** translate particle given amount. Continuous collision detection achieved by using RayCast from oldPos to newPos.
 
@@ -97,7 +97,6 @@ class ParticleEmitterBox2d
                 particleCollidedDelegate.notify(ParticleCollidedEvent(this, Vector2(velocityX, velocityY), staticFixture!!, point))
             }
 
-            println("$newVelocityX $newVelocityY")
             super.translate(newVelocityX, newVelocityY)
         }
     }

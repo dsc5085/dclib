@@ -1,9 +1,8 @@
-package dclib.physics
+package dclib.physics.particles
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
@@ -18,9 +17,9 @@ class ParticlesManager(
         private val screenHelper: ScreenHelper,
         private val world: World
 ) : Updater {
-    private val particleEffects = ArrayList<ParticleEffect>()
+    private val particleEffectDatas = ArrayList<ParticleEffectData>()
 
-    fun createEffect(particleEffectPath: String, position: Vector2): ParticleEffect {
+    fun createEffect(particleEffectPath: String, positionGetter: PositionGetter): ParticleEffect {
         val effect = ParticleEffect()
         val atlas = textureCache.getAtlas("objects")
         effect.load(Gdx.files.internal("particles/" + particleEffectPath), atlas)
@@ -29,17 +28,19 @@ class ParticlesManager(
             effect.emitters.add(box2dEmitter)
             effect.emitters.removeValue(emitter, true)
         }
-        effect.setPosition(position.x, position.y)
         effect.start()
-        particleEffects.add(effect)
+        particleEffectDatas.add(ParticleEffectData(effect, positionGetter))
         return effect
     }
 
     override fun update(delta: Float) {
-        for (particleEffect in ArrayList(particleEffects)) {
+        for (particleEffectData in ArrayList(particleEffectDatas)) {
+            val particleEffect = particleEffectData.effect
+            val position = particleEffectData.positionGetter.get()
+            particleEffect.setPosition(position.x, position.y)
             particleEffect.update(delta)
             if (particleEffect.isComplete) {
-                particleEffects.remove(particleEffect)
+                particleEffectDatas.remove(particleEffectData)
             }
         }
     }
@@ -47,8 +48,8 @@ class ParticlesManager(
     fun draw() {
         screenHelper.setScaledProjectionMatrix(spriteBatch)
         spriteBatch.begin()
-        for (particleEffect in particleEffects) {
-            particleEffect.draw(spriteBatch)
+        for (particleEffectData in particleEffectDatas) {
+            particleEffectData.effect.draw(spriteBatch)
         }
         spriteBatch.end()
     }
@@ -56,4 +57,8 @@ class ParticlesManager(
     private fun filterContact(fixture: Fixture): Boolean {
         return fixture.body.type == BodyDef.BodyType.StaticBody
     }
+
+    private data class ParticleEffectData(
+            val effect: ParticleEffect,
+            val positionGetter: PositionGetter)
 }

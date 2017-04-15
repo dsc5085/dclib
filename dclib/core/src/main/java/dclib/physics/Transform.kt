@@ -15,6 +15,8 @@ abstract class Transform(val z: Float) {
 
     val size get() = localSize.scl(scale.abs())
     val position3 get() = position.toVector3(z)
+    val localCenter get() = localSize.scl(0.5f)
+    // TODO: This is inaccurate if trying to get the "true" center
     val center get() = bounds.center
 
     abstract fun getVertices(): FloatArray
