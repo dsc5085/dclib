@@ -50,7 +50,9 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
     }
 
     private fun collide(source: Contacter, target: Contacter, contact: Contact) {
-        val collidedEvent = CollidedEvent(source, target, contact)
+        val worldManifold = contact.worldManifold
+        val contactPoint = if (worldManifold.numberOfContactPoints > 0) worldManifold.points[0].cpy() else null
+        val collidedEvent = CollidedEvent(source, target, contactPoint)
         if (currentCollidedEvents.none { it.source.entity === source.entity && it.target.entity === target.entity }) {
             currentCollidedEvents.add(collidedEvent)
         }
