@@ -20,6 +20,10 @@ class EntitySpriteDrawer(
 		entityManager.entityAdded.on { newEntities.add(it.entity) }
 	}
 
+	override fun getName(): String {
+		return "sprite"
+	}
+
 	override fun draw(entities: Collection<Entity>) {
 		screenHelper.setProjectionMatrix(spriteBatch)
 		spriteBatch.begin()
