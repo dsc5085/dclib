@@ -3,11 +3,13 @@ package dclib.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -39,6 +41,10 @@ public final class UiPack {
 
     public final Table table() {
         return new Table(skin);
+    }
+
+    public final ScrollPane scrollPane(Actor widget) {
+        return new ScrollPane(widget, skin);
     }
 
     public final Dialog dialog(final String title) {
@@ -73,6 +79,7 @@ public final class UiPack {
     public final TextField textField(final FontSize size) {
         TextField textField = new TextField("", skin);
         textField.getStyle().font = getFont(size);
+        // TODO: call invalidateHierarchy instead of setting style to itself
         textField.setStyle(textField.getStyle());
         return textField;
     }
