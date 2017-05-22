@@ -1,77 +1,51 @@
 package dclib.system
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Screen
 
 class ScreenManager {
-    private val screenStates = mutableListOf<ScreenState>()
-
-    val currentScreen: Screen
-        get() {
-            if (screenStates.isEmpty()) {
-                throw UnsupportedOperationException("There are no screens")
-            }
-            return screenStates.first().screen
-        }
+    private val screens = mutableListOf<Screen>()
 
     operator fun contains(screen: Screen): Boolean {
-        return getScreens().contains(screen)
+        return screens.contains(screen)
     }
 
-    fun enable(screen: Screen) {
-        screenStates.first { it.screen === screen }.isEnabled = true
-        screen.show()
-    }
-
-    fun disable(screen: Screen) {
-        screenStates.first { it.screen === screen }.isEnabled = false
-        screen.hide()
-    }
-
-    fun add(screen: Screen, isEnabled: Boolean = true) {
-        screenStates.add(ScreenState(screen, isEnabled))
-        if (isEnabled) {
-            enable(screen)
+    fun add(screen: Screen, isShown: Boolean = true) {
+        screens.add(screen)
+        if (isShown) {
+            screen.show()
         } else {
-            disable(screen)
+            screen.hide()
         }
     }
 
     fun remove(screen: Screen) {
         screen.hide()
         screen.dispose()
-        screenStates.removeAll { it.screen === screen }
+        screens.remove(screen)
     }
 
     fun swap(newScreen: Screen) {
-        for (screen in getScreens()) {
+        for (screen in screens.toList()) {
             remove(screen)
         }
         add(newScreen)
     }
 
     fun render() {
-        val enabledScreens = screenStates.filter { it.isEnabled }.map { it.screen }
-        for (screen in enabledScreens) {
+        for (screen in screens) {
             screen.render(Gdx.graphics.deltaTime)
         }
     }
 
     fun resize(width: Int, height: Int) {
-        for (screen in getScreens()) {
+        for (screen in screens) {
             screen.resize(width, height)
         }
     }
 
     fun dispose() {
-        for (screen in getScreens()) {
+        for (screen in screens) {
             remove(screen)
         }
     }
-
-    private fun getScreens(): List<Screen> {
-        return screenStates.map { it.screen }.toList()
-    }
-
-    private inner class ScreenState(val screen: Screen, var isEnabled: Boolean)
 }

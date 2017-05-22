@@ -1,17 +1,15 @@
 package dclib.system;
 
-import static org.junit.Assert.assertEquals;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Screen;
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Screen;
 
 public final class ScreenManagerTest {
 
@@ -20,18 +18,6 @@ public final class ScreenManagerTest {
 	@Before
 	public void setUp() {
 		screenManager = new ScreenManager();
-	}
-
-	@Test(expected=UnsupportedOperationException.class)
-	public void getCurrentScreen_NoScreens_ThrowsException() {
-		screenManager.getCurrentScreen();
-	}
-
-	@Test
-	public void getCurrentScreen_MultipleScreens_ReturnsFirstScreen() {
-		Screen expected = mock(Screen.class);
-		addScreens(expected, mock(Screen.class));
-		assertEquals(expected, screenManager.getCurrentScreen());
 	}
 
 	@Test
