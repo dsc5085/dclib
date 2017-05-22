@@ -32,7 +32,7 @@ class ScreenManager {
     }
 
     fun render() {
-        for (screen in screens) {
+        for (screen in screens.toList()) {
             screen.render(Gdx.graphics.deltaTime)
         }
     }
