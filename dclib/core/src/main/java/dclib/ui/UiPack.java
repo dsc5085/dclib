@@ -39,6 +39,10 @@ public final class UiPack {
         fonts.put(FontSize.SMALL, smallFont);
     }
 
+    public final BitmapFont getFont(final FontSize size) {
+        return fonts.get(size);
+    }
+
     public final Table table() {
         return new Table(skin);
     }
@@ -131,10 +135,6 @@ public final class UiPack {
         for (BitmapFont font : fonts.values()) {
             font.dispose();
         }
-    }
-
-    private BitmapFont getFont(final FontSize size) {
-        return fonts.get(size);
     }
 
 }
