@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.World
 import dclib.geometry.center
 import net.dermetfan.gdx.physics.box2d.Box2DUtils
@@ -41,16 +40,7 @@ class Box2dTransform : Transform {
         }
 
     constructor(other: Box2dTransform) : super(other.z) {
-        val def = Box2DUtils.createDef(other.body)
-        body = other.body.world.createBody(def)
-        for (fixture in other.body.fixtureList) {
-            val clonedFixture = Box2DUtils.clone(fixture, body, true)
-            clonedFixture.filterData = fixture.filterData
-            val shape = clonedFixture.shape
-            if (shape is PolygonShape) {
-                shape.set(Box2DUtils.vertices(fixture))
-            }
-        }
+        body = Box2dUtils.copy(other.body)
         setScale(other.scale)
     }
 
