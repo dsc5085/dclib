@@ -83,8 +83,7 @@ public final class UiPack {
     public final TextField textField(final FontSize size) {
         TextField textField = new TextField("", skin);
         textField.getStyle().font = getFont(size);
-        // TODO: call invalidateHierarchy instead of setting style to itself
-        textField.setStyle(textField.getStyle());
+        textField.invalidateHierarchy();
         return textField;
     }
 

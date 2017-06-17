@@ -20,7 +20,6 @@ public final class ScreenHelper {
 		return pixelsPerUnit;
 	}
 
-	// TODO: Don't expose this.
 	public final Viewport getViewport() {
 		return viewport;
 	}

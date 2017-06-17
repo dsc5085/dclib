@@ -18,7 +18,6 @@ class Advancer(vararg updaters: Updater) {
         val adjustedDelta = delta * speed
         val maxFrameDelta = 0.25f * speed
         accumulatedDelta += Math.min(adjustedDelta, maxFrameDelta)
-        // TODO: Remove the MAX_UPDATE_DELTA logic. Make it specific to individual processors
         while (accumulatedDelta >= MAX_UPDATE_DELTA) {
             update(MAX_UPDATE_DELTA)
             accumulatedDelta -= MAX_UPDATE_DELTA
