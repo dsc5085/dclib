@@ -7,6 +7,7 @@ import kotlin.reflect.KClass
  * There can only be one of each part type attached.
  * @author David Chen
  */
+// TODO: Get rid of vararg methods from the whole project?
 class Entity(vararg parts: Any) {
     /**
      * @return if the entity should be updated

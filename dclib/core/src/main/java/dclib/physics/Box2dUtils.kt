@@ -103,6 +103,12 @@ object Box2dUtils {
 		}
 	}
 
+    fun setSensor(body: Body, isSensor: Boolean) {
+        for (fixture in body.fixtureList) {
+            fixture.isSensor = isSensor
+        }
+    }
+
     private fun scale(scale: Vector2, shape: Shape) {
         when (shape.type) {
             Shape.Type.Polygon -> {

@@ -9,6 +9,7 @@ interface EntityManager {
 	fun getAll(): Collection<Entity>
 	fun add(entity: Entity)
 	fun addAll(entities: Collection<Entity>)
+	// TODO: Rename to destroy. it makes more senseq
 	fun remove(entity: Entity)
 	fun removeAll(entities: Collection<Entity>)
 	fun dispose()
