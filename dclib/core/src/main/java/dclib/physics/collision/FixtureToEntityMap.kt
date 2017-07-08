@@ -3,8 +3,8 @@ package dclib.physics.collision
 import com.badlogic.gdx.physics.box2d.Fixture
 import dclib.epf.Entity
 import dclib.epf.EntityAddedEvent
+import dclib.epf.EntityDestroyedEvent
 import dclib.epf.EntityManager
-import dclib.epf.EntityRemovedEvent
 import dclib.epf.parts.TransformPart
 import dclib.physics.Box2dUtils
 
@@ -13,7 +13,7 @@ class FixtureToEntityMap(entityManager: EntityManager) {
 
     init {
         entityManager.entityAdded.on { handleEntityAdded(it) }
-        entityManager.entityRemoved.on { handleEntityRemoved(it) }
+        entityManager.entityDestroyed.on { handleEntityDestroyed(it) }
     }
 
     fun has(fixture: Fixture): Boolean {
@@ -42,7 +42,7 @@ class FixtureToEntityMap(entityManager: EntityManager) {
         }
     }
 
-    private fun handleEntityRemoved(event: EntityRemovedEvent) {
+    private fun handleEntityDestroyed(event: EntityDestroyedEvent) {
         for (entry in map.filter { it.value === event.entity }) {
             map.remove(entry.key)
         }

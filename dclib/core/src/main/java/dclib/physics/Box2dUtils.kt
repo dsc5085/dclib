@@ -61,12 +61,6 @@ object Box2dUtils {
         return body
     }
 
-    fun tryDestroyBody(transform: Transform) {
-        if (transform is Box2dTransform) {
-            transform.body.world.destroyBody(transform.body)
-        }
-    }
-
     fun scale(body: Body, scale: Vector2) {
         for (fixture in body.fixtureList) {
             val shape = fixture.shape
@@ -107,6 +101,13 @@ object Box2dUtils {
         for (fixture in body.fixtureList) {
             fixture.isSensor = isSensor
         }
+    }
+
+    fun setDensity(body: Body, density: Float) {
+        for (fixture in body.fixtureList) {
+            fixture.density = density
+        }
+        body.resetMassData()
     }
 
     private fun scale(scale: Vector2, shape: Shape) {

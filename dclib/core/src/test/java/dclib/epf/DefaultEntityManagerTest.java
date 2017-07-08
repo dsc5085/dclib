@@ -1,12 +1,12 @@
 package dclib.epf;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 // TODO: Implement commented out tests
 public final class DefaultEntityManagerTest {
@@ -55,14 +55,14 @@ public final class DefaultEntityManagerTest {
 	@Test
 	public void remove_Entity_SetsEntityToInactive() {
 		setupRemoveTest();
-		entityManager.remove(entity);
+		entityManager.destroy(entity);
 		assertFalse(entity.isActive());
 	}
 
 	@Test
 	public void remove_Entity_DoesNotContainEntity() {
 		setupRemoveTest();
-		entityManager.remove(entity);
+		entityManager.destroy(entity);
 		assertFalse(entityManager.contains(entity));
 	}
 
