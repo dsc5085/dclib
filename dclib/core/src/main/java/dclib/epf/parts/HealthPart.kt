@@ -15,10 +15,10 @@ class HealthPart(private val maxHealth: Float) {
 		health = maxHealth
 	}
 
-	fun change(change: Float) {
-		val actualChange = Math.max(change, -health)
-		health += actualChange
-		healthChanged.notify(HealthChangedEvent(actualChange))
+	fun change(offset: Float) {
+		val actualOffset = Math.max(offset, -health)
+		health += actualOffset
+		healthChanged.notify(HealthChangedEvent(actualOffset))
 		if (health <= 0) {
 			healthGone.notify(DefaultEvent())
 		}

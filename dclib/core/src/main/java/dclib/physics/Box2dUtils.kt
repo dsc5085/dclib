@@ -110,6 +110,12 @@ object Box2dUtils {
         body.resetMassData()
     }
 
+    fun setFriction(body: Body, friction: Float) {
+        for (fixture in body.fixtureList) {
+            fixture.friction = friction
+        }
+    }
+
     private fun scale(scale: Vector2, shape: Shape) {
         when (shape.type) {
             Shape.Type.Polygon -> {
