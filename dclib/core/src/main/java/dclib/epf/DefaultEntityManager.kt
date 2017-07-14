@@ -9,7 +9,7 @@ import dclib.eventing.EventDelegate
  */
 class DefaultEntityManager : EntityManager {
 	override val entityAdded = EventDelegate<EntityAddedEvent>()
-	override val entityRemoved = EventDelegate<EntityRemovedEvent>()
+	override val entityDestroyed = EventDelegate<EntityDestroyedEvent>()
 
 	private val entities = mutableSetOf<Entity>()
 
@@ -48,23 +48,23 @@ class DefaultEntityManager : EntityManager {
 	}
 
 	/**
-	 * Removes an entity.
-	 * @param entity entity to remove
+	 * Destroys an entity.
+	 * @param entity entity to destroy
 	 */
-	override fun remove(entity: Entity) {
+	override fun destroy(entity: Entity) {
 		if (entities.remove(entity)) {
 			entity.isActive = false
-			entityRemoved.notify(EntityRemovedEvent(entity))
+			entityDestroyed.notify(EntityDestroyedEvent(entity))
 		}
 	}
 
 	/**
-	 * Removes the entities in the passed in collection.
-	 * @param entities entities to remove
+	 * Destroys the entities in the passed in collection.
+	 * @param entities entities to destroy
 	 */
-	override fun removeAll(entities: Collection<Entity>) {
+	override fun destroyAll(entities: Collection<Entity>) {
 		for (entity in entities) {
-			remove(entity)
+			destroy(entity)
 		}
 	}
 

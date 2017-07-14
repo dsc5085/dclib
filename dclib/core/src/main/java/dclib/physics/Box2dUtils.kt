@@ -1,7 +1,12 @@
 package dclib.physics
 
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.ChainShape
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.Shape
+import com.badlogic.gdx.physics.box2d.World
 import dclib.epf.Entity
 import dclib.epf.parts.TransformPart
 import dclib.geometry.PolygonUtils
@@ -14,6 +19,22 @@ object Box2dUtils {
 	val ROUNDING_ERROR = 0.02f
     val POSITION_ITERATIONS = 3
     val VELOCITY_ITERATIONS = 8
+
+    fun copy(body: Body): Body {
+        val def = Box2DUtils.createDef(body)
+        val copiedBody = body.world.createBody(def)
+        for (fixture in body.fixtureList) {
+            val clonedFixture = Box2DUtils.clone(fixture, copiedBody, true)
+            clonedFixture.filterData = fixture.filterData
+            val shape = clonedFixture.shape
+            if (shape is PolygonShape) {
+                shape.set(Box2DUtils.vertices(fixture))
+            }
+        }
+        copiedBody.position.set(body.position)
+        copiedBody.linearVelocity.set(body.linearVelocity)
+        return copiedBody
+    }
 
     fun createStaticBody(world: World, vertices: FloatArray): Body {
         val bodyDef = BodyDef()
@@ -38,12 +59,6 @@ object Box2dUtils {
             shape.dispose()
         }
         return body
-    }
-
-    fun tryDestroyBody(transform: Transform) {
-        if (transform is Box2dTransform) {
-            transform.body.world.destroyBody(transform.body)
-        }
     }
 
     fun scale(body: Body, scale: Vector2) {
@@ -81,6 +96,25 @@ object Box2dUtils {
 			fixture.filterData = filter
 		}
 	}
+
+    fun setSensor(body: Body, isSensor: Boolean) {
+        for (fixture in body.fixtureList) {
+            fixture.isSensor = isSensor
+        }
+    }
+
+    fun setDensity(body: Body, density: Float) {
+        for (fixture in body.fixtureList) {
+            fixture.density = density
+        }
+        body.resetMassData()
+    }
+
+    fun setFriction(body: Body, friction: Float) {
+        for (fixture in body.fixtureList) {
+            fixture.friction = friction
+        }
+    }
 
     private fun scale(scale: Vector2, shape: Shape) {
         when (shape.type) {

@@ -11,7 +11,7 @@ class TimedDeathSystem(private val entityManager: EntityManager) : EntitySystem(
         if (timedDeathPart != null) {
             timedDeathPart.update(delta)
             if (timedDeathPart.isDead) {
-                entityManager.remove(entity)
+                entityManager.destroy(entity)
             }
         }
     }
