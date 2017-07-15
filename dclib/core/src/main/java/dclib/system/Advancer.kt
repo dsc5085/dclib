@@ -1,39 +1,26 @@
 package dclib.system
 
+import dclib.util.Maths
 import java.util.*
 
 class Advancer(vararg updaters: Updater) {
-    private val MAX_UPDATE_DELTA = 0.01f
+    private val MAX_ACCUMULATED_DELTA = 0.01f
 
-    var speed = 1f
+    var deltaModifier = 1f
 
-    private val updaters: List<Updater>
+    private val updaters = Arrays.asList(*updaters)
     private var accumulatedDelta = 0f
 
-    init {
-        this.updaters = Arrays.asList(*updaters)
-    }
-
     fun advance(delta: Float) {
-        val adjustedDelta = delta * speed
-        val maxFrameDelta = 0.25f * speed
-        accumulatedDelta += Math.min(adjustedDelta, maxFrameDelta)
-        while (accumulatedDelta >= MAX_UPDATE_DELTA) {
-            update(MAX_UPDATE_DELTA)
-            accumulatedDelta -= MAX_UPDATE_DELTA
-        }
+        val maxFrameDelta = 0.25f
+        val currentFrameDelta = Math.min(delta, maxFrameDelta) * deltaModifier
+        val totalDelta = currentFrameDelta + accumulatedDelta
+        val updateDelta = Maths.round(totalDelta, MAX_ACCUMULATED_DELTA)
+        accumulatedDelta = totalDelta - updateDelta
+        update(updateDelta)
     }
 
-    fun forceAdvance(delta: Float) {
-        var remainingDelta = delta
-        while (remainingDelta > 0) {
-            val maxUpdateDelta = Math.min(remainingDelta, MAX_UPDATE_DELTA)
-            update(maxUpdateDelta)
-            remainingDelta -= maxUpdateDelta
-        }
-    }
-
-    private fun update(delta: Float) {
+    fun update(delta: Float) {
         for (updater in updaters) {
             updater.update(delta)
         }
