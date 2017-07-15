@@ -32,7 +32,7 @@ public final class Maths {
     }
 
 	/**
-	 * Rounds down to the nearest integer that is divisible by the interval length.
+	 * Rounds down to the nearest number that is divisible by the interval length.
 	 * @param value value to round down from
 	 * @param intervalLength length between each interval
 	 * @return rounded down value

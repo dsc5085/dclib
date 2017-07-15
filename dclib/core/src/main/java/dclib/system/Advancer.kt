@@ -1,10 +1,12 @@
 package dclib.system
 
 import dclib.util.Maths
-import java.util.*
+import java.util.Arrays
 
 class Advancer(vararg updaters: Updater) {
-    private val MAX_ACCUMULATED_DELTA = 0.01f
+    companion object {
+        val MAX_ACCUMULATED_DELTA = 0.01f
+    }
 
     var deltaModifier = 1f
 
@@ -22,7 +24,12 @@ class Advancer(vararg updaters: Updater) {
 
     fun update(delta: Float) {
         for (updater in updaters) {
-            updater.update(delta)
+            var remainingDelta = delta
+            while (remainingDelta > 0f) {
+                val incrementDelta = Math.min(updater.maxDelta, remainingDelta)
+                remainingDelta -= incrementDelta
+                updater.update(incrementDelta)
+            }
         }
     }
 }

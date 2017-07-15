@@ -20,6 +20,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
         world.setContactListener(contactListener)
     }
 
+    // TODO: Update when world step occurs instead
     override fun update(delta: Float) {
         currentCollidedEvents.removeAll { !fixtureToEntityMap.has(it.source.fixture)
                 || !fixtureToEntityMap.has(it.target.fixture) }
