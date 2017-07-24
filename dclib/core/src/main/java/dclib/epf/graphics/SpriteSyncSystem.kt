@@ -11,6 +11,8 @@ class SpriteSyncSystem(
         entityManager: EntityManager,
         private val screenHelper: ScreenHelper)
     : EntitySystem(entityManager) {
+    override val isIncremental = false
+
     public override fun update(delta: Float, entity: Entity) {
         val spritePart = entity.tryGet(SpritePart::class)
         if (spritePart != null) {

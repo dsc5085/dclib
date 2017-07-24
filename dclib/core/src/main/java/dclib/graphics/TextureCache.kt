@@ -12,7 +12,8 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker
 import dclib.geometry.PolygonUtils
 import dclib.system.io.PathUtils
 import org.apache.commons.lang3.ArrayUtils
-import java.util.*
+import java.util.ArrayList
+import java.util.HashMap
 
 class TextureCache {
     private val textureRegions = ArrayList<TextureRegion>()
