@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World
 import dclib.graphics.ScreenHelper
 import dclib.graphics.TextureCache
 import dclib.system.Updater
-import java.util.*
+import java.util.ArrayList
 
 class ParticlesManager(
         private val textureCache: TextureCache,
@@ -17,6 +17,8 @@ class ParticlesManager(
         private val screenHelper: ScreenHelper,
         private val world: World
 ) : Updater {
+    override val isIncremental = false
+
     private val particleEffectDatas = ArrayList<ParticleEffectData>()
 
     fun createEffect(particleEffectPath: String, positionGetter: PositionGetter): ParticleEffect {

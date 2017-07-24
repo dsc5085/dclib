@@ -7,6 +7,8 @@ import dclib.epf.parts.ColorChangePart
 import dclib.epf.parts.SpritePart
 
 class ColorChangeSystem(entityManager: EntityManager) : EntitySystem(entityManager) {
+    override val isIncremental = false
+
     override fun update(delta: Float, entity: Entity) {
         val colorChangePart = entity.tryGet(ColorChangePart::class)
         if (colorChangePart != null) {
