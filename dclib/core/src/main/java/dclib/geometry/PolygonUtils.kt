@@ -1,9 +1,14 @@
 package dclib.geometry
 
-import com.badlogic.gdx.math.*
+import com.badlogic.gdx.math.EarClippingTriangulator
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Polygon
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import dclib.util.Maths
 import net.dermetfan.gdx.math.BayazitDecomposer
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
 
 object PolygonUtils {
     val NUM_TRIANGLE_VERTICES = 3
@@ -169,16 +174,6 @@ object PolygonUtils {
             trianglesVertices.add(triangleVertices)
         }
         return trianglesVertices
-    }
-
-    fun getEdges(vertices: FloatArray): List<Segment2> {
-        val edges = mutableListOf<Segment2>()
-        val vertexVectors = toVectors(vertices)
-        for (i in 0..vertexVectors.size - 2) {
-            val edge = Segment2(vertexVectors[i], vertexVectors[i + 1])
-            edges.add(edge)
-        }
-        return edges
     }
 
     fun createDefault(): FloatArray {
