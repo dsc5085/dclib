@@ -12,16 +12,13 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker
 import dclib.geometry.PolygonUtils
 import dclib.system.io.PathUtils
 import org.apache.commons.lang3.ArrayUtils
-import java.util.ArrayList
 import java.util.HashMap
 
-class TextureCache {
-    private val textureRegions = ArrayList<TextureRegion>()
-    private val nameToTextureRegions = HashMap<String, TextureRegion>()
+// TODO: Refactor texture loading out of texture caching
+class TextureCache(private val convertRegionToVertices: (TextureRegion) -> FloatArray) {
+    private val regionDatas = mutableListOf<RegionData>()
+    // TODO: Move to another class? Doesn't fit with the other member variables
     private val nameToAtlas = HashMap<String, TextureAtlas>()
-    private val convexHulls = HashMap<String, FloatArray>()
-
-    val regionNames get() = nameToTextureRegions.keys
 
     fun loadTexturesIntoAtlas(texturesPath: String, atlasName: String) {
         val tempPath = "temp/"
@@ -67,52 +64,52 @@ class TextureCache {
         return TextureUtils.createPolygonRegion(textureRegion)
     }
 
-    fun getPolygonRegion(name: String, vertices: FloatArray): PolygonRegion {
-        val textureRegion = getTextureRegion(name)
-        return TextureUtils.createPolygonRegion(textureRegion, vertices)
-    }
-
     fun getTextureRegion(name: String): TextureRegion {
-        if (!nameToTextureRegions.containsKey(name)) {
-            throw IllegalArgumentException("Could not get texture region $name because it does not exist")
-        }
-        return nameToTextureRegions[name]!!
+        val regionData = regionDatas.singleOrNull { it.name == name }
+                ?: throw IllegalArgumentException("Texture data $name does not exist")
+        return regionData.region
     }
 
-    fun addRegion(region: TextureRegion) {
-        textureRegions.add(region)
+    fun getHull(region: TextureRegion, size: Vector2): FloatArray {
+        if (!regionDatas.any { equals(it.region, region) }) {
+            addRegion("", "", region)
+        }
+        val hull = regionDatas.single { equals(it.region, region) }.hull.copyOf()
+        PolygonUtils.setSize(hull, size)
+        return hull
+    }
+
+    fun getHull(regionName: String, size: Vector2): FloatArray {
+        val hull = regionDatas.single { it.name == regionName }.hull.copyOf()
+        PolygonUtils.setSize(hull, size)
+        return hull
     }
 
     fun addRegion(namespace: String, localName: String, region: TextureRegion) {
-        nameToTextureRegions.put(namespace + "/" + localName, region)
-    }
-
-    fun createHull(regionName: String): HullData {
-        val region = getPolygonRegion(regionName)
-        if (!convexHulls.containsKey(regionName)) {
-            val convexHull = TextureUtils.createConvexHull(region.region)
-            convexHulls.put(regionName, convexHull)
+        val name = "$namespace/$localName"
+        val existingRegionData = regionDatas.singleOrNull { equals(it.region, region) }
+        if (existingRegionData == null) {
+            val regionData = RegionData(name, region, convertRegionToVertices(region))
+            regionDatas.add(regionData)
+        } else {
+            existingRegionData.name = name
         }
-        return HullData(convexHulls[regionName]!!, region)
-    }
-
-    fun createHull(regionName: String, size: Vector2): HullData {
-        val hullData = createHull(regionName)
-        PolygonUtils.setSize(hullData.hull, size)
-        return hullData
     }
 
     fun dispose() {
         for (atlas in nameToAtlas.values) {
             atlas.dispose()
         }
-        dispose(textureRegions)
-        dispose(nameToTextureRegions.values)
-    }
-
-    private fun dispose(textureRegions: Collection<TextureRegion>) {
-        for (region in textureRegions) {
-            region.texture.dispose()
+        val textures = regionDatas.map { it.region.texture }.distinct()
+        for (texture in textures) {
+            texture.dispose()
         }
     }
+
+    private fun equals(r1: TextureRegion, r2: TextureRegion): Boolean {
+        return r1.texture == r2.texture && r1.u == r2.u && r1.u2 == r2.u2 && r1.v == r2.v && r1.v2 == r2.v2
+                && r1.regionWidth == r2.regionWidth && r1.regionHeight == r2.regionHeight
+    }
+
+    private data class RegionData(var name: String, val region: TextureRegion, val hull: FloatArray)
 }
