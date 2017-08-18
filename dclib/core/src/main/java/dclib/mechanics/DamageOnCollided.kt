@@ -7,8 +7,8 @@ import dclib.physics.collision.CollidedEvent
 
 class DamageOnCollided(private val filter: Predicate<CollidedEvent>) : (CollidedEvent) -> Unit {
 	override fun invoke(event: CollidedEvent) {
-		val collisionDamagePart = event.source.entity.tryGet(CollisionDamagePart::class)
-		val targetHealthPart = event.target.entity.tryGet(HealthPart::class)
+		val collisionDamagePart = event.source.tryGet(CollisionDamagePart::class)
+		val targetHealthPart = event.target.tryGet(HealthPart::class)
 		if (collisionDamagePart != null && targetHealthPart != null && filter.apply(event)) {
 			targetHealthPart.change(-collisionDamagePart.damage)
 		}
