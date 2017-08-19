@@ -1,5 +1,7 @@
 package dclib.physics.collision
 
-import com.badlogic.gdx.math.Vector2
+import dclib.epf.Entity
 
-data class CollidedEvent(val source: Contacter, val target: Contacter, val contactPoint: Vector2?)
+data class CollidedEvent(val source: Entity, val target: Entity) {
+    val collisions = mutableListOf<Collision>()
+}

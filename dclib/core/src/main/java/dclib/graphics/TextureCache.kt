@@ -9,13 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
+import dclib.geometry.PolygonOperations
 import dclib.geometry.PolygonUtils
 import dclib.system.io.PathUtils
 import org.apache.commons.lang3.ArrayUtils
 import java.util.HashMap
 
 // TODO: Refactor texture loading out of texture caching
-class TextureCache(private val convertRegionToVertices: (TextureRegion) -> FloatArray) {
+class TextureCache {
     private val regionDatas = mutableListOf<RegionData>()
     // TODO: Move to another class? Doesn't fit with the other member variables
     private val nameToAtlas = HashMap<String, TextureAtlas>()
@@ -89,7 +90,7 @@ class TextureCache(private val convertRegionToVertices: (TextureRegion) -> Float
         val name = "$namespace/$localName"
         val existingRegionData = regionDatas.singleOrNull { equals(it.region, region) }
         if (existingRegionData == null) {
-            val regionData = RegionData(name, region, convertRegionToVertices(region))
+            val regionData = RegionData(name, region, createHull(region))
             regionDatas.add(regionData)
         } else {
             existingRegionData.name = name
@@ -104,6 +105,14 @@ class TextureCache(private val convertRegionToVertices: (TextureRegion) -> Float
         for (texture in textures) {
             texture.dispose()
         }
+    }
+
+    private fun createHull(region: TextureRegion): FloatArray {
+        val distanceToleranceRatio = 0.1
+        val vertices = TextureUtils.createConvexHull(region)
+        val vectors = PolygonUtils.toVectors(vertices)
+        val distanceTolerance = Math.max(region.regionWidth, region.regionHeight) * distanceToleranceRatio
+        return PolygonUtils.toFloats(PolygonOperations.simplify(vectors, distanceTolerance))
     }
 
     private fun equals(r1: TextureRegion, r2: TextureRegion): Boolean {

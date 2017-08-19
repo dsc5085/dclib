@@ -1,8 +1,8 @@
 package dclib.physics.collision
 
-import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
+import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
 import dclib.system.Updater
@@ -11,7 +11,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
     private val fixtureToEntityMap = FixtureToEntityMap(entityManager)
-    private val currentCollidedEvents = mutableSetOf<CollidedEvent>()
+    private val currentCollisions = mutableSetOf<Collision>()
 
     init {
         val contactListener = DefaultContactListener()
@@ -20,10 +20,25 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
         world.setContactListener(contactListener)
     }
 
+    fun getCollisions(sourceEntity: Entity): List<Collision> {
+        return currentCollisions.filter { it.source.entity === sourceEntity }
+    }
+
     override fun update(delta: Float) {
-        currentCollidedEvents.removeAll { !fixtureToEntityMap.has(it.source.fixture)
+        currentCollisions.removeAll { !fixtureToEntityMap.has(it.source.fixture)
                 || !fixtureToEntityMap.has(it.target.fixture) }
-        for (collidedEvent in currentCollidedEvents.toSet()) {
+        val collidedEvents = mutableListOf<CollidedEvent>()
+        for (collision in currentCollisions.toSet()) {
+            var collidedEvent = collidedEvents.firstOrNull {
+                it.source === collision.source.entity && it.target === collision.target.entity
+            }
+            if (collidedEvent == null) {
+                collidedEvent = CollidedEvent(collision.source.entity, collision.target.entity)
+                collidedEvents.add(collidedEvent)
+            }
+            collidedEvent.collisions.add(collision)
+        }
+        for (collidedEvent in collidedEvents) {
             collided.notify(collidedEvent)
         }
     }
@@ -35,25 +50,19 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
             val c1 = createContacter(contact.fixtureA)
             val c2 = createContacter(contact.fixtureB)
             if (c1 != null && c2 != null) {
-                collide(c1, c2, contact)
-                collide(c2, c1, contact)
+                // Deep clone manifold points since the original instances get modified
+                val manifold = contact.worldManifold.points.map { it.cpy() }
+                currentCollisions.add(Collision(c1, c2, contact.isTouching, manifold))
+                currentCollisions.add(Collision(c2, c1, contact.isTouching, manifold))
             }
         }
     }
 
     private fun handleContactEnded(event: ContactedEvent) {
-        val entityA = fixtureToEntityMap.get(event.contact.fixtureA)
-        val entityB = fixtureToEntityMap.get(event.contact.fixtureB)
-        currentCollidedEvents.removeAll { it.source.entity === entityA && it.target.entity === entityB }
-        currentCollidedEvents.removeAll { it.source.entity === entityB && it.target.entity === entityA }
-    }
-
-    private fun collide(source: Contacter, target: Contacter, contact: Contact) {
-        val worldManifold = contact.worldManifold
-        val contactPoint = if (worldManifold.numberOfContactPoints > 0) worldManifold.points[0].cpy() else null
-        val collidedEvent = CollidedEvent(source, target, contactPoint)
-        if (currentCollidedEvents.none { it.source.entity === source.entity && it.target.entity === target.entity }) {
-            currentCollidedEvents.add(collidedEvent)
+        currentCollisions.removeAll {
+            // TODO: Check manifold equality as well?
+            (it.source.fixture === event.contact.fixtureA && it.target.fixture === event.contact.fixtureB)
+                    || (it.source.fixture === event.contact.fixtureB && it.target.fixture === event.contact.fixtureA)
         }
     }
 
