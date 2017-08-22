@@ -45,10 +45,10 @@ public final class ScreenHelper {
 		return new Vector2(pixelX / pixelsPerUnit, pixelY / pixelsPerUnit);
 	}
 
-	public final Vector2 toWorldCoords(final Vector2 screenCoords) {
-		Vector2 worldCoords = screenCoords.cpy();
-		viewport.unproject(worldCoords);
-		return worldCoords.scl(1 / pixelsPerUnit);
+	public final Vector2 toWorldCoord(final Vector2 screenCoord) {
+		Vector2 worldCoord = screenCoord.cpy();
+		viewport.unproject(worldCoord);
+		return worldCoord.scl(1 / pixelsPerUnit);
 	}
 
 	public final Matrix4 getScaledProjectionMatrix() {
