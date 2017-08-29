@@ -1,13 +1,11 @@
 package dclib.geometry;
 
-import static org.junit.Assert.assertEquals;
-
+import com.badlogic.gdx.math.Vector2;
+import dclib.graphics.ScreenHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
-
-import dclib.graphics.ScreenHelper;
+import static org.junit.Assert.assertEquals;
 
 public final class ScreenHelperTest {
 
@@ -20,8 +18,8 @@ public final class ScreenHelperTest {
 
 	@Test
 	public void toPixelUnits_ReturnsExpected() {
-		Vector2 worldCoords = new Vector2(5, 2.5f);
-		assertEquals(new Vector2(160, 80), screenHelper.toPixelUnits(worldCoords));
+		Vector2 worldCoord = new Vector2(5, 2.5f);
+		assertEquals(new Vector2(160, 80), screenHelper.toPixelUnits(worldCoord));
 	}
 
 }
