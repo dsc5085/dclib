@@ -7,7 +7,9 @@ class Property<T>(defaultValue: T) {
     var value
         get() = _value
         set(value) {
-            _value = value
-            changed.notify(PropertyChangedEvent(value))
+            if (_value != value) {
+                changed.notify(PropertyChangedEvent(value))
+                _value = value
+            }
         }
 }
