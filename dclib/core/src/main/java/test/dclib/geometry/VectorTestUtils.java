@@ -13,8 +13,8 @@ public class VectorTestUtils {
 	public static void assertEquals(final float expectedX, final float expectedY, final Vector2 vector) {
         Vector2 expected = new Vector2(expectedX, expectedY);
         Assert.assertTrue("Expected: " + expected + " Actual: " + vector,
-                Maths.distance(vector.x, expectedX) < MathUtils.FLOAT_ROUNDING_ERROR &&
-                        Maths.distance(vector.y, expectedY) < MathUtils.FLOAT_ROUNDING_ERROR);
+                Maths.INSTANCE.distance(vector.x, expectedX) < MathUtils.FLOAT_ROUNDING_ERROR &&
+                        Maths.INSTANCE.distance(vector.y, expectedY) < MathUtils.FLOAT_ROUNDING_ERROR);
     }
 
 }
