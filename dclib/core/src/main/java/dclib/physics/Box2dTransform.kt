@@ -67,6 +67,7 @@ class Box2dTransform : Transform {
         if (!signEquals || !_scale.epsilonEquals(scale, MathUtils.FLOAT_ROUNDING_ERROR)) {
             Box2dUtils.scale(body, scale)
             _scale.set(scale)
+            body.resetMassData()
         }
     }
 
