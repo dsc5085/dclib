@@ -1,18 +1,26 @@
 package dclib.epf.graphics
 
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
+import com.badlogic.gdx.maps.MapRenderer
 import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.epf.parts.SpritePart
+import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
-import java.util.*
+import dclib.map.MapUtils
+import java.util.ArrayList
 
 class EntitySpriteDrawer(
 		private val spriteBatch: PolygonSpriteBatch,
 		private val screenHelper: ScreenHelper,
+		private val mapRenderer: MapRenderer,
+		private val camera: OrthographicCamera,
 		private val getEntities: () -> List<Entity>,
 		entityManager: EntityManager
 ) : EntityDrawer {
+	private val FOREGROUND_Z = 0f
+
 	// Ensures new entities aren't drawn because their transforms might not have been initialized
 	private val newEntities = ArrayList<Entity>()
 
@@ -25,22 +33,38 @@ class EntitySpriteDrawer(
 	}
 
 	override fun draw(entities: Collection<Entity>) {
-		screenHelper.setProjectionMatrix(spriteBatch)
-		spriteBatch.begin()
-		for (entity in getEntities()) {
-			if (newEntities.contains(entity)) {
-				newEntities.remove(entity)
-			} else {
-				draw(entity)
-			}
-		}
-		spriteBatch.end()
+        renderMapLayer(MapUtils.BACKGROUND_INDEX)
+        draw(entities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
+		renderMapLayer(MapUtils.FOREGROUND_INDEX)
+		draw(entities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
 	}
+
+    private fun draw(entities: Collection<Entity>, minZ: Float, maxZ: Float) {
+		val filteredEntities = entities.filter {
+			val z = it[TransformPart::class].transform.z
+			z >= minZ && z < maxZ
+		}
+        screenHelper.setProjectionMatrix(spriteBatch)
+        spriteBatch.begin()
+        for (entity in filteredEntities) {
+            if (newEntities.contains(entity)) {
+                newEntities.remove(entity)
+            } else {
+                draw(entity)
+            }
+        }
+        spriteBatch.end()
+    }
 
 	private fun draw(entity: Entity) {
 		val spritePart = entity.tryGet(SpritePart::class)
 		if (spritePart != null) {
 			spritePart.sprite.draw(spriteBatch)
 		}
+	}
+
+	private fun renderMapLayer(layerIndex: Int) {
+		mapRenderer.setView(camera)
+		mapRenderer.render(intArrayOf(layerIndex))
 	}
 }
