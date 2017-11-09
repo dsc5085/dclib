@@ -33,10 +33,11 @@ class EntitySpriteDrawer(
 	}
 
 	override fun draw(entities: Collection<Entity>) {
+		val drawnEntities = getEntities()
         renderMapLayer(MapUtils.BACKGROUND_INDEX)
-        draw(entities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
+        draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
 		renderMapLayer(MapUtils.FOREGROUND_INDEX)
-		draw(entities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
+		draw(drawnEntities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
 	}
 
     private fun draw(entities: Collection<Entity>, minZ: Float, maxZ: Float) {

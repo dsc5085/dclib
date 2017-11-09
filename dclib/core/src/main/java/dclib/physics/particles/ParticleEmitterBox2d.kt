@@ -98,6 +98,7 @@ class ParticleEmitterBox2d
             }
 
             super.translate(newVelocityX, newVelocityY)
+            super.setRotation(Vector2(newVelocityX, newVelocityY).angle())
         }
     }
 

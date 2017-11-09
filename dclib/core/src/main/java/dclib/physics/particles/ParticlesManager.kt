@@ -30,7 +30,6 @@ class ParticlesManager(
             effect.emitters.add(box2dEmitter)
             effect.emitters.removeValue(emitter, true)
         }
-        effect.start()
         particleEffectDatas.add(ParticleEffectData(effect, positionGetter))
         return effect
     }
