@@ -1,4 +1,4 @@
-package dclib.physics.particles
+package dclib.particles
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter
 import com.badlogic.gdx.graphics.g2d.Sprite
@@ -29,7 +29,7 @@ class ParticleEmitterBox2d
  * *
  * @param emitter
  */
-(internal val world: World?, emitter: ParticleEmitter, filterContact: (Fixture) -> Boolean) : ParticleEmitter(emitter) {
+(internal val world: World, emitter: ParticleEmitter, filterContact: (Fixture) -> Boolean) : ParticleEmitter(emitter) {
     val particleCollidedDelegate = EventDelegate<ParticleCollidedEvent>()
 
     internal val startPoint = Vector2()
@@ -59,11 +59,8 @@ class ParticleEmitterBox2d
 
     /** Particle that can collide to box2d fixtures  */
     private inner class ParticleBox2d(sprite: Sprite) : Particle(sprite) {
-
         /** translate particle given amount. Continuous collision detection achieved by using RayCast from oldPos to newPos.
-
          * @param velocityX
-         * *
          * @param velocityY
          */
         override fun translate(velocityX: Float, velocityY: Float) {
@@ -82,7 +79,7 @@ class ParticleEmitterBox2d
             /** If velocities squares summed is shorter than Epsilon it could lead ~0 length rayCast that cause nasty c++ assertion
              * inside box2d. This is so short distance that moving particle has no effect so this return early.  */
             if (velocityX * velocityX + velocityY * velocityY >= EPSILON) {
-                world?.rayCast(rayCallBack, startPoint, endPoint)
+                world.rayCast(rayCallBack, startPoint, endPoint)
             }
 
             /** If ray collided boolean has set to true at rayCallBack  */

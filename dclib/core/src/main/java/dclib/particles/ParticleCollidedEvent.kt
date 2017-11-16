@@ -1,4 +1,4 @@
-package dclib.physics.particles
+package dclib.particles
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter
 import com.badlogic.gdx.math.Vector2
