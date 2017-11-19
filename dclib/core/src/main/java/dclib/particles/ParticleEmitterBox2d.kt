@@ -91,7 +91,7 @@ class ParticleEmitterBox2d
                 newVelocityX *= angleCos
                 newVelocityY *= angleSin
                 currentLife = 0
-                particleCollidedDelegate.notify(ParticleCollidedEvent(this, Vector2(velocityX, velocityY), staticFixture!!, point))
+                particleCollidedDelegate.notify(ParticleCollidedEvent(this, Vector2(velocityX, velocityY), staticFixture!!, point, normalAngle))
             }
 
             super.translate(newVelocityX, newVelocityY)

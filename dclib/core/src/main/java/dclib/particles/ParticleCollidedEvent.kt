@@ -8,4 +8,5 @@ data class ParticleCollidedEvent(
         val particle: ParticleEmitter.Particle,
         val velocity: Vector2,
         val staticFixture: Fixture,
-        val point: Vector2)
+        val point: Vector2,
+        val normalAngle: Float)
