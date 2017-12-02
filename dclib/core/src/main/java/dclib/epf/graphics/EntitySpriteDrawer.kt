@@ -1,21 +1,19 @@
 package dclib.epf.graphics
 
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
-import com.badlogic.gdx.maps.MapRenderer
 import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.epf.parts.SpritePart
 import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
+import dclib.map.MapController
 import dclib.map.MapUtils
 import java.util.ArrayList
 
 class EntitySpriteDrawer(
 		private val spriteBatch: PolygonSpriteBatch,
 		private val screenHelper: ScreenHelper,
-		private val mapRenderer: MapRenderer,
-		private val camera: OrthographicCamera,
+		private val mapController: MapController,
 		private val getEntities: () -> List<Entity>,
 		entityManager: EntityManager
 ) : EntityDrawer {
@@ -34,9 +32,9 @@ class EntitySpriteDrawer(
 
 	override fun draw(entities: Collection<Entity>) {
 		val drawnEntities = getEntities()
-        renderMapLayer(MapUtils.BACKGROUND_INDEX)
-        draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
-		renderMapLayer(MapUtils.FOREGROUND_INDEX)
+//		mapController.renderLayer(MapUtils.BACKGROUND_INDEX)
+//        draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
+		mapController.renderLayer(MapUtils.FOREGROUND_INDEX)
 		draw(drawnEntities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
 	}
 
@@ -62,10 +60,5 @@ class EntitySpriteDrawer(
 		if (spritePart != null) {
 			spritePart.sprite.draw(spriteBatch)
 		}
-	}
-
-	private fun renderMapLayer(layerIndex: Int) {
-		mapRenderer.setView(camera)
-		mapRenderer.render(intArrayOf(layerIndex))
 	}
 }
