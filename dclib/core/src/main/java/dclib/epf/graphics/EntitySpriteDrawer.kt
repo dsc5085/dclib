@@ -6,16 +6,16 @@ import dclib.epf.EntityManager
 import dclib.epf.parts.SpritePart
 import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
-import dclib.map.MapController
+import dclib.map.MapLayerRenderer
 import dclib.map.MapUtils
 import java.util.ArrayList
 
 class EntitySpriteDrawer(
-		private val spriteBatch: PolygonSpriteBatch,
-		private val screenHelper: ScreenHelper,
-		private val mapController: MapController,
-		private val getEntities: () -> List<Entity>,
-		entityManager: EntityManager
+        private val spriteBatch: PolygonSpriteBatch,
+        private val screenHelper: ScreenHelper,
+        private val mapLayerRenderer: MapLayerRenderer,
+        private val getEntities: () -> List<Entity>,
+        entityManager: EntityManager
 ) : EntityDrawer {
 	private val FOREGROUND_Z = 0f
 
@@ -32,9 +32,9 @@ class EntitySpriteDrawer(
 
 	override fun draw(entities: Collection<Entity>) {
 		val drawnEntities = getEntities()
-//		mapController.renderLayer(MapUtils.BACKGROUND_INDEX)
-//        draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
-		mapController.renderLayer(MapUtils.FOREGROUND_INDEX)
+		mapLayerRenderer.render(MapUtils.BACKGROUND_INDEX)
+        draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
+		mapLayerRenderer.render(MapUtils.FOREGROUND_INDEX)
 		draw(drawnEntities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
 	}
 
