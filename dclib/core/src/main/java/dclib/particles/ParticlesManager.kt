@@ -1,4 +1,4 @@
-package dclib.physics.particles
+package dclib.particles
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -30,7 +30,6 @@ class ParticlesManager(
             effect.emitters.add(box2dEmitter)
             effect.emitters.removeValue(emitter, true)
         }
-        effect.start()
         particleEffectDatas.add(ParticleEffectData(effect, positionGetter))
         return effect
     }

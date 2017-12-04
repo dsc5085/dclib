@@ -3,7 +3,6 @@ package dclib.physics
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.ChainShape
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.Shape
 import com.badlogic.gdx.physics.box2d.World
@@ -40,10 +39,12 @@ object Box2dUtils {
         val bodyDef = BodyDef()
         bodyDef.type = BodyDef.BodyType.StaticBody
         val body = world.createBody(bodyDef)
-        val shape = ChainShape()
-        shape.createLoop(vertices)
-        body.createFixture(shape, 1f)
-        shape.dispose()
+        for (partitionVertices in PolygonUtils.partition(vertices)) {
+            val shape = PolygonShape()
+            shape.set(partitionVertices)
+            body.createFixture(shape, 1f)
+            shape.dispose()
+        }
         return body
     }
 

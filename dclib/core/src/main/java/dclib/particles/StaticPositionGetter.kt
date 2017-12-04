@@ -1,4 +1,4 @@
-package dclib.physics.particles
+package dclib.particles
 
 import com.badlogic.gdx.math.Vector2
 

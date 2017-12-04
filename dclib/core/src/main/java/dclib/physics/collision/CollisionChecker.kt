@@ -39,7 +39,9 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
             collidedEvent.collisions.add(collision)
         }
         for (collidedEvent in collidedEvents) {
-            collided.notify(collidedEvent)
+            if (collidedEvent.source.isActive && collidedEvent.target.isActive) {
+                collided.notify(collidedEvent)
+            }
         }
     }
 
