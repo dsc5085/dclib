@@ -50,9 +50,11 @@ class MapLayerRenderer(
 
     fun render(layerIndex: Int) {
         renderLayerBuffer(layerIndex)
-        renderDecalBuffer()
         renderLayer()
-        renderDecals()
+        if (layerIndex == MapUtils.FOREGROUND_INDEX) {
+            renderDecalBuffer()
+            renderDecals()
+        }
     }
 
     private fun renderDecalBuffer() {
