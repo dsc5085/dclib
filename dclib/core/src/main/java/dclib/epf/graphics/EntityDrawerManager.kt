@@ -2,11 +2,14 @@ package dclib.epf.graphics
 
 import dclib.epf.Entity
 
-class EntityDrawerManager(drawers: List<EntityDrawer>) {
+class EntityDrawerManager(drawers: List<EntityDrawer>, enabledDrawerNames: List<String>) {
     private val drawers: List<EntityDrawerData>
 
     init {
-        this.drawers = drawers.map { EntityDrawerData(it, true) }
+        this.drawers = drawers.map { EntityDrawerData(it, false) }
+        for (enabledDrawerName in enabledDrawerNames) {
+            enableDrawer(enabledDrawerName)
+        }
     }
 
     fun enableDrawer(name: String) {
