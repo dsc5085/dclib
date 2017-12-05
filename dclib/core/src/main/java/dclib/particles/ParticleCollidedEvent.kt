@@ -1,4 +1,4 @@
-package dclib.physics.particles
+package dclib.particles
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter
 import com.badlogic.gdx.math.Vector2
@@ -8,4 +8,5 @@ data class ParticleCollidedEvent(
         val particle: ParticleEmitter.Particle,
         val velocity: Vector2,
         val staticFixture: Fixture,
-        val point: Vector2)
+        val point: Vector2,
+        val normalAngle: Float)

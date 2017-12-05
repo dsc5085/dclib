@@ -9,9 +9,9 @@ class ScreenManager {
         return screens.contains(screen)
     }
 
-    fun add(screen: Screen, isShown: Boolean = true) {
+    fun add(screen: Screen, show: Boolean = true) {
         screens.add(screen)
-        if (isShown) {
+        if (show) {
             screen.show()
         } else {
             screen.hide()
