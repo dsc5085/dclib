@@ -8,15 +8,17 @@ import dclib.epf.parts.TransformPart
 import dclib.graphics.ScreenHelper
 import dclib.map.MapLayerRenderer
 import dclib.map.MapUtils
+import dclib.particles.ParticlesManager
 import java.util.ArrayList
 
-class EntitySpriteDrawer(
+class SpriteDrawer(
         private val spriteBatch: PolygonSpriteBatch,
         private val screenHelper: ScreenHelper,
         private val mapLayerRenderer: MapLayerRenderer,
         private val getEntities: () -> List<Entity>,
-        entityManager: EntityManager
-) : EntityDrawer {
+        entityManager: EntityManager,
+		private val particlesManager: ParticlesManager
+) : Drawer {
 	private val FOREGROUND_Z = 0f
 
 	// Ensures new entities aren't drawn because their transforms might not have been initialized
@@ -30,12 +32,13 @@ class EntitySpriteDrawer(
 		return "sprite"
 	}
 
-	override fun draw(entities: Collection<Entity>) {
+	override fun draw() {
 		val drawnEntities = getEntities()
 		mapLayerRenderer.render(MapUtils.BACKGROUND_INDEX)
         draw(drawnEntities, Float.NEGATIVE_INFINITY, FOREGROUND_Z)
 		mapLayerRenderer.render(MapUtils.FOREGROUND_INDEX)
 		draw(drawnEntities, FOREGROUND_Z, Float.POSITIVE_INFINITY)
+		particlesManager.draw()
 	}
 
     private fun draw(entities: Collection<Entity>, minZ: Float, maxZ: Float) {
