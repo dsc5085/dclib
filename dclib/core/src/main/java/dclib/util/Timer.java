@@ -26,7 +26,7 @@ public final class Timer {
 		return maxTime - time;
 	}
 
-    public final boolean isStarted() {
+    public final boolean isRunning() {
         return time > 0;
     }
 
