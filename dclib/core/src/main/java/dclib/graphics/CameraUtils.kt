@@ -2,9 +2,9 @@ package dclib.graphics
 
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.math.Rectangle
-import dclib.epf.Entity
-import dclib.epf.parts.TransformPart
+import com.badlogic.gdx.math.Vector2
 import dclib.geometry.scale
+import dclib.geometry.toVector2
 
 object CameraUtils {
     fun getViewport(camera: Camera, pixelsPerUnit: Float): Rectangle {
@@ -21,9 +21,14 @@ object CameraUtils {
         camera.update()
     }
 
-    fun follow(entity: Entity, screenHelper: ScreenHelper, camera: Camera) {
+    fun center(camera: Camera, screenHelper: ScreenHelper): Vector2 {
+        return screenHelper.toWorldUnits(camera.position.toVector2().x, camera.position.toVector2().y)
+//        val cameraCenter = camera.position.toVector2().add(camera.viewportWidth / 2f, camera.viewportHeight / 2f)
+//        return screenHelper.toWorldCoord(cameraCenter)
+    }
+
+    fun lookAt(center: Vector2, screenHelper: ScreenHelper, camera: Camera) {
         val worldViewportSize = screenHelper.toWorldUnits(camera.viewportWidth, camera.viewportHeight)
-        val center = entity[TransformPart::class].transform.center
         val newCameraX = center.x - worldViewportSize.x / 2
         val newCameraY = center.y - worldViewportSize.y / 2
         val viewport = Rectangle(newCameraX, newCameraY, worldViewportSize.x, worldViewportSize.y)
