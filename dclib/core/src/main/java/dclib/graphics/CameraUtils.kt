@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import dclib.geometry.scale
-import dclib.geometry.toVector2
 
 object CameraUtils {
     fun getViewport(camera: Camera, pixelsPerUnit: Float): Rectangle {
@@ -19,12 +18,6 @@ object CameraUtils {
         camera.viewportHeight = viewport.height
         camera.position.set(viewport.x + camera.viewportWidth / 2, viewport.y + camera.viewportHeight / 2, 0f)
         camera.update()
-    }
-
-    fun center(camera: Camera, screenHelper: ScreenHelper): Vector2 {
-        return screenHelper.toWorldUnits(camera.position.toVector2().x, camera.position.toVector2().y)
-//        val cameraCenter = camera.position.toVector2().add(camera.viewportWidth / 2f, camera.viewportHeight / 2f)
-//        return screenHelper.toWorldCoord(cameraCenter)
     }
 
     fun lookAt(center: Vector2, screenHelper: ScreenHelper, camera: Camera) {
