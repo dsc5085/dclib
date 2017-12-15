@@ -32,7 +32,7 @@ public final class UiPack {
 
     public UiPack(final String skinPath, final String mediumFontPath, final String smallFontPath) {
         skin = new Skin(Gdx.files.internal(skinPath));
-        this.defaultScreenSize = new Point(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        defaultScreenSize = new Point(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         BitmapFont mediumFont = new BitmapFont(Gdx.files.internal(mediumFontPath));
         fonts.put(FontSize.MEDIUM, mediumFont);
         BitmapFont smallFont = new BitmapFont(Gdx.files.internal(smallFontPath));

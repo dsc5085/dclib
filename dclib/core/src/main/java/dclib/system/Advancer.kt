@@ -6,7 +6,7 @@ class Advancer(vararg updaters: Updater) {
     /**
      * Breaks deltas up into small chunks. Crucial for mechanics such as physics.
      */
-    private val MAX_INCREMENTAL_DELTA = 0.01f
+    private val INCREMENTAL_DELTA = 0.01f
 
     var deltaScale = 1f
 
@@ -16,15 +16,20 @@ class Advancer(vararg updaters: Updater) {
     fun advance(delta: Float) {
         val maxFrameDelta = 0.25f
         val totalDelta = accumulatedDelta + Math.min(delta, maxFrameDelta) * deltaScale
-        accumulatedDelta = totalDelta % MAX_INCREMENTAL_DELTA
-        val currentDelta = totalDelta - accumulatedDelta
-        forceAdvance(currentDelta)
+        var remainingDelta = totalDelta
+        while (remainingDelta >= INCREMENTAL_DELTA) {
+            remainingDelta -= INCREMENTAL_DELTA
+            update(INCREMENTAL_DELTA, true)
+        }
+        val frameDelta = totalDelta - remainingDelta
+        update(frameDelta, false)
+        accumulatedDelta = remainingDelta
     }
 
     fun forceAdvance(delta: Float) {
         var remainingDelta = delta
         while (remainingDelta > 0) {
-            val incrementalDelta = Math.min(remainingDelta, MAX_INCREMENTAL_DELTA)
+            val incrementalDelta = Math.min(remainingDelta, INCREMENTAL_DELTA)
             update(incrementalDelta, true)
             remainingDelta -= incrementalDelta
         }
