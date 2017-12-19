@@ -3,6 +3,7 @@ package dclib.physics
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.Joint
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.Shape
 import com.badlogic.gdx.physics.box2d.World
@@ -115,6 +116,12 @@ object Box2dUtils {
         for (fixture in body.fixtureList) {
             fixture.friction = friction
         }
+    }
+
+    fun destroyJoint(joint: Joint) {
+        joint.bodyA.jointList.removeAll { it.joint === joint }
+        joint.bodyB.jointList.removeAll { it.joint === joint }
+        joint.bodyA.world.destroyJoint(joint)
     }
 
     private fun scale(scale: Vector2, shape: Shape) {
