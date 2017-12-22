@@ -3,10 +3,16 @@ package dclib.map
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import dclib.geometry.Point
+import dclib.util.CollectionUtils
 
 object MapUtils {
-    val BACKGROUND_INDEX = 0
-    val FOREGROUND_INDEX = 2
+    fun getBackgroundLayers(map: TiledMap): List<TiledMapTileLayer> {
+        return getTileLayers(map) - getForegroundLayer(map)
+    }
+
+    fun getForegroundLayer(map: TiledMap): TiledMapTileLayer {
+        return getTileLayers(map).last()
+    }
 
     fun getPixelsPerUnit(map: TiledMap): Float {
         val layer = map.layers.first() as TiledMapTileLayer
@@ -24,5 +30,9 @@ object MapUtils {
             }
         }
         return cells
+    }
+
+    private fun getTileLayers(map: TiledMap): List<TiledMapTileLayer> {
+        return CollectionUtils.getByType(map.layers, TiledMapTileLayer::class)
     }
 }
