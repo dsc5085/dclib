@@ -12,11 +12,11 @@ public final class Point {
 		this.y = y;
 	}
 
-	public final int x() {
+	public final int getX() {
 		return x;
 	}
 
-	public final int y() {
+	public final int getY() {
 		return y;
 	}
 

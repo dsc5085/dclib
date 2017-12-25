@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.PolygonSprite
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
+import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.MapRenderer
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -15,8 +16,8 @@ import com.google.common.collect.EvictingQueue
 import dclib.graphics.RenderUtils
 import dclib.graphics.shader.MaskShader
 
-class MapLayerRenderer(
-        map: TiledMap,
+class MapRenderer(
+        private val map: TiledMap,
         private val spriteBatch: PolygonSpriteBatch,
         pixelsPerUnit: Float,
         private val camera: OrthographicCamera,
@@ -48,10 +49,21 @@ class MapLayerRenderer(
         maskShader.dispose()
     }
 
-    fun render(layerIndex: Int) {
+    fun renderBackgrounds() {
+        for (layer in MapUtils.getBackgroundLayers(map)) {
+            render(layer, false)
+        }
+    }
+
+    fun renderForeground() {
+        render(MapUtils.getForegroundLayer(map), true)
+    }
+
+    private fun render(layer: MapLayer, renderDecals: Boolean) {
+        val layerIndex = map.layers.indexOf(layer)
         renderLayerBuffer(layerIndex)
         renderLayer()
-        if (layerIndex == MapUtils.FOREGROUND_INDEX) {
+        if (renderDecals) {
             renderDecalBuffer()
             renderDecals()
         }

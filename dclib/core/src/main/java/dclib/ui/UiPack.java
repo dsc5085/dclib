@@ -120,8 +120,8 @@ public final class UiPack {
     }
 
     public final void scaleToScreenSize(final int screenWidth, final int screenHeight) {
-        float scaleX = (float)screenWidth / defaultScreenSize.x();
-        float scaleY = (float)screenHeight / defaultScreenSize.y();
+        float scaleX = (float)screenWidth / defaultScreenSize.getX();
+        float scaleY = (float)screenHeight / defaultScreenSize.getY();
         if (scaleX != 0 && scaleY != 0) {
             for (BitmapFont font : fonts.values()) {
                 font.getData().setScale(scaleX, scaleY);
