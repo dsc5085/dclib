@@ -14,6 +14,10 @@ object MapUtils {
         return getTileLayers(map).last()
     }
 
+    fun getTileLayers(map: TiledMap): List<TiledMapTileLayer> {
+        return CollectionUtils.getByType(map.layers, TiledMapTileLayer::class)
+    }
+
     fun getPixelsPerUnit(map: TiledMap): Float {
         val layer = map.layers.first() as TiledMapTileLayer
         return Math.max(layer.tileWidth, layer.tileHeight)
@@ -21,8 +25,8 @@ object MapUtils {
 
     fun getCells(layer: TiledMapTileLayer): List<Cell> {
         val cells = mutableListOf<Cell>()
-        for (x in 0 until layer.width - 1) {
-            for (y in 0 until layer.height - 1) {
+        for (x in 0 until layer.width) {
+            for (y in 0 until layer.height) {
                 val cell = layer.getCell(x, y)
                 if (cell != null) {
                     cells.add(Cell(cell, Point(x, y)))
@@ -30,9 +34,5 @@ object MapUtils {
             }
         }
         return cells
-    }
-
-    private fun getTileLayers(map: TiledMap): List<TiledMapTileLayer> {
-        return CollectionUtils.getByType(map.layers, TiledMapTileLayer::class)
     }
 }
