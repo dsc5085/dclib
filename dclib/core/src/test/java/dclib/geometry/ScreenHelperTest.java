@@ -13,7 +13,7 @@ public final class ScreenHelperTest {
 
 	@BeforeClass
 	public static final void oneTimeSetup() {
-		screenHelper = new ScreenHelper(32, null, null);
+		screenHelper = new ScreenHelper(32, null);
 	}
 
 	@Test

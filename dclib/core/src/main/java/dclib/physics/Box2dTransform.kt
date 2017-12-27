@@ -39,11 +39,6 @@ class Box2dTransform : Transform {
             body.linearVelocity = value
         }
 
-    constructor(other: Box2dTransform) : super(other.z) {
-        body = Box2dUtils.copy(other.body)
-        setScale(other.scale)
-    }
-
     constructor(body: Body) : this(body, 0f)
 
     constructor(body: Body, z: Float) : super(z) {
@@ -54,6 +49,11 @@ class Box2dTransform : Transform {
             : this(Box2dTransform(Box2dUtils.createDynamicBody(world, other.getVertices()))) {
         position = other.position
         rotation = other.rotation
+    }
+
+    constructor(other: Box2dTransform) : super(other.z) {
+        body = Box2dUtils.copy(other.body)
+        setScale(other.scale)
     }
 
     override fun getVertices(): FloatArray {

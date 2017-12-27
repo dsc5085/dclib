@@ -30,7 +30,7 @@ public class SpriteSyncSystemTest {
 
 	@BeforeClass
 	public static final void oneTimeSetUp() {
-		ScreenHelper screenHelper = new ScreenHelper(2, null, null);
+		ScreenHelper screenHelper = new ScreenHelper(2, null);
 		system = new SpriteSyncSystem(new DefaultEntityManager(), screenHelper);
 	}
 
