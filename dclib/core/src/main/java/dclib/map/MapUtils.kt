@@ -19,7 +19,12 @@ object MapUtils {
     }
 
     fun getPixelsPerUnit(map: TiledMap): Float {
-        val layer = map.layers.first() as TiledMapTileLayer
+        val tileWidth = map.properties["tilewidth", Int::class.java]
+        val tileHeight = map.properties["tilewidth", Int::class.java]
+        return Math.max(tileWidth, tileHeight).toFloat()
+    }
+
+    fun getPixelsPerUnit(layer: TiledMapTileLayer): Float {
         return Math.max(layer.tileWidth, layer.tileHeight)
     }
 
