@@ -165,7 +165,7 @@ object PolygonUtils {
         val numVertices = NUM_TRIANGLE_VERTICES
         for (i in 0 until trianglesVerticesIndexes.size / numVertices) {
             val triangleVertices = FloatArray(numVertices * 2)
-            for (j in 0..numVertices - 1) {
+            for (j in 0 until numVertices) {
                 val verticesStartIndex = trianglesVerticesIndexes.get(i * numVertices + j) * 2
                 val triangleVerticesStartIndex = j * 2
                 triangleVertices[triangleVerticesStartIndex] = vertices[verticesStartIndex]
