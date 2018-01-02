@@ -26,7 +26,7 @@ object PolygonOperations {
         val geometries = toGeometries(verticesList, factory)
         val geometriesArray = GeometryFactory.toGeometryArray(geometries)
         val union = factory.createGeometryCollection(geometriesArray).union()
-        for (i in 0..union.numGeometries - 1) {
+        for (i in 0 until union.numGeometries) {
             val geometry = union.getGeometryN(i)
             unionVertices.add(toVectors(geometry))
         }

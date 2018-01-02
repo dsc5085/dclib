@@ -51,22 +51,20 @@ class MapRenderer(
 
     fun renderBackgrounds() {
         for (layer in MapUtils.getBackgroundLayers(map)) {
-            render(layer, false)
+            render(layer)
         }
     }
 
     fun renderForeground() {
-        render(MapUtils.getForegroundLayer(map), true)
+        render(MapUtils.getForegroundLayer(map))
+        renderDecalBuffer()
+        renderDecals()
     }
 
-    private fun render(layer: MapLayer, renderDecals: Boolean) {
+    private fun render(layer: MapLayer) {
         val layerIndex = map.layers.indexOf(layer)
         renderLayerBuffer(layerIndex)
         renderLayer()
-        if (renderDecals) {
-            renderDecalBuffer()
-            renderDecals()
-        }
     }
 
     private fun renderDecalBuffer() {
