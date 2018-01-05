@@ -10,11 +10,4 @@ object CollectionUtils {
             it as TChild
         }
     }
-
-    fun <T> getOrAdd(set: MutableSet<T>, value: T): T {
-        if (!set.contains(value)) {
-            set.add(value)
-        }
-        return set.single { it == value }
-    }
 }
