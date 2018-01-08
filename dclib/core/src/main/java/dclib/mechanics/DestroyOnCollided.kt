@@ -13,8 +13,8 @@ class DestroyOnCollided(private val entityManager: EntityManager, private val fi
 		val sourceEntity = event.source
 		val collisionDestroyPart = sourceEntity.tryGet(CollisionDestroyPart::class)
 		if (collisionDestroyPart != null) {
-			val targetBody = Box2dUtils.getBody(event.target)
-			val isTargetStatic = targetBody!!.type === BodyType.StaticBody
+			val targetBody = Box2dUtils.getBody(event.target)!!
+			val isTargetStatic = targetBody.type === BodyType.StaticBody
 			if (isTargetStatic || filter.apply(event)) {
 				entityManager.destroy(sourceEntity)
 			}

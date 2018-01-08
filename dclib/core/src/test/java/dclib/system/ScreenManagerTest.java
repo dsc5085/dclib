@@ -2,7 +2,6 @@ package dclib.system;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Screen;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public final class ScreenManagerTest {
 	@Test
 	public void add_Screen_ShowsScreen() {
 		Screen screen = mock(Screen.class);
-		screenManager.add(screen);
+		screenManager.add(screen, true);
 		verify(screen).show();
 	}
 
@@ -82,7 +81,7 @@ public final class ScreenManagerTest {
 
 	private void addScreens(final Screen... screens) {
 		for (Screen screen : screens) {
-			screenManager.add(screen);
+			screenManager.add(screen, false);
 		}
 	}
 

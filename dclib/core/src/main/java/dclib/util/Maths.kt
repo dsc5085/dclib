@@ -7,10 +7,6 @@ object Maths {
     val HALF_DEGREES_MAX = DEGREES_MAX / 2
     val RADIANS_MAX = MathUtils.PI2
 
-    fun between(value: Float, min: Float, max: Float): Boolean {
-        return value >= min && value <= max
-    }
-
     fun min(currentValue: Float, newValue: Float): Float {
         return if (java.lang.Float.isNaN(currentValue)) newValue else Math.min(currentValue, newValue)
     }

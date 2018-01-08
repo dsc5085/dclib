@@ -1,8 +1,8 @@
 package dclib.physics.collision
 
+import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
-import dclib.epf.Entity
 import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
 import dclib.system.Updater
@@ -20,8 +20,8 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
         world.setContactListener(contactListener)
     }
 
-    fun getCollisions(sourceEntity: Entity): List<Collision> {
-        return currentCollisions.filter { it.source.entity === sourceEntity }
+    fun getCollisions(sourceBody: Body): List<Collision> {
+        return currentCollisions.filter { it.source.body === sourceBody }
     }
 
     override fun update(delta: Float) {

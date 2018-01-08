@@ -5,25 +5,25 @@ import dclib.util.Timer;
 
 public final class ColorChangePart {
 
-	private Color startColor;
-	private Color endColor;
+	private Color fromColor;
+	private Color toColor;
 	private Timer changeTimer;
 	
 	public ColorChangePart() {
 	}
 	
-	public ColorChangePart(final float maxChangeTime, final Color startColor, final Color endColor) {
-		this.startColor = startColor;
-		this.endColor = endColor;
+	public ColorChangePart(final float maxChangeTime, final Color fromColor, final Color toColor) {
+		this.fromColor = fromColor;
+		this.toColor = toColor;
 		changeTimer = new Timer(maxChangeTime);
 	}
 	
-	public final Color getStartColor() {
-		return startColor;
+	public final Color getFromColor() {
+		return fromColor;
 	}
 	
-	public final Color getEndColor() {
-		return endColor;
+	public final Color getToColor() {
+		return toColor;
 	}
 	
 	public final Timer getChangeTimer() {

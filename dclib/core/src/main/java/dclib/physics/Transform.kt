@@ -2,7 +2,10 @@ package dclib.physics
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
-import dclib.geometry.*
+import dclib.geometry.VectorUtils
+import dclib.geometry.abs
+import dclib.geometry.center
+import dclib.geometry.div
 
 abstract class Transform(val z: Float) {
     abstract val origin: Vector2
@@ -14,7 +17,6 @@ abstract class Transform(val z: Float) {
     abstract var velocity: Vector2
 
     val size get() = localSize.scl(scale.abs())
-    val position3 get() = position.toVector3(z)
     val localCenter get() = localSize.scl(0.5f)
     // TODO: This is inaccurate if trying to get the "true" center
     val center get() = bounds.center

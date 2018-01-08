@@ -28,6 +28,7 @@ public class TextureUtils {
 	public static final Pixmap toPixmap(final TextureRegion textureRegion, final int width, final int height) {
 		Matrix4 projection = new Matrix4();
 		projection.setToOrtho2D(0, -height, width, height).scale(1, -1, 1);
+		// TODO: Create spriteBatch just once per game
 		SpriteBatch spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(projection);
 
