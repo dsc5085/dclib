@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.PolygonSprite
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
-import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.MapRenderer
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
+import com.badlogic.gdx.math.Vector2
 import com.google.common.collect.EvictingQueue
 import dclib.graphics.RenderUtils
 import dclib.graphics.shader.MaskShader
@@ -61,9 +62,8 @@ class MapRenderer(
         renderDecals()
     }
 
-    private fun render(layer: MapLayer) {
-        val layerIndex = map.layers.indexOf(layer)
-        renderLayerBuffer(layerIndex)
+    private fun render(layer: TiledMapTileLayer) {
+        renderLayerBuffer(layer)
         renderLayer()
     }
 
@@ -79,12 +79,25 @@ class MapRenderer(
         decalsBuffer.end()
     }
 
-    private fun renderLayerBuffer(layerIndex: Int) {
+    private fun renderLayerBuffer(layer: TiledMapTileLayer) {
+        // Normally, tiles bigger than the layer tile's width and height don't get rendered if part of them isn't
+        // in the camera's view. By increasing the camera's view, this can greatly mitigate the problem.
+        val viewBufferMultiplier = 4f
+        val viewBuffer = Vector2(layer.tileWidth, layer.tileHeight).scl(viewBufferMultiplier)
+        val previousCameraPosition = camera.position.cpy()
+        val previousCameraSize = Vector2(camera.viewportWidth, camera.viewportHeight)
+        camera.position.sub(viewBuffer.x, viewBuffer.y, 0f)
+        camera.viewportWidth += viewBuffer.x * 2
+        camera.viewportHeight += viewBuffer.y * 2
         mapBuffer.begin()
         RenderUtils.clear()
         mapRenderer.setView(camera)
+        val layerIndex = map.layers.indexOf(layer)
         mapRenderer.render(intArrayOf(layerIndex))
         mapBuffer.end()
+        camera.position.set(previousCameraPosition)
+        camera.viewportWidth = previousCameraSize.x
+        camera.viewportHeight = previousCameraSize.y
     }
 
     private fun renderLayer() {
