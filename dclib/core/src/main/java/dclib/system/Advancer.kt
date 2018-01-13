@@ -6,7 +6,7 @@ class Advancer(vararg updaters: Updater) {
     /**
      * Breaks deltas up into small chunks. Crucial for mechanics such as physics.
      */
-    private val INCREMENTAL_DELTA = 0.01f
+    private val INCREMENTAL_DELTA = 1 / 60f
 
     var deltaScale = 1f
 

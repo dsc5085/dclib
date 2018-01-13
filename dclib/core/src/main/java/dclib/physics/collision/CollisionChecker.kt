@@ -27,20 +27,9 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
     override fun update(delta: Float) {
         currentCollisions.removeAll { !fixtureToEntityMap.has(it.source.fixture)
                 || !fixtureToEntityMap.has(it.target.fixture) }
-        val collidedEvents = mutableListOf<CollidedEvent>()
         for (collision in currentCollisions.toSet()) {
-            var collidedEvent = collidedEvents.firstOrNull {
-                it.source === collision.source.entity && it.target === collision.target.entity
-            }
-            if (collidedEvent == null) {
-                collidedEvent = CollidedEvent(collision.source.entity, collision.target.entity)
-                collidedEvents.add(collidedEvent)
-            }
-            collidedEvent.collisions.add(collision)
-        }
-        for (collidedEvent in collidedEvents) {
-            if (collidedEvent.source.isActive && collidedEvent.target.isActive) {
-                collided.notify(collidedEvent)
+            if (collision.source.entity.isActive && collision.target.entity.isActive) {
+                collided.notify(CollidedEvent(collision))
             }
         }
     }
