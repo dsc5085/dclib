@@ -17,6 +17,7 @@ import java.util.HashMap
 
 // TODO: Refactor texture loading out of texture caching
 class TextureCache {
+    private val texturePackerSettings = createTexturePackerSettings()
     private val regionDatas = mutableListOf<RegionData>()
     // TODO: Move to another class? Doesn't fit with the other member variables
     private val nameToAtlas = HashMap<String, TextureAtlas>()
@@ -26,7 +27,7 @@ class TextureCache {
         val inputDir = PathUtils.internalToAbsolutePath(texturesPath)
         val outputDir = Gdx.files.local(tempPath).file().absolutePath
         val name = texturesPath.replace("/", "_")
-        TexturePacker.process(inputDir, outputDir, name)
+        TexturePacker.process(texturePackerSettings, inputDir, outputDir, name)
         loadAtlas(Gdx.files.local(tempPath + name + ".atlas"), atlasName)
     }
 
@@ -105,6 +106,14 @@ class TextureCache {
         for (texture in textures) {
             texture.dispose()
         }
+    }
+
+    private fun createTexturePackerSettings(): TexturePacker.Settings {
+        val settings = TexturePacker.Settings()
+        settings.pot = true
+        settings.maxWidth = 2048
+        settings.maxHeight = 2048
+        return settings
     }
 
     private fun createHull(region: TextureRegion): FloatArray {
