@@ -2,8 +2,7 @@ package dclib.util
 
 import com.badlogic.gdx.math.MathUtils
 
-class IntRange(private val min: Int, private val max: Int) {
-
+class IntRange(val min: Int, val max: Int) {
     init {
         if (min > max) {
             throw IllegalArgumentException("Min argument of " + min
@@ -13,14 +12,6 @@ class IntRange(private val min: Int, private val max: Int) {
 
     operator fun contains(value: Int): Boolean {
         return value in min..max
-    }
-
-    fun min(): Int {
-        return min
-    }
-
-    fun max(): Int {
-        return max
     }
 
     fun difference(): Int {
@@ -34,5 +25,4 @@ class IntRange(private val min: Int, private val max: Int) {
     fun random(): Int {
         return MathUtils.random(min, max)
     }
-
 }

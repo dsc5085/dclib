@@ -4,9 +4,8 @@ import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 
 class FloatRange(a: Float, b: Float) {
-
-    private val min: Float
-    private val max: Float
+    val min: Float
+    val max: Float
 
     init {
         this.min = Math.min(a, b)
@@ -15,14 +14,6 @@ class FloatRange(a: Float, b: Float) {
 
     operator fun contains(value: Float): Boolean {
         return value in min..max
-    }
-
-    fun min(): Float {
-        return min
-    }
-
-    fun max(): Float {
-        return max
     }
 
     fun difference(): Float {
@@ -40,5 +31,4 @@ class FloatRange(a: Float, b: Float) {
     fun random(): Float {
         return MathUtils.random(min, max)
     }
-
 }
