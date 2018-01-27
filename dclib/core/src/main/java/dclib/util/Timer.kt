@@ -1,20 +1,20 @@
 package dclib.util
 
-class Timer @JvmOverloads constructor(var maxTime: Float = 0f, private var time: Float = 0f) {
+class Timer @JvmOverloads constructor(var maxTime: Float = 0f, var elapsedTime: Float = 0f) {
     val remainingTime: Float
-        get() = maxTime - time
+        get() = maxTime - elapsedTime
 
     val isRunning: Boolean
-        get() = time > 0
+        get() = elapsedTime > 0
 
     val isElapsed: Boolean
-        get() = time >= maxTime
+        get() = elapsedTime >= maxTime
 
     val elapsedPercent: Float
-        get() = Math.min(time / maxTime, 1f)
+        get() = Math.min(elapsedTime / maxTime, 1f)
 
     fun reset() {
-        time = 0f
+        elapsedTime = 0f
     }
 
     fun check(): Boolean {
@@ -26,6 +26,6 @@ class Timer @JvmOverloads constructor(var maxTime: Float = 0f, private var time:
     }
 
     fun tick(delta: Float) {
-        time = Math.min(time + delta, maxTime)
+        elapsedTime = Math.min(elapsedTime + delta, maxTime)
     }
 }
