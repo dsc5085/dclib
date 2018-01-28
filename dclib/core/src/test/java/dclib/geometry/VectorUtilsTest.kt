@@ -21,20 +21,6 @@ class VectorUtilsTest {
     }
 
     @Test
-    fun getScaledRotation_Identity_Correct() {
-        val scale = Vector2(1f, 1f)
-        val scaledRotation = VectorUtils.getScaledRotation(-378f, scale)
-        assertEquals(-378f, scaledRotation)
-    }
-
-    @Test
-    fun getScaledRotation_Scale_Correct() {
-        val scale = Vector2(0.5f, 1f)
-        val scaledRotation = VectorUtils.getScaledRotation(-20f, scale)
-        assertEquals(-36.0524f, scaledRotation)
-    }
-
-    @Test
     fun getLineX_Base_Correct() {
         val from = Vector2(2f, 4f)
         val to = Vector2(4f, 8f)

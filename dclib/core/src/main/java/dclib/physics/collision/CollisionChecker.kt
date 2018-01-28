@@ -1,16 +1,19 @@
 package dclib.physics.collision
 
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.Fixture
+import com.badlogic.gdx.physics.box2d.RayCastCallback
 import com.badlogic.gdx.physics.box2d.World
 import dclib.epf.EntityManager
 import dclib.eventing.EventDelegate
 import dclib.system.Updater
 
-class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
+class CollisionChecker(entityManager: EntityManager, private val world: World) : Updater {
     val collided = EventDelegate<CollidedEvent>()
 
-    private val fixtureToEntityMap = FixtureToEntityMap(entityManager)
+    val bodyToEntityMap = BodyToEntityMap(entityManager)
+
     private val currentCollisions = mutableSetOf<Collision>()
 
     init {
@@ -24,9 +27,13 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
         return currentCollisions.filter { it.source.body === sourceBody }
     }
 
+    fun rayCast(callback: RayCastCallback, point1: Vector2, point2: Vector2) {
+        world.rayCast(callback, point1, point2)
+    }
+
     override fun update(delta: Float) {
-        currentCollisions.removeAll { !fixtureToEntityMap.has(it.source.fixture)
-                || !fixtureToEntityMap.has(it.target.fixture) }
+        currentCollisions.removeAll { !bodyToEntityMap.has(it.source.fixture.body)
+                || !bodyToEntityMap.has(it.target.fixture.body) }
         for (collision in currentCollisions.toSet()) {
             if (collision.source.entity.isActive && collision.target.entity.isActive) {
                 collided.notify(CollidedEvent(collision))
@@ -58,7 +65,7 @@ class CollisionChecker(entityManager: EntityManager, world: World) : Updater {
     }
 
     private fun createContacter(fixture: Fixture): Contacter? {
-        val entity = fixtureToEntityMap.get(fixture)
+        val entity = bodyToEntityMap[fixture.body]
         if (entity != null && entity.isActive) {
             return Contacter(fixture, entity)
         }

@@ -1,7 +1,6 @@
 package dclib.geometry
 
 import com.badlogic.gdx.math.Vector2
-import dclib.util.Maths
 
 object VectorUtils {
     fun inv(vector: Vector2): Vector2 {
@@ -19,16 +18,6 @@ object VectorUtils {
 
     fun offset(from: Vector2, to: Vector2): Vector2 {
         return to.cpy().sub(from)
-    }
-
-    fun getScaledRotation(degrees: Float, scale: Vector2): Float {
-        val roundedDegrees = Maths.round(degrees, Maths.DEGREES_MAX)
-        var scaledRemainderDegrees = VectorUtils.toVector2(degrees, 1f).scl(scale).angle()
-        // Handle the case where the passed in degrees were negative, so they should be kept negative
-        if (degrees < 0) {
-            scaledRemainderDegrees -= Maths.DEGREES_MAX
-        }
-        return roundedDegrees + scaledRemainderDegrees
     }
 
     /**

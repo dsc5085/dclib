@@ -1,11 +1,11 @@
 package dclib.util
 
-import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import dclib.geometry.VectorUtils
 
 object Maths {
     val DEGREES_MAX = 360f
     val HALF_DEGREES_MAX = DEGREES_MAX / 2
-    val RADIANS_MAX = MathUtils.PI2
 
     fun min(currentValue: Float, newValue: Float): Float {
         return if (java.lang.Float.isNaN(currentValue)) newValue else Math.min(currentValue, newValue)
@@ -37,5 +37,15 @@ object Maths {
      */
     fun round(value: Float, intervalLength: Float): Float {
         return value - value % intervalLength
+    }
+
+    fun getScaledRotation(degrees: Float, scale: Vector2): Float {
+        val roundedDegrees = Maths.round(degrees, Maths.DEGREES_MAX)
+        var scaledRemainderDegrees = VectorUtils.toVector2(degrees, 1f).scl(scale).angle()
+        // Handle the case where the passed in degrees were negative, so they should be kept negative
+        if (degrees < 0) {
+            scaledRemainderDegrees -= Maths.DEGREES_MAX
+        }
+        return roundedDegrees + scaledRemainderDegrees
     }
 }
