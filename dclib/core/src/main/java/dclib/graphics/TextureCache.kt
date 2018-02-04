@@ -22,6 +22,10 @@ class TextureCache {
     // TODO: Move to another class? Doesn't fit with the other member variables
     private val nameToAtlas = HashMap<String, TextureAtlas>()
 
+    fun getNames(namespace: String): List<String> {
+        return regionDatas.map { it.name }.filter { it.startsWith(namespace) }
+    }
+
     fun loadTexturesIntoAtlas(texturesPath: String, atlasName: String) {
         val tempPath = "temp/"
         val inputDir = PathUtils.internalToAbsolutePath(texturesPath)
